@@ -9,25 +9,24 @@ module synthetic-homotopy-theory.cocones-under-sequential-diagrams where
 ```agda
 open import elementary-number-theory.natural-numbers
 
-open import foundation.action-on-identifications-functions
 open import foundation.binary-homotopies
 open import foundation.commuting-squares-of-homotopies
 open import foundation.commuting-triangles-of-maps
 open import foundation.dependent-pair-types
-open import foundation.double-arrows
 open import foundation.equivalences
 open import foundation.function-types
-open import foundation.functoriality-dependent-pair-types
 open import foundation.fundamental-theorem-of-identity-types
 open import foundation.homotopies
 open import foundation.identity-types
 open import foundation.postcomposition-functions
 open import foundation.structure-identity-principle
 open import foundation.torsorial-type-families
+open import foundation.transport-along-identifications
 open import foundation.universe-levels
 open import foundation.whiskering-homotopies-composition
 
-open import synthetic-homotopy-theory.coforks
+open import synthetic-homotopy-theory.dependent-sequential-diagrams
+open import synthetic-homotopy-theory.equifibered-sequential-diagrams
 open import synthetic-homotopy-theory.sequential-diagrams
 ```
 
@@ -48,7 +47,7 @@ triangles
    \       /
     \     /
   iₙ \   / iₙ₊₁
-      V V
+      ∨ ∨
        X
 ```
 
@@ -92,6 +91,9 @@ module _
       ( map-cocone-sequential-diagram (succ-ℕ n))
       ( map-sequential-diagram A n)
   coherence-cocone-sequential-diagram = pr2 c
+
+  first-map-cocone-sequential-diagram : family-sequential-diagram A 0 → X
+  first-map-cocone-sequential-diagram = map-cocone-sequential-diagram 0
 ```
 
 ### Homotopies of cocones under a sequential diagram
@@ -220,6 +222,58 @@ module _
     htpy-postcomp X (coherence-cocone-sequential-diagram c n) g
 ```
 
+### Equifibered sequential diagrams induced by type families over cocones under sequential diagrams
+
+Given a sequential diagram `(A, a)` and a cocone `c` under it with vertex `X`,
+and a type family `P : X → 𝒰`, we may compose them together to get
+
+```text
+       aₙ
+ Aₙ ------> Aₙ₊₁
+   \       /
+    \  Hₙ /
+  iₙ \   / iₙ₊₁
+      ∨ ∨
+       X
+       | P
+       ∨
+       𝒰 ,
+```
+
+which gives us a collection of type families `Pₙ : Aₙ → 𝒰`, and a collection of
+equivalences `Pₙ a ≃ Pₙ₊₁ (aₙ a)` induced by
+[transporting](foundation-core.transport-along-identifications.md) in `P` along
+`Hₙ`. This data comes together to form an
+[equifibered sequential diagram](synthetic-homotopy-theory.equifibered-sequential-diagrams.md)
+over `A`.
+
+```agda
+module _
+  {l1 l2 l3 : Level} {A : sequential-diagram l1}
+  {X : UU l2} (c : cocone-sequential-diagram A X)
+  (P : X → UU l3)
+  where
+
+  equifibered-sequential-diagram-family-cocone :
+    equifibered-sequential-diagram A l3
+  pr1 equifibered-sequential-diagram-family-cocone n a =
+    P (map-cocone-sequential-diagram c n a)
+  pr2 equifibered-sequential-diagram-family-cocone n a =
+    equiv-tr P (coherence-cocone-sequential-diagram c n a)
+
+  dependent-sequential-diagram-family-cocone : dependent-sequential-diagram A l3
+  dependent-sequential-diagram-family-cocone =
+    dependent-sequential-diagram-equifibered-sequential-diagram
+      ( equifibered-sequential-diagram-family-cocone)
+
+  is-equifibered-dependent-sequential-diagram-family-cocone :
+    is-equifibered-dependent-sequential-diagram
+      ( dependent-sequential-diagram-family-cocone)
+  is-equifibered-dependent-sequential-diagram-family-cocone =
+    is-equifibered-dependent-sequential-diagram-equifibered-sequential-diagram
+      ( equifibered-sequential-diagram-family-cocone)
+```
+
 ## Properties
 
 ### Characterization of identity types of cocones under sequential diagrams
@@ -295,7 +349,8 @@ module _
       ( ( ev-pair refl-htpy) ,
         ( λ n →
           ( right-unit-htpy) ∙h
-          ( ap-id ∘ coherence-cocone-sequential-diagram c n)))
+          ( left-unit-law-left-whisker-comp
+            ( coherence-cocone-sequential-diagram c n))))
 ```
 
 ### Postcomposing cocones under a sequential colimit distributes over function composition
@@ -322,144 +377,8 @@ module _
       ( ( ev-pair refl-htpy) ,
         ( λ n →
           ( right-unit-htpy) ∙h
-          ( ap-comp k h ∘ coherence-cocone-sequential-diagram c n)))
-```
-
-### Cocones under sequential diagrams are a special case of coequalizers
-
-The data of a cocone
-
-```text
-       aₙ
- Aₙ ------> Aₙ₊₁
-   \  Hₙ   /
-    \ =>  /
-  iₙ \   / iₙ₊₁
-      V V
-       X
-```
-
-can be [uncurried](foundation.dependent-pair-types.md) to get the equivalent
-diagram comprising of the single triangle
-
-```text
-         tot₊₁ a
- (Σ ℕ A) ------> (Σ ℕ A)
-        \       /
-         \     /
-       i  \   /  i
-           V V
-            X
-```
-
-which is exactly a cofork of the identity map and `tot₊₁ a`.
-
-Under this mapping
-[sequential colimits](synthetic-homotopy-theory.universal-property-sequential-colimits.md)
-correspond to
-[coequalizers](synthetic-homotopy-theory.universal-property-coequalizers.md),
-which is formalized in
-[universal-property-sequential-colimits](synthetic-homotopy-theory.universal-property-sequential-colimits.md).
-
-```agda
-module _
-  { l1 : Level} (A : sequential-diagram l1)
-  where
-
-  left-map-cofork-cocone-sequential-diagram :
-    Σ ℕ (family-sequential-diagram A) → Σ ℕ (family-sequential-diagram A)
-  left-map-cofork-cocone-sequential-diagram = id
-
-  right-map-cofork-cocone-sequential-diagram :
-    Σ ℕ (family-sequential-diagram A) → Σ ℕ (family-sequential-diagram A)
-  right-map-cofork-cocone-sequential-diagram =
-    map-Σ
-      ( family-sequential-diagram A)
-      ( succ-ℕ)
-      ( map-sequential-diagram A)
-
-  double-arrow-sequential-diagram : double-arrow l1 l1
-  double-arrow-sequential-diagram =
-    make-double-arrow
-      ( left-map-cofork-cocone-sequential-diagram)
-      ( right-map-cofork-cocone-sequential-diagram)
-
-  module _
-    { l2 : Level} {X : UU l2}
-    where
-
-    cocone-sequential-diagram-cofork :
-      cofork double-arrow-sequential-diagram X →
-      cocone-sequential-diagram A X
-    pr1 (cocone-sequential-diagram-cofork e) =
-      ev-pair (map-cofork double-arrow-sequential-diagram e)
-    pr2 (cocone-sequential-diagram-cofork e) =
-      ev-pair (coh-cofork double-arrow-sequential-diagram e)
-
-    cofork-cocone-sequential-diagram :
-      cocone-sequential-diagram A X →
-      cofork double-arrow-sequential-diagram X
-    pr1 (cofork-cocone-sequential-diagram c) =
-      ind-Σ (map-cocone-sequential-diagram c)
-    pr2 (cofork-cocone-sequential-diagram c) =
-      ind-Σ (coherence-cocone-sequential-diagram c)
-
-    abstract
-      is-section-cocone-sequential-diagram-cofork :
-        cofork-cocone-sequential-diagram ∘ cocone-sequential-diagram-cofork ~ id
-      is-section-cocone-sequential-diagram-cofork e =
-        eq-htpy-cofork
-          ( double-arrow-sequential-diagram)
-          ( cofork-cocone-sequential-diagram
-            ( cocone-sequential-diagram-cofork e))
-          ( e)
-          ( refl-htpy , right-unit-htpy)
-
-      is-retraction-cocone-sequential-diagram-cofork :
-        cocone-sequential-diagram-cofork ∘ cofork-cocone-sequential-diagram ~ id
-      is-retraction-cocone-sequential-diagram-cofork c =
-        eq-htpy-cocone-sequential-diagram A
-          ( cocone-sequential-diagram-cofork
-            ( cofork-cocone-sequential-diagram c))
-          ( c)
-          ( ev-pair refl-htpy ,
-            ev-pair right-unit-htpy)
-
-    is-equiv-cocone-sequential-diagram-cofork :
-      is-equiv cocone-sequential-diagram-cofork
-    is-equiv-cocone-sequential-diagram-cofork =
-      is-equiv-is-invertible
-        ( cofork-cocone-sequential-diagram)
-        ( is-retraction-cocone-sequential-diagram-cofork)
-        ( is-section-cocone-sequential-diagram-cofork)
-
-    equiv-cocone-sequential-diagram-cofork :
-      cofork double-arrow-sequential-diagram X ≃
-      cocone-sequential-diagram A X
-    pr1 equiv-cocone-sequential-diagram-cofork =
-      cocone-sequential-diagram-cofork
-    pr2 equiv-cocone-sequential-diagram-cofork =
-      is-equiv-cocone-sequential-diagram-cofork
-
-  triangle-cocone-sequential-diagram-cofork :
-    { l2 l3 : Level} {X : UU l2} {Y : UU l3} →
-    ( c : cocone-sequential-diagram A X) →
-    coherence-triangle-maps
-      ( cocone-map-sequential-diagram c {Y = Y})
-      ( cocone-sequential-diagram-cofork)
-      ( cofork-map
-        ( double-arrow-sequential-diagram)
-        ( cofork-cocone-sequential-diagram c))
-  triangle-cocone-sequential-diagram-cofork c h =
-    eq-htpy-cocone-sequential-diagram A
-      ( cocone-map-sequential-diagram c h)
-      ( cocone-sequential-diagram-cofork
-        ( cofork-map
-          ( double-arrow-sequential-diagram)
-          ( cofork-cocone-sequential-diagram c)
-          ( h)))
-      ( ev-pair refl-htpy ,
-        ev-pair right-unit-htpy)
+          ( inv-preserves-comp-left-whisker-comp k h
+            ( coherence-cocone-sequential-diagram c n))))
 ```
 
 ## References
