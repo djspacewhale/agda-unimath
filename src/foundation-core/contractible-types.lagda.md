@@ -310,3 +310,14 @@ module _
     is-property-is-contr : (H K : is-contr A) → is-contr (H ＝ K)
     is-property-is-contr H = is-prop-is-contr (is-contr-is-contr H) H
 ```
+
+### Maps out of a contractible type are invariant under equivalences
+
+```agda
+module _
+  {l1 l2 : Level} (A : UU l1) (B : UU l2) (p : is-contr A) (f : A ≃ A)
+  where
+
+  map-out-contr-equiv-stable : (g : A → B) → (a : A) → (g a ＝ g (map-equiv f a))
+  map-out-contr-equiv-stable g a = ap g (eq-is-contr p)
+```
