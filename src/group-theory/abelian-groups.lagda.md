@@ -29,6 +29,7 @@ open import foundation.sets
 open import foundation.unit-type
 open import foundation.universe-levels
 
+open import foundation-core.contractible-types
 open import foundation-core.equivalences
 
 open import group-theory.central-elements-groups
@@ -585,6 +586,17 @@ module _
     add-Ab A (right-subtraction-Ab A x y) (right-subtraction-Ab A y z) ＝
     right-subtraction-Ab A x z
   add-right-subtraction-Ab = mul-right-div-Group (group-Ab A)
+```
+
+### Addition by zero is homotopic to the identity function
+
+```agda
+module _
+  {l : Level} (A : Ab l)
+  where
+
+  add-zero-is-id : (map-equiv (equiv-add-Ab A (zero-Ab A))) ~ (λ x → x)
+  add-zero-is-id x = left-unit-law-add-Ab A x
 ```
 
 ### Conjugation is the identity function
