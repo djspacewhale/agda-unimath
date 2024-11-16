@@ -7,11 +7,14 @@ module group-theory.abelian-groups where
 <details><summary>Imports</summary>
 
 ```agda
+open import elementary-number-theory.natural-numbers
+
 open import foundation.action-on-identifications-binary-functions
 open import foundation.action-on-identifications-functions
 open import foundation.binary-embeddings
 open import foundation.binary-equivalences
 open import foundation.cartesian-product-types
+open import foundation.coproduct-types
 open import foundation.dependent-pair-types
 open import foundation.embeddings
 open import foundation.equivalences
@@ -23,7 +26,10 @@ open import foundation.injective-maps
 open import foundation.interchange-law
 open import foundation.propositions
 open import foundation.sets
+open import foundation.unit-type
 open import foundation.universe-levels
+
+open import foundation-core.equivalences
 
 open import group-theory.central-elements-groups
 open import group-theory.commutative-monoids
@@ -44,6 +50,9 @@ open import lists.concatenation-lists
 open import lists.lists
 
 open import structured-types.pointed-types-equipped-with-automorphisms
+
+open import univalent-combinatorics.finite-types
+open import univalent-combinatorics.standard-finite-types
 ```
 
 </details>
@@ -714,6 +723,48 @@ module _
       ( add-Ab A (add-list-Ab l1) (add-list-Ab l2))
   preserves-concat-add-list-Ab =
     preserves-concat-mul-list-Group (group-Ab A)
+```
+
+### Addition of a set of elements in an abelian group indexed by a standard finite type
+
+```agda
+module _
+  {l : Level} (A : Ab l)
+  where
+
+  add-std-fin-Ab : (n : ℕ) → (f : Fin n → type-Ab A) → type-Ab A
+  add-std-fin-Ab zero-ℕ f = zero-Ab A
+  add-std-fin-Ab (succ-ℕ n) f = add-Ab A (add-std-fin-Ab n g) (f (inr star)) where
+    g : Fin n → type-Ab A
+    g x = f (inl-Fin n x)
+```
+
+### Addition of a standard finite set of elements is invariant under permutations
+
+```agda
+module _
+  {l : Level} (A : Ab l)
+  where
+
+  add-std-fin-Ab-inv : (n : ℕ) → (f : Fin n → type-Ab A) → (p : Fin n ≃ Fin n) → (add-std-fin-Ab A n f) ＝ add-std-fin-Ab A n (f ∘ (map-equiv p))
+  add-std-fin-Ab-inv zero-ℕ f p = refl
+  add-std-fin-Ab-inv (succ-ℕ zero-ℕ) f p = {!   !}
+  add-std-fin-Ab-inv (succ-ℕ (succ-ℕ zero-ℕ)) f p = {!   !}
+  add-std-fin-Ab-inv (succ-ℕ (succ-ℕ (succ-ℕ n))) f p = {!   !}
+```
+
+### Addition of a generic finitely indexed set of elements in an abelian group
+
+```agda
+module _
+  {l1 l2 : Level} (A : Ab l1) (X : 𝔽 l2)
+  where
+
+  X-type : UU l2
+  X-type = type-𝔽 X
+
+  add-fin-Ab : (f : X-type → type-Ab A) → type-Ab A
+  add-fin-Ab f = {!   !}
 ```
 
 ### A group is abelian if and only if every element is central

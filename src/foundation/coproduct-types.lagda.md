@@ -11,6 +11,7 @@ open import foundation-core.coproduct-types public
 ```agda
 open import foundation.action-on-identifications-functions
 open import foundation.dependent-pair-types
+open import foundation.empty-types
 open import foundation.negated-equality
 open import foundation.noncontractible-types
 open import foundation.subuniverses
@@ -26,6 +27,8 @@ open import foundation-core.identity-types
 open import foundation-core.injective-maps
 open import foundation-core.negation
 open import foundation-core.propositions
+open import foundation-core.retractions
+open import foundation-core.sections
 ```
 
 </details>
@@ -218,4 +221,19 @@ pr1 (coproduct-Prop P Q H) =
   type-Prop P + type-Prop Q
 pr2 (coproduct-Prop P Q H) =
   is-prop-coproduct H (is-prop-type-Prop P) (is-prop-type-Prop Q)
+```
+
+### Empty types are units for the coproduct
+
+```agda
+module _
+  {l : Level} (X : UU l)
+  where
+
+  coproduct-empty-type-unit : X + empty ≃ X
+  pr1 coproduct-empty-type-unit (inl x) = x
+  pr1 (pr1 (pr2 coproduct-empty-type-unit)) = inl
+  pr2 (pr1 (pr2 coproduct-empty-type-unit)) = λ x → refl
+  pr1 (pr2 (pr2 coproduct-empty-type-unit)) = inl
+  pr2 (pr2 (pr2 coproduct-empty-type-unit)) (inl x) = refl
 ```
