@@ -12,6 +12,10 @@ open import elementary-number-theory.natural-numbers
 
 open import foundation.dependent-pair-types
 open import foundation.universe-levels
+
+open import foundation-core.empty-types
+open import foundation-core.identity-types
+open import foundation-core.negation
 ```
 
 </details>
@@ -76,4 +80,11 @@ quotient-div-nonzero-ℕ :
   (d : ℕ) (x : nonzero-ℕ) (H : div-ℕ d (pr1 x)) → nonzero-ℕ
 pr1 (quotient-div-nonzero-ℕ d (pair x K) H) = quotient-div-ℕ d x H
 pr2 (quotient-div-nonzero-ℕ d (pair x K) H) = is-nonzero-quotient-div-ℕ H K
+```
+
+### Zero is not nonzero
+
+```agda
+zero-is-not-nonzero-ℕ : ¬ is-nonzero-ℕ zero-ℕ
+zero-is-not-nonzero-ℕ p = p refl
 ```
