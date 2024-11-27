@@ -139,6 +139,31 @@ module _
   pr2 id-pointed-map = refl
 ```
 
+### The trivial pointed map into `B`, and the pointed type of pointed maps from `A` to `B`
+
+```agda
+module _
+  {l1 l2 : Level} (A : Pointed-Type l1) (B : Pointed-Type l2)
+  where
+
+  zero-pointed-map : A →∗ B
+  pr1 zero-pointed-map = λ x → point-Pointed-Type B
+  pr2 zero-pointed-map = refl
+
+  pointed-map-Pointed-Type : Pointed-Type (l1 ⊔ l2)
+  pointed-map-Pointed-Type = (A →∗ B) , zero-pointed-map
+```
+
+### Pointed function extensionality
+
+```agda
+open import foundation.function-extensionality
+
+module _
+  {l1 l2 : Level} (A : Pointed-Type l1) (B : Pointed-Type l2)
+  where
+```
+
 ## See also
 
 - [Constant pointed maps](structured-types.constant-pointed-maps.md)
