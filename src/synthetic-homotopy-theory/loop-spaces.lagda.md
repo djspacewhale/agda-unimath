@@ -7,16 +7,25 @@ module synthetic-homotopy-theory.loop-spaces where
 <details><summary>Imports</summary>
 
 ```agda
+open import foundation.action-on-identifications-functions
+open import foundation.binary-equivalences
 open import foundation.dependent-pair-types
 open import foundation.equivalences
 open import foundation.identity-types
+open import foundation.unit-type
 open import foundation.universe-levels
+
+open import foundation-core.function-types
+open import foundation-core.retractions
+open import foundation-core.sections
 
 open import structured-types.h-spaces
 open import structured-types.magmas
 open import structured-types.pointed-equivalences
 open import structured-types.pointed-types
+open import structured-types.wild-monoids
 open import structured-types.wild-quasigroups
+open import structured-types.wild-groups
 ```
 
 </details>
@@ -125,6 +134,39 @@ module _
     (x y z : type-Ω A) →
     Id (mul-Ω A (mul-Ω A x y) z) (mul-Ω A x (mul-Ω A y z))
   associative-mul-Ω x y z = assoc x y z
+```
+
+### The wild monoid and group of loops on a pointed space
+
+```agda
+module _
+  {l : Level} (A : Pointed-Type l)
+  where
+
+  is-unital-associator-Ω : is-unital-associator (Ω-H-Space A) (associative-mul-Ω A)
+  pr1 is-unital-associator-Ω y z = refl
+  pr1 (pr2 is-unital-associator-Ω) = coherence-one
+  pr1 (pr2 (pr2 is-unital-associator-Ω)) b y = coherence-two b y
+  pr2 (pr2 (pr2 is-unital-associator-Ω)) = star
+
+  Ω-Wild-Monoid : Wild-Monoid l
+  pr1 Ω-Wild-Monoid = Ω-H-Space A
+  pr1 (pr2 Ω-Wild-Monoid) = associative-mul-Ω A
+  pr2 (pr2 Ω-Wild-Monoid) = is-unital-associator-Ω
+
+  equiv-left-comp-inv-Ω : (a b : type-Ω A) → mul-Ω A (mul-Ω A (inv-Ω A a) a) b ＝ b
+  equiv-left-comp-inv-Ω a b = inv (equiv-left-comp-inv a b)
+
+  equiv-right-comp-inv-Ω : (a b : type-Ω A) → mul-Ω A (mul-Ω A a b) (inv-Ω A b) ＝ a
+  equiv-right-comp-inv-Ω a b = inv (equiv-right-comp-inv a b ∙ inv (assoc a b (inv b)))
+
+  mul-Ω-binary-equiv : is-binary-equiv (mul-Ω A)
+  pr1 mul-Ω-binary-equiv b = {!   !}
+  pr2 mul-Ω-binary-equiv a = {!   !}
+
+  Ω-Wild-Group : Wild-Group l
+  pr1 Ω-Wild-Group = Ω-Wild-Monoid
+  pr2 Ω-Wild-Group = mul-Ω-binary-equiv
 ```
 
 We compute transport of `type-Ω`.
