@@ -372,6 +372,17 @@ module _
         inv (ap² (map-Π f) (eq-htpy-refl-htpy h)))
 ```
 
+### The action on identifications of homotopic functions are "as equal as possible"
+
+```agda
+module _
+  {l1 l2 : Level} {A : UU l1} {B : UU l2} {x y : A}
+  where
+
+  ap-eq-htpy : (f g : A → B) (p : f ~ g) {q : x ＝ y} → ap f q ＝ p x ∙ ap g q ∙ inv (p y)
+  ap-eq-htpy f g p {refl} = inv (assoc (p x) refl (inv (p x)) ∙ right-inv (p x))
+```
+
 ## See also
 
 - [Multivariable homotopies](foundation.multivariable-homotopies.md).

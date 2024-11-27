@@ -10,8 +10,10 @@ module synthetic-homotopy-theory.loop-spaces where
 open import foundation.action-on-identifications-binary-functions
 open import foundation.action-on-identifications-functions
 open import foundation.binary-equivalences
+open import foundation.commuting-triangles-of-identifications
 open import foundation.dependent-pair-types
 open import foundation.equivalences
+open import foundation.homotopies
 open import foundation.identity-types
 open import foundation.set-truncations
 open import foundation.unit-type
@@ -19,12 +21,15 @@ open import foundation.unital-binary-operations
 open import foundation.universe-levels
 
 open import foundation-core.function-types
+open import foundation-core.homotopies
 open import foundation-core.retractions
 open import foundation-core.sections
 
 open import structured-types.h-spaces
 open import structured-types.magmas
+open import structured-types.pointed-dependent-functions
 open import structured-types.pointed-equivalences
+open import structured-types.pointed-homotopies
 open import structured-types.pointed-maps
 open import structured-types.pointed-types
 open import structured-types.wild-monoids
@@ -256,23 +261,66 @@ module _
   pr2 (mul-Ω-mapping-type (f , p) (g , q)) = ap-binary (mul-Ω B) p q
 
   left-unit-law-mul-Ω-mapping : (f : Ω-mapping-type) → mul-Ω-mapping-type Ω-mapping-unit f ＝ f
-  left-unit-law-mul-Ω-mapping (f , p) = {!   !}
+  left-unit-law-mul-Ω-mapping f = eq-pointed-htpy (mul-Ω-mapping-type Ω-mapping-unit f) f htp where
+    htp : mul-Ω-mapping-type Ω-mapping-unit f ~∗ f
+    pr1 htp x = left-unit-law-mul-Ω B (map-pointed-map f x)
+    pr2 htp = ap-eq-htpy (λ x → refl ∙ x) (λ x → x) (λ x → left-unit-law-mul-Ω B x) ∙ htp2 where
+      htp2 : ap (λ x → x) (pr2 f) ∙ refl ＝ pr2 f
+      htp2 = right-unit ∙ ap-id (preserves-point-pointed-map f)
 
   right-unit-law-mul-Ω-mapping : (f : Ω-mapping-type) → mul-Ω-mapping-type f Ω-mapping-unit ＝ f
-  right-unit-law-mul-Ω-mapping (f , p) = {!   !}
+  right-unit-law-mul-Ω-mapping f = eq-pointed-htpy (mul-Ω-mapping-type f Ω-mapping-unit) f htp where
+    htp : mul-Ω-mapping-type f Ω-mapping-unit ~∗ f
+    pr1 htp x = right-unit-law-mul-Ω B (map-pointed-map f x)
+    pr2 htp = {!   !} ∙ {!   !}
+
+  unit-law-coherence-Ω-mapping : left-unit-law-mul-Ω-mapping (zero-pointed-map A (Ω B)) ＝ right-unit-law-mul-Ω-mapping (zero-pointed-map A (Ω B))
+  unit-law-coherence-Ω-mapping = {!   !}
 
   Ω-mapping-H-Space : H-Space (l1 ⊔ l2)
   pr1 Ω-mapping-H-Space = Ω-mapping-Pointed-Type
   pr1 (pr2 Ω-mapping-H-Space) = mul-Ω-mapping-type
   pr1 (pr2 (pr2 Ω-mapping-H-Space)) = left-unit-law-mul-Ω-mapping
   pr1 (pr2 (pr2 (pr2 Ω-mapping-H-Space))) = right-unit-law-mul-Ω-mapping
-  pr2 (pr2 (pr2 (pr2 Ω-mapping-H-Space))) = {!   !}
+  pr2 (pr2 (pr2 (pr2 Ω-mapping-H-Space))) = unit-law-coherence-Ω-mapping
+
+  associator-Ω-mapping : (f g h : Ω-mapping-type) → mul-Ω-mapping-type (mul-Ω-mapping-type f g) h ＝ mul-Ω-mapping-type f (mul-Ω-mapping-type g h)
+  associator-Ω-mapping f g h = eq-pointed-htpy (mul-Ω-mapping-type (mul-Ω-mapping-type f g) h) (mul-Ω-mapping-type f (mul-Ω-mapping-type g h)) htp where
+    htp : mul-Ω-mapping-type (mul-Ω-mapping-type f g) h ~∗ mul-Ω-mapping-type f (mul-Ω-mapping-type g h)
+    pr1 htp x = associative-mul-Ω B (map-pointed-map f x) (map-pointed-map g x) (map-pointed-map h x)
+    pr2 htp = {!   !} ∙ {!   !}
+
+  is-unital-associator-Ω-mapping : is-unital-associator Ω-mapping-H-Space associator-Ω-mapping
+  pr1 is-unital-associator-Ω-mapping y z = {!   !}
+  pr1 (pr2 is-unital-associator-Ω-mapping) x z = {!   !}
+  pr1 (pr2 (pr2 is-unital-associator-Ω-mapping)) x y = {!   !}
+  pr2 (pr2 (pr2 is-unital-associator-Ω-mapping)) = star
 
   Ω-mapping-Wild-Monoid : Wild-Monoid (l1 ⊔ l2)
   pr1 Ω-mapping-Wild-Monoid = Ω-mapping-H-Space
-  pr2 Ω-mapping-Wild-Monoid = {!   !}
+  pr2 Ω-mapping-Wild-Monoid = associator-Ω-mapping , is-unital-associator-Ω-mapping
+
+  inv-Ω-mapping : Ω-mapping-type → Ω-mapping-type
+  pr1 (inv-Ω-mapping f) x = inv-Ω B (map-pointed-map f x)
+  pr2 (inv-Ω-mapping f) = ap (inv-Ω B) (preserves-point-pointed-map f)
+
+  left-equiv-mul-Ω-mapping : (f : Ω-mapping-type) → is-equiv (λ g → mul-Ω-mapping-type g f)
+  pr1 (pr1 (left-equiv-mul-Ω-mapping f)) g = mul-Ω-mapping-type g (inv-Ω-mapping f)
+  pr2 (pr1 (left-equiv-mul-Ω-mapping f)) g = {!   !}
+  pr1 (pr2 (left-equiv-mul-Ω-mapping f)) g = mul-Ω-mapping-type g (inv-Ω-mapping f)
+  pr2 (pr2 (left-equiv-mul-Ω-mapping f)) g = {!   !}
+
+  right-equiv-mul-Ω-mapping : (f : Ω-mapping-type) → is-equiv (λ g → mul-Ω-mapping-type f g)
+  pr1 (pr1 (right-equiv-mul-Ω-mapping f)) g = mul-Ω-mapping-type (inv-Ω-mapping f) g
+  pr2 (pr1 (right-equiv-mul-Ω-mapping f)) g = {!   !}
+  pr1 (pr2 (right-equiv-mul-Ω-mapping f)) g = mul-Ω-mapping-type (inv-Ω-mapping f) g
+  pr2 (pr2 (right-equiv-mul-Ω-mapping f)) g = {!   !}
+
+  is-binary-equiv-mul-Ω-mapping : is-binary-equiv mul-Ω-mapping-type
+  pr1 is-binary-equiv-mul-Ω-mapping = left-equiv-mul-Ω-mapping
+  pr2 is-binary-equiv-mul-Ω-mapping = right-equiv-mul-Ω-mapping
 
   Ω-mapping-Wild-Group : Wild-Group (l1 ⊔ l2)
   pr1 Ω-mapping-Wild-Group = Ω-mapping-Wild-Monoid
-  pr2 Ω-mapping-Wild-Group = {!   !}
+  pr2 Ω-mapping-Wild-Group = is-binary-equiv-mul-Ω-mapping
 ```

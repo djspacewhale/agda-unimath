@@ -78,7 +78,4 @@ module _
 module _
   {l : Level} (X : Pointed-Type l) (n : nonzero-ℕ)
   where
-
-  iter-loop-mul-assoc : (f g h : iter-loop-type X n) → (iter-loop-mul X n f (iter-loop-mul X n g h) ＝ iter-loop-mul X n (iter-loop-mul X n f g) h)
-  iter-loop-mul-assoc f g h = {!   !}
 ```
