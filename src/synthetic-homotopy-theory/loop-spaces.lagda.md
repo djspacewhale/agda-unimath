@@ -7,12 +7,15 @@ module synthetic-homotopy-theory.loop-spaces where
 <details><summary>Imports</summary>
 
 ```agda
+open import foundation.action-on-identifications-binary-functions
 open import foundation.action-on-identifications-functions
 open import foundation.binary-equivalences
 open import foundation.dependent-pair-types
 open import foundation.equivalences
 open import foundation.identity-types
+open import foundation.set-truncations
 open import foundation.unit-type
+open import foundation.unital-binary-operations
 open import foundation.universe-levels
 
 open import foundation-core.function-types
@@ -22,6 +25,7 @@ open import foundation-core.sections
 open import structured-types.h-spaces
 open import structured-types.magmas
 open import structured-types.pointed-equivalences
+open import structured-types.pointed-maps
 open import structured-types.pointed-types
 open import structured-types.wild-monoids
 open import structured-types.wild-quasigroups
@@ -227,4 +231,48 @@ module _
     equiv-concat' (point-Pointed-Type A) (inv p)
   pr2 pointed-equiv-loop-pointed-identity =
     right-inv p
+```
+
+### The wild group of pointed maps into a loop space, assuming function extensionality
+
+```agda
+open import foundation.function-extensionality
+
+module _
+  {l1 l2 : Level} (A : Pointed-Type l1) (B : Pointed-Type l2)
+  where
+
+  Ω-mapping-unit : A →∗ Ω B
+  Ω-mapping-unit = (λ x → refl-Ω B) , refl
+
+  Ω-mapping-Pointed-Type : Pointed-Type (l1 ⊔ l2)
+  Ω-mapping-Pointed-Type = A →∗ Ω B , zero-pointed-map A (Ω B)
+
+  Ω-mapping-type : UU (l1 ⊔ l2)
+  Ω-mapping-type = type-Pointed-Type Ω-mapping-Pointed-Type
+
+  mul-Ω-mapping-type : Ω-mapping-type → Ω-mapping-type → Ω-mapping-type
+  pr1 (mul-Ω-mapping-type (f , p) (g , q)) x = mul-Ω B (f x) (g x)
+  pr2 (mul-Ω-mapping-type (f , p) (g , q)) = ap-binary (mul-Ω B) p q
+
+  left-unit-law-mul-Ω-mapping : (f : Ω-mapping-type) → mul-Ω-mapping-type Ω-mapping-unit f ＝ f
+  left-unit-law-mul-Ω-mapping (f , p) = {!   !}
+
+  right-unit-law-mul-Ω-mapping : (f : Ω-mapping-type) → mul-Ω-mapping-type f Ω-mapping-unit ＝ f
+  right-unit-law-mul-Ω-mapping (f , p) = {!   !}
+
+  Ω-mapping-H-Space : H-Space (l1 ⊔ l2)
+  pr1 Ω-mapping-H-Space = Ω-mapping-Pointed-Type
+  pr1 (pr2 Ω-mapping-H-Space) = mul-Ω-mapping-type
+  pr1 (pr2 (pr2 Ω-mapping-H-Space)) = left-unit-law-mul-Ω-mapping
+  pr1 (pr2 (pr2 (pr2 Ω-mapping-H-Space))) = right-unit-law-mul-Ω-mapping
+  pr2 (pr2 (pr2 (pr2 Ω-mapping-H-Space))) = {!   !}
+
+  Ω-mapping-Wild-Monoid : Wild-Monoid (l1 ⊔ l2)
+  pr1 Ω-mapping-Wild-Monoid = Ω-mapping-H-Space
+  pr2 Ω-mapping-Wild-Monoid = {!   !}
+
+  Ω-mapping-Wild-Group : Wild-Group (l1 ⊔ l2)
+  pr1 Ω-mapping-Wild-Group = Ω-mapping-Wild-Monoid
+  pr2 Ω-mapping-Wild-Group = {!   !}
 ```
