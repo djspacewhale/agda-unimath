@@ -7,14 +7,19 @@ module group-theory.monoids where
 <details><summary>Imports</summary>
 
 ```agda
+open import foundation.action-on-identifications-functions
 open import foundation.dependent-pair-types
+open import foundation.functoriality-set-truncation
 open import foundation.identity-types
 open import foundation.propositions
+open import foundation.set-truncations
 open import foundation.sets
 open import foundation.subtypes
 open import foundation.unit-type
 open import foundation.unital-binary-operations
 open import foundation.universe-levels
+
+open import foundation-core.cartesian-product-types
 
 open import group-theory.semigroups
 
@@ -166,6 +171,32 @@ pr1 (pr2 (pr2 (pr2 (pr2 (wild-monoid-Monoid M))))) x y =
   eq-is-prop (is-set-type-Monoid M _ _)
 pr2 (pr2 (pr2 (pr2 (pr2 (wild-monoid-Monoid M))))) = star
 ```
+
+### The [set truncation](foundation.set-truncations.md) of a wild monoid is a monoid
+
+```agda
+module _
+  {l : Level} (M : Wild-Monoid l)
+  where
+
+  M-set : UU l
+  M-set = ║ type-Wild-Monoid M ║₀
+
+  M-unit : M-set
+  M-unit = unit-trunc-Set (unit-Wild-Monoid M)
+
+  M-set-mul : M-set → M-set → M-set
+  M-set-mul = binary-map-trunc-Set (mul-Wild-Monoid M)
+
+```
+
+M-set-mul-assoc : (x y z : M-set) → M-set-mul (M-set-mul x y) z ＝ M-set-mul x
+(M-set-mul y z) M-set-mul-assoc x y z = {! !}
+
+monoid-Wild-Monoid : Monoid l pr1 (pr1 monoid-Wild-Monoid) = trunc-Set
+(type-Wild-Monoid M) pr2 (pr1 monoid-Wild-Monoid) = M-set-mul , M-set-mul-assoc
+pr1 (pr2 monoid-Wild-Monoid) = M-unit pr1 (pr2 (pr2 monoid-Wild-Monoid)) x = {!
+!} pr2 (pr2 (pr2 monoid-Wild-Monoid)) x = {! !}
 
 ## See also
 
