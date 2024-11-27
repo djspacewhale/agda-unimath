@@ -154,16 +154,6 @@ module _
   pointed-map-Pointed-Type = (A →∗ B) , zero-pointed-map
 ```
 
-### Pointed function extensionality
-
-```agda
-open import foundation.function-extensionality
-
-module _
-  {l1 l2 : Level} (A : Pointed-Type l1) (B : Pointed-Type l2)
-  where
-```
-
 ## See also
 
 - [Constant pointed maps](structured-types.constant-pointed-maps.md)
