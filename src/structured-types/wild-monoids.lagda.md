@@ -59,7 +59,7 @@ such that the three diagrams below cohere
           \\         //
      left  \\       //  left
    unit law \\     // unit law
-              y * z,
+              x * y,
 ```
 
 ```text

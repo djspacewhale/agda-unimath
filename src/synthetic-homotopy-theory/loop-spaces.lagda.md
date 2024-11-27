@@ -161,8 +161,7 @@ module _
   equiv-right-comp-inv-Ω a b = inv (equiv-right-comp-inv a b ∙ inv (assoc a b (inv b)))
 
   mul-Ω-binary-equiv : is-binary-equiv (mul-Ω A)
-  pr1 mul-Ω-binary-equiv b = {!   !}
-  pr2 mul-Ω-binary-equiv a = {!   !}
+  mul-Ω-binary-equiv = is-binary-equiv-concat
 
   Ω-Wild-Group : Wild-Group l
   pr1 Ω-Wild-Group = Ω-Wild-Monoid
