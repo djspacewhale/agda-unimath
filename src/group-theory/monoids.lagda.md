@@ -11,15 +11,25 @@ open import foundation.action-on-identifications-functions
 open import foundation.dependent-pair-types
 open import foundation.functoriality-set-truncation
 open import foundation.identity-types
+open import foundation.mere-equality
 open import foundation.propositions
+open import foundation.set-quotients
 open import foundation.set-truncations
+open import foundation.set-truncations-set-quotients-equivalence
 open import foundation.sets
 open import foundation.subtypes
+open import foundation.transport-along-equivalences
+open import foundation.truncation-levels
+open import foundation.truncations
 open import foundation.unit-type
 open import foundation.unital-binary-operations
+open import foundation.uniqueness-set-quotients
 open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
+open import foundation-core.propositions
+open import foundation-core.sets
+open import foundation-core.truncation-levels
 
 open import group-theory.semigroups
 
@@ -175,6 +185,9 @@ pr2 (pr2 (pr2 (pr2 (pr2 (wild-monoid-Monoid M))))) = star
 ### The [set truncation](foundation.set-truncations.md) of a wild monoid is a monoid
 
 ```agda
+open import foundation.function-extensionality-lemmas
+open import foundation.univalence
+
 module _
   {l : Level} (M : Wild-Monoid l)
   where
@@ -188,15 +201,24 @@ module _
   M-set-mul : M-set → M-set → M-set
   M-set-mul = binary-map-trunc-Set (mul-Wild-Monoid M)
 
+  M-set-mul-assoc : (x y z : M-set) → M-set-mul (M-set-mul x y) z ＝ M-set-mul x (M-set-mul y z)
+  M-set-mul-assoc x y z = ?
+
+  M-set-mul-left-unit : (x : M-set) → M-set-mul M-unit x ＝ x
+  M-set-mul-left-unit x = induction-set-quotient (mere-eq-equivalence-relation (type-Wild-Monoid M)) (λ y → Id-Prop (trunc-Set (type-Wild-Monoid M)) ? ?) (λ y → ?) (map-equiv-set-truncation-set-quotient (type-Wild-Monoid M) x)
+
+  M-set-mul-right-unit : (x : M-set) → M-set-mul x M-unit ＝ x
+  M-set-mul-right-unit x = ?
+
+  monoid-Wild-Monoid : Monoid l
+  pr1 (pr1 monoid-Wild-Monoid) = M-set , is-set-type-trunc-Set
+  pr1 (pr2 (pr1 monoid-Wild-Monoid)) = M-set-mul
+  pr1 (pr2 monoid-Wild-Monoid) = M-unit
+  pr1 (pr2 (pr2 monoid-Wild-Monoid)) = M-set-mul-left-unit
+  pr2 (pr2 (pr2 monoid-Wild-Monoid)) = M-set-mul-right-unit
+  pr2 (pr2 (pr1 monoid-Wild-Monoid)) = M-set-mul-assoc
+
 ```
-
-M-set-mul-assoc : (x y z : M-set) → M-set-mul (M-set-mul x y) z ＝ M-set-mul x
-(M-set-mul y z) M-set-mul-assoc x y z = {! !}
-
-monoid-Wild-Monoid : Monoid l pr1 (pr1 monoid-Wild-Monoid) = trunc-Set
-(type-Wild-Monoid M) pr2 (pr1 monoid-Wild-Monoid) = M-set-mul , M-set-mul-assoc
-pr1 (pr2 monoid-Wild-Monoid) = M-unit pr1 (pr2 (pr2 monoid-Wild-Monoid)) x = {!
-!} pr2 (pr2 (pr2 monoid-Wild-Monoid)) x = {! !}
 
 ## See also
 
