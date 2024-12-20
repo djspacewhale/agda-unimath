@@ -35,6 +35,8 @@ open import structured-types.pointed-types
 open import structured-types.wild-monoids
 open import structured-types.wild-quasigroups
 open import structured-types.wild-groups
+
+open import synthetic-homotopy-theory.circle
 ```
 
 </details>
@@ -67,6 +69,17 @@ module _
 
   Ω : Pointed-Type l
   Ω = pair type-Ω refl-Ω
+```
+
+### `Ω X` is equivalent to the type of pointed maps from [the circle](synthetic-homotopy-theory.circle.md) to `X`
+
+```agda
+module _
+  {l : Level} (A : Pointed-Type l)
+  where
+
+  maps-circle : ?
+  maps-circle = ? →∗ ?
 ```
 
 ### The magma of loops on a pointed space
