@@ -182,44 +182,6 @@ pr1 (pr2 (pr2 (pr2 (pr2 (wild-monoid-Monoid M))))) x y =
 pr2 (pr2 (pr2 (pr2 (pr2 (wild-monoid-Monoid M))))) = star
 ```
 
-### The [set truncation](foundation.set-truncations.md) of a wild monoid is a monoid
-
-```agda
-open import foundation.function-extensionality-lemmas
-open import foundation.univalence
-
-module _
-  {l : Level} (M : Wild-Monoid l)
-  where
-
-  M-set : UU l
-  M-set = ║ type-Wild-Monoid M ║₀
-
-  M-unit : M-set
-  M-unit = unit-trunc-Set (unit-Wild-Monoid M)
-
-  M-set-mul : M-set → M-set → M-set
-  M-set-mul = binary-map-trunc-Set (mul-Wild-Monoid M)
-
-  M-set-mul-assoc : (x y z : M-set) → M-set-mul (M-set-mul x y) z ＝ M-set-mul x (M-set-mul y z)
-  M-set-mul-assoc x y z = ?
-
-  M-set-mul-left-unit : (x : M-set) → M-set-mul M-unit x ＝ x
-  M-set-mul-left-unit x = induction-set-quotient (mere-eq-equivalence-relation (type-Wild-Monoid M)) (λ y → Id-Prop (trunc-Set (type-Wild-Monoid M)) ? ?) (λ y → ?) (map-equiv-set-truncation-set-quotient (type-Wild-Monoid M) x)
-
-  M-set-mul-right-unit : (x : M-set) → M-set-mul x M-unit ＝ x
-  M-set-mul-right-unit x = ?
-
-  monoid-Wild-Monoid : Monoid l
-  pr1 (pr1 monoid-Wild-Monoid) = M-set , is-set-type-trunc-Set
-  pr1 (pr2 (pr1 monoid-Wild-Monoid)) = M-set-mul
-  pr1 (pr2 monoid-Wild-Monoid) = M-unit
-  pr1 (pr2 (pr2 monoid-Wild-Monoid)) = M-set-mul-left-unit
-  pr2 (pr2 (pr2 monoid-Wild-Monoid)) = M-set-mul-right-unit
-  pr2 (pr2 (pr1 monoid-Wild-Monoid)) = M-set-mul-assoc
-
-```
-
 ## See also
 
 - In [one object precategories](category-theory.one-object-precategories.md), we
