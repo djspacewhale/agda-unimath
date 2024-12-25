@@ -8,14 +8,23 @@ module foundation.decidable-equality where
 
 ```agda
 open import foundation.action-on-identifications-functions
+open import foundation.apartness-relations
+open import foundation.binary-relations
+open import foundation.conjunction
 open import foundation.coproduct-types
 open import foundation.decidable-types
 open import foundation.dependent-pair-types
+open import foundation.disjunction
 open import foundation.double-negation
+open import foundation.double-negation-stable-propositions
 open import foundation.injective-maps
+open import foundation.negated-equality
 open import foundation.negation
+open import foundation.propositional-truncations
 open import foundation.sections
 open import foundation.sets
+open import foundation.tight-apartness-relations
+open import foundation.truncations
 open import foundation.type-arithmetic-dependent-pair-types
 open import foundation.unit-type
 open import foundation.universe-levels
@@ -29,6 +38,7 @@ open import foundation-core.identity-types
 open import foundation-core.propositions
 open import foundation-core.retracts-of-types
 open import foundation-core.transport-along-identifications
+open import foundation-core.truncation-levels
 ```
 
 </details>
@@ -326,6 +336,35 @@ module _
     has-decidable-equality (A + B) → has-decidable-equality B
   has-decidable-equality-right-summand d x y =
     is-decidable-iff is-injective-inr (ap inr) (d (inr x) (inr y))
+```
+
+### Equality in types with decidable equality is [double negation stable](foundation.double-negation-stable-propositions.md)
+
+```agda
+module _ {l : Level} {A : UU l} (dec : has-decidable-equality A) where
+  has-decidable-equality-equality-is-double-negation-stable : (x y : A) → is-double-negation-stable ((x ＝ y) , (is-set-has-decidable-equality dec x y))
+  has-decidable-equality-equality-is-double-negation-stable x y p = double-negation-elim-is-decidable (dec x y) p
+```
+
+### Inequality on types with decidable equality is a [tight apartness relation](foundation.apartness-relations.md)
+
+```agda
+module _ {l : Level} (A : UU l) where
+  has-decidable-equality-apartness-relation : (has-decidable-equality A) → Apartness-Relation l A
+  pr1 (has-decidable-equality-apartness-relation dec) x y = nonequal-Prop x y
+  pr1 (pr2 (has-decidable-equality-apartness-relation dec)) = λ a z → z refl
+  pr1 (pr2 (pr2 (has-decidable-equality-apartness-relation dec))) x y p q = p (inv q)
+  pr2 (pr2 (pr2 (has-decidable-equality-apartness-relation dec))) x y z p = lem (λ both-eq → p (pr1 both-eq ∙ inv (pr2 both-eq))) where
+    lem : ¬ pr1 (Id-Prop (A , (is-set-has-decidable-equality dec)) x z ∧ Id-Prop (A , (is-set-has-decidable-equality dec)) y z) → pr1 (nonequal-Prop x z ∨ nonequal-Prop y z)
+    lem nand with dec x z | dec y z
+    ... | inl γ | inl δ = ex-falso (nand (γ , δ))
+    ... | inl γ | inr δ = inr-disjunction δ
+    ... | inr γ | inl δ = inl-disjunction (λ z → nand (z , δ))
+    ... | inr γ | inr δ = inl-disjunction γ
+
+  has-decidable-equality-tight-apartness-relation : (has-decidable-equality A) → Tight-Apartness-Relation l A
+  pr1 (has-decidable-equality-tight-apartness-relation dec) = has-decidable-equality-apartness-relation dec
+  pr2 (has-decidable-equality-tight-apartness-relation dec) x y p = has-decidable-equality-equality-is-double-negation-stable dec x y p
 ```
 
 ## External links

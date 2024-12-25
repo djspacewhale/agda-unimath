@@ -16,6 +16,7 @@ open import foundation.action-on-higher-identifications-functions
 open import foundation.action-on-identifications-functions
 open import foundation.contractible-types
 open import foundation.coproduct-types
+open import foundation.decidable-equality
 open import foundation.decidable-types
 open import foundation.dependent-pair-types
 open import foundation.embeddings
@@ -139,6 +140,13 @@ is-decidable-is-inl-Fin k (inr star) = inr α
   where
   α : is-inl-Fin k (inr star) → empty
   α (y , ())
+```
+
+### `Fin n` has decidable equality
+
+```agda
+has-decidable-equality : (k : ℕ) → has-decidable-equality Fin k
+has-decidable-equality k = ?
 ```
 
 ### `Fin 1` is contractible
