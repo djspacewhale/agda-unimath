@@ -51,9 +51,6 @@ Tight-Apartness-Relation :
 Tight-Apartness-Relation l2 A =
   Σ (Apartness-Relation l2 A) (is-tight-Apartness-Relation)
 
-Apartness-Space : (l : Level) → UU (lsuc l)
-Apartness-Space l = Σ UU λ X → Tight-Apartness-Relation l X
-
 module _
   {l1 l2 : Level} {A : UU l1} (R : Tight-Apartness-Relation l2 A)
   where
