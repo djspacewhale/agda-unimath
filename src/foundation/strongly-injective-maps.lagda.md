@@ -27,9 +27,10 @@ open import foundation-core.propositions
 For types `X Y : UU _`, a map `f : X → Y` is
 [injective](foundation.injective-maps.md) when it creates equalities in an
 appropriate sense. When they are equipped with tight apartness relations
-`P : Tight-Apartness-Relation _ X, Q : Tight-Apartness-Relation _ Y` resp., `f`
-is said to be **strongly injective** when it creates inequalities in the sense
-of a section `strong-ext : (x y : X) → (x # y) → (f x # f y)`.
+`P : Tight-Apartness-Relation _ X, Q : Tight-Apartness-Relation _ Y` resp., a
+[strongly extensional](foundation.strongly-extensional-maps.md) `f` is said to
+be **strongly injective** when it creates inequalities in the sense of a section
+`(x y : X) → (x # y) → (f x # f y)`.
 
 ## Definition
 
@@ -38,11 +39,11 @@ module _
   {l1 l2 l3 l4 : Level}
   where
 
-  is-strongly-injective : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) → UU (l1 ⊔ l2 ⊔ l4)
-  is-strongly-injective X Y f = (x y : type-Type-With-Tight-Apartness X) → apart-Type-With-Tight-Apartness X x y → apart-Type-With-Tight-Apartness Y (f x) (f y)
+  is-strongly-injective : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) → {!   !} → UU {!   !}
+  is-strongly-injective X Y f _ = (x y : type-Type-With-Tight-Apartness X) → apart-Type-With-Tight-Apartness X x y → apart-Type-With-Tight-Apartness Y (f x) (f y)
 
   Strong-Injection : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) → UU (l1 ⊔ l2 ⊔ l3 ⊔ l4)
-  Strong-Injection X Y = Σ (type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) λ f → is-strongly-injective X Y f
+  Strong-Injection X Y = Σ (type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) λ f → is-strongly-injective X Y f {!   !}
 ```
 
 ## Properties
@@ -54,7 +55,7 @@ As types with tight apartness relations are sets, they are in fact
 
 ```agda
 module _
-  {l1 l2 l3 l4 : Level} {X : Type-With-Tight-Apartness l1 l2} {Y : Type-With-Tight-Apartness l3 l4} (f : Strong-Injection X Y) (inj : is-strongly-injective X Y (pr1 f))
+  {l1 l2 l3 l4 : Level} {X : Type-With-Tight-Apartness l1 l2} {Y : Type-With-Tight-Apartness l3 l4} (f : Strong-Injection X Y) {p : strongly-extensional {!  X !} {! Y  !} {!   !}} (inj : is-strongly-injective X Y (pr1 f) {!  p !})
   where
 
   strongly-injective-is-injective : is-injective (pr1 f)

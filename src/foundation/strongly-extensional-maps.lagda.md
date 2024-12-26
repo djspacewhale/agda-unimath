@@ -42,5 +42,5 @@ is-strongly-extensional :
   (B : Type-With-Apartness l3 l4) →
   (f : type-Type-With-Apartness A → type-Type-With-Apartness B) →
   strongly-extensional A B f
-is-strongly-extensional A B f x y H = {!!}
+is-strongly-extensional A B f x y H = ?
 ```
