@@ -16,6 +16,7 @@ open import foundation.universe-levels
 
 open import foundation-core.empty-types
 open import foundation-core.identity-types
+open import foundation-core.negation
 open import foundation-core.propositions
 ```
 
@@ -34,16 +35,15 @@ of a section `strong-ext : (x y : X) → (x # y) → (f x # f y)`.
 
 ```agda
 module _
-  {l1 l2 l3 l4 : Level} (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) (ext : strongly-extensional (type-with-apartness-Type-With-Tight-Apartness X) (type-with-apartness-Type-With-Tight-Apartness Y) f)
+  {l1 l2 l3 l4 : Level}
   where
 
-  strongly-injective : UU (l1 ⊔ l2 ⊔ l4)
-  strongly-injective = (x y : type-Type-With-Tight-Apartness X) → apart-Type-With-Tight-Apartness X x y → apart-Type-With-Tight-Apartness Y (f x) (f y)
-```
+  is-strongly-injective : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) → UU (l1 ⊔ l2 ⊔ l4)
+  is-strongly-injective X Y f = (x y : type-Type-With-Tight-Apartness X) → apart-Type-With-Tight-Apartness X x y → apart-Type-With-Tight-Apartness Y (f x) (f y)
 
-Note : although `ext` is not used in the definition above, strongly injective
-maps are generally assumed to be strongly extensional beforehand, so we require
-it in the context nonetheless.
+  Strong-Injection : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) → UU (l1 ⊔ l2 ⊔ l3 ⊔ l4)
+  Strong-Injection X Y = Σ (type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) λ f → is-strongly-injective X Y f
+```
 
 ## Properties
 
@@ -54,9 +54,13 @@ As types with tight apartness relations are sets, they are in fact
 
 ```agda
 module _
-  {l1 l2 l3 l4 : Level} (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) (ext : strongly-extensional (type-with-apartness-Type-With-Tight-Apartness X) (type-with-apartness-Type-With-Tight-Apartness Y) f) (p : strongly-injective X Y f ext)
+  {l1 l2 l3 l4 : Level} {X : Type-With-Tight-Apartness l1 l2} {Y : Type-With-Tight-Apartness l3 l4} (f : Strong-Injection X Y) (inj : is-strongly-injective X Y (pr1 f))
   where
 
-  strongly-injective-is-injective : is-injective f
-  strongly-injective-is-injective {x} {y} γ = is-tight-apart-Type-With-Tight-Apartness X x y λ q → consistent-apart-Type-With-Tight-Apartness Y (f x) (f y) γ (p x y q)
+  strongly-injective-is-injective : is-injective (pr1 f)
+  strongly-injective-is-injective {x} {y} p = is-tight-apart-Type-With-Tight-Apartness X x y λ q → lem q where
+    lem : ¬ apart-Type-With-Tight-Apartness X x y
+    lem s = consistent-apart-Type-With-Tight-Apartness Y (pr1 f x) (pr1 f y) p lem2 where
+      lem2 : apart-Type-With-Tight-Apartness Y (pr1 f x) (pr1 f y)
+      lem2 = inj x y s
 ```

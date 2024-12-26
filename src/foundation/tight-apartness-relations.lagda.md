@@ -25,7 +25,8 @@ open import foundation-core.propositions
 ## Idea
 
 A [relation](foundation.binary-relations.md) `R` is said to be **tight** if for
-every `x y : A` we have `¬ (R x y) → (x ＝ y)`.
+every `x y : A` we have `¬ (R x y) → (x ＝ y)`. An **apartness space** is a type
+equipped with a tight apartness relation.
 
 ## Definition
 
@@ -49,6 +50,9 @@ Tight-Apartness-Relation :
   {l1 : Level} (l2 : Level) (A : UU l1) → UU (l1 ⊔ lsuc l2)
 Tight-Apartness-Relation l2 A =
   Σ (Apartness-Relation l2 A) (is-tight-Apartness-Relation)
+
+Apartness-Space : (l : Level) → UU (lsuc l)
+Apartness-Space l = Σ UU λ X → Tight-Apartness-Relation l X
 
 module _
   {l1 l2 : Level} {A : UU l1} (R : Tight-Apartness-Relation l2 A)
