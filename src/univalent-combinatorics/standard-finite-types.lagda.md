@@ -37,6 +37,7 @@ open import foundation.raising-universe-levels
 open import foundation.retractions
 open import foundation.sections
 open import foundation.sets
+open import foundation.tight-apartness-relations
 open import foundation.transport-along-identifications
 open import foundation.unit-type
 open import foundation.universe-levels
@@ -140,13 +141,6 @@ is-decidable-is-inl-Fin k (inr star) = inr α
   where
   α : is-inl-Fin k (inr star) → empty
   α (y , ())
-```
-
-### `Fin n` has decidable equality
-
-```agda
-has-decidable-equality : (k : ℕ) → has-decidable-equality Fin k
-has-decidable-equality k = ?
 ```
 
 ### `Fin 1` is contractible
@@ -499,4 +493,25 @@ pr2 (retraction-equiv-tr-Fin n m) = is-retraction-is-equivalence-injective-Fin
 is-preunivalent-Fin : is-preunivalent Fin
 is-preunivalent-Fin =
   is-preunivalent-retraction-equiv-tr-Set Fin-Set retraction-equiv-tr-Fin
+```
+
+### `Fin n` has decidable equality
+
+```agda
+has-decidable-equality-Fin : (k : ℕ) → has-decidable-equality (Fin k)
+has-decidable-equality-Fin (succ-ℕ zero-ℕ) (inr star) (inr star) = inl refl
+has-decidable-equality-Fin (succ-ℕ (succ-ℕ k)) (inl x) (inl y) = lem (has-decidable-equality-Fin (succ-ℕ k) x y) where
+  lem : is-decidable (x ＝ y) → is-decidable (inl x ＝ inl y)
+  lem (inl p) = inl (ap inl p)
+  lem (inr np) = inr (λ q → np (is-injective-inl-Fin (succ-ℕ k) q))
+has-decidable-equality-Fin (succ-ℕ (succ-ℕ k)) (inl x) (inr y) = inr (λ ())
+has-decidable-equality-Fin (succ-ℕ (succ-ℕ k)) (inr x) (inl y) = inr (λ ())
+has-decidable-equality-Fin (succ-ℕ (succ-ℕ k)) (inr star) (inr star) = inl (ap inr refl)
+```
+
+### `Fin n` therefore has a [tight apartness relation](foundation.tight-apartness-relations.md)
+
+```agda
+tight-apartness-Fin : (k : ℕ) → Tight-Apartness-Relation lzero (Fin k)
+tight-apartness-Fin k = has-decidable-equality-tight-apartness-relation (Fin k) (has-decidable-equality-Fin k)
 ```
