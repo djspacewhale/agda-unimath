@@ -494,31 +494,3 @@ is-preunivalent-Fin : is-preunivalent Fin
 is-preunivalent-Fin =
   is-preunivalent-retraction-equiv-tr-Set Fin-Set retraction-equiv-tr-Fin
 ```
-
-### `Fin n` has decidable equality
-
-```agda
-has-decidable-equality-Fin : (n : ℕ) → has-decidable-equality (Fin n)
-has-decidable-equality-Fin (succ-ℕ zero-ℕ) (inr star) (inr star) = inl refl
-has-decidable-equality-Fin (succ-ℕ (succ-ℕ n)) (inl x) (inl y) = lem (has-decidable-equality-Fin (succ-ℕ n) x y) where
-  lem : is-decidable (x ＝ y) → is-decidable (inl x ＝ inl y)
-  lem (inl p) = inl (ap inl p)
-  lem (inr np) = inr (λ q → np (is-injective-inl-Fin (succ-ℕ n) q))
-has-decidable-equality-Fin (succ-ℕ (succ-ℕ n)) (inl x) (inr y) = inr (λ ())
-has-decidable-equality-Fin (succ-ℕ (succ-ℕ n)) (inr x) (inl y) = inr (λ ())
-has-decidable-equality-Fin (succ-ℕ (succ-ℕ n)) (inr star) (inr star) = inl (ap inr refl)
-```
-
-### `Fin n` therefore has a [tight apartness relation](foundation.tight-apartness-relations.md)
-
-```agda
-tight-apartness-Fin : (n : ℕ) → Tight-Apartness-Relation lzero (Fin n)
-tight-apartness-Fin n = has-decidable-equality-tight-apartness-relation (Fin n) (has-decidable-equality-Fin n)
-```
-
-### The type with tight apartness with `n` elements
-
-```agda
-Fin-Type-With-Tight-Apartness : (n : ℕ) → Type-With-Tight-Apartness lzero lzero
-Fin-Type-With-Tight-Apartness n = ((Fin n) , (apartness-relation-Tight-Apartness-Relation (tight-apartness-Fin n))) , is-tight-apartness-relation-Tight-Apartness-Relation (tight-apartness-Fin n)
-```
