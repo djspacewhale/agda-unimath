@@ -99,6 +99,21 @@ id-map-trunc-Set : {l1 : Level} {A : UU l1} → map-trunc-Set (id {A = A}) ~ id
 id-map-trunc-Set = id-map-trunc zero-𝕋
 ```
 
+### The functorial action of set truncations on identity types
+
+That is, constructing `x ＝ y` for `x y : type-trunc-Set A` may be accomplished
+by finding `x-inv y-inv : A` with `p : x ＝ unit-trunc-Set x-inv`,
+`q : y ＝ unit-trunc-Set y-inv`, and any `r : x-inv ＝ y-inv`.
+
+```agda
+module _
+  {l : Level} {A : UU l} {x y : type-trunc-Set A}
+  where
+
+  eq-to-trunc-eq : {x-inv y-inv : A} → (x ＝ unit-trunc-Set x-inv) → (y ＝ unit-trunc-Set y-inv) → (x-inv ＝ y-inv) → x ＝ y
+  eq-to-trunc-eq p q r = p ∙ ap unit-trunc-Set r ∙ inv q
+```
+
 ### The functorial action of set truncations preserves composition
 
 ```agda
