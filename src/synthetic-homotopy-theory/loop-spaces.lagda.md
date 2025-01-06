@@ -22,6 +22,7 @@ open import foundation.universe-levels
 
 open import foundation-core.function-types
 open import foundation-core.homotopies
+open import foundation-core.identity-types
 open import foundation-core.retractions
 open import foundation-core.sections
 
@@ -35,8 +36,6 @@ open import structured-types.pointed-types
 open import structured-types.wild-monoids
 open import structured-types.wild-quasigroups
 open import structured-types.wild-groups
-
-open import synthetic-homotopy-theory.circle
 ```
 
 </details>
@@ -69,17 +68,6 @@ module _
 
   Ω : Pointed-Type l
   Ω = pair type-Ω refl-Ω
-```
-
-### `Ω X` is equivalent to the type of pointed maps from [the circle](synthetic-homotopy-theory.circle.md) to `X`
-
-```agda
-module _
-  {l : Level} (A : Pointed-Type l)
-  where
-
-  maps-circle : ?
-  maps-circle = ? →∗ ?
 ```
 
 ### The magma of loops on a pointed space
@@ -269,6 +257,9 @@ module _
   Ω-mapping-type : UU (l1 ⊔ l2)
   Ω-mapping-type = type-Pointed-Type Ω-mapping-Pointed-Type
 
+  map-Ω-mapping : Ω-mapping-type → type-Pointed-Type A → type-Pointed-Type (Ω B)
+  map-Ω-mapping (f , p) a = f a
+
   mul-Ω-mapping-type : Ω-mapping-type → Ω-mapping-type → Ω-mapping-type
   pr1 (mul-Ω-mapping-type (f , p) (g , q)) x = mul-Ω B (f x) (g x)
   pr2 (mul-Ω-mapping-type (f , p) (g , q)) = ap-binary (mul-Ω B) p q
@@ -285,7 +276,7 @@ module _
   right-unit-law-mul-Ω-mapping f = eq-pointed-htpy (mul-Ω-mapping-type f Ω-mapping-unit) f htp where
     htp : mul-Ω-mapping-type f Ω-mapping-unit ~∗ f
     pr1 htp x = right-unit-law-mul-Ω B (map-pointed-map f x)
-    pr2 htp = {!   !} ∙ {!   !}
+    pr2 htp = {!   !}
 
   unit-law-coherence-Ω-mapping : left-unit-law-mul-Ω-mapping (zero-pointed-map A (Ω B)) ＝ right-unit-law-mul-Ω-mapping (zero-pointed-map A (Ω B))
   unit-law-coherence-Ω-mapping = {!   !}
@@ -301,7 +292,7 @@ module _
   associator-Ω-mapping f g h = eq-pointed-htpy (mul-Ω-mapping-type (mul-Ω-mapping-type f g) h) (mul-Ω-mapping-type f (mul-Ω-mapping-type g h)) htp where
     htp : mul-Ω-mapping-type (mul-Ω-mapping-type f g) h ~∗ mul-Ω-mapping-type f (mul-Ω-mapping-type g h)
     pr1 htp x = associative-mul-Ω B (map-pointed-map f x) (map-pointed-map g x) (map-pointed-map h x)
-    pr2 htp = {!   !} ∙ {!   !}
+    pr2 htp = {!   !}
 
   is-unital-associator-Ω-mapping : is-unital-associator Ω-mapping-H-Space associator-Ω-mapping
   pr1 is-unital-associator-Ω-mapping y z = {!   !}
@@ -319,15 +310,15 @@ module _
 
   left-equiv-mul-Ω-mapping : (f : Ω-mapping-type) → is-equiv (λ g → mul-Ω-mapping-type g f)
   pr1 (pr1 (left-equiv-mul-Ω-mapping f)) g = mul-Ω-mapping-type g (inv-Ω-mapping f)
-  pr2 (pr1 (left-equiv-mul-Ω-mapping f)) g = {!   !}
+  pr2 (pr1 (left-equiv-mul-Ω-mapping f)) (g , p) = {!   !}
   pr1 (pr2 (left-equiv-mul-Ω-mapping f)) g = mul-Ω-mapping-type g (inv-Ω-mapping f)
-  pr2 (pr2 (left-equiv-mul-Ω-mapping f)) g = {!   !}
+  pr2 (pr2 (left-equiv-mul-Ω-mapping f)) (g , p) = {!   !}
 
   right-equiv-mul-Ω-mapping : (f : Ω-mapping-type) → is-equiv (λ g → mul-Ω-mapping-type f g)
   pr1 (pr1 (right-equiv-mul-Ω-mapping f)) g = mul-Ω-mapping-type (inv-Ω-mapping f) g
-  pr2 (pr1 (right-equiv-mul-Ω-mapping f)) g = {!   !}
+  pr2 (pr1 (right-equiv-mul-Ω-mapping f)) (g , p) = {!   !}
   pr1 (pr2 (right-equiv-mul-Ω-mapping f)) g = mul-Ω-mapping-type (inv-Ω-mapping f) g
-  pr2 (pr2 (right-equiv-mul-Ω-mapping f)) g = {!   !}
+  pr2 (pr2 (right-equiv-mul-Ω-mapping f)) (g , p) = {!   !}
 
   is-binary-equiv-mul-Ω-mapping : is-binary-equiv mul-Ω-mapping-type
   pr1 is-binary-equiv-mul-Ω-mapping = left-equiv-mul-Ω-mapping
