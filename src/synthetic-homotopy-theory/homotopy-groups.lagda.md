@@ -18,12 +18,14 @@ open import foundation.iterating-functions
 open import foundation.mere-equality
 open import foundation.reflecting-maps-equivalence-relations
 open import foundation.set-truncations
+open import foundation.surjective-maps
 open import foundation.truncations
 open import foundation.unital-binary-operations
 open import foundation.universal-property-set-truncation
 open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
+open import foundation-core.empty-types
 open import foundation-core.function-types
 open import foundation-core.identity-types
 open import foundation-core.sets
@@ -107,4 +109,16 @@ module _
 
   homotopy-group : Group l
   homotopy-group = homotopy-semigroup , ((iter-loop-unit X n) , homotopy-group-unit-laws) , homotopy-group-is-group
+```
+
+There is a common `π`-based notation for homotopy groups/sets which we slightly
+modify to distinguish between sets and groups:
+
+```agda
+π : {l : Level} (n : ℕ) (X : Pointed-Type l) → UU l
+π zero-ℕ X = type-trunc-Set (type-Pointed-Type X)
+π (succ-ℕ n) X = type-Group (homotopy-group X ((succ-ℕ n) , is-nonzero-succ-ℕ n))
+
+πG : {l : Level} (n : nonzero-ℕ) (X : Pointed-Type l) → Group l
+πG n X = homotopy-group X n
 ```
