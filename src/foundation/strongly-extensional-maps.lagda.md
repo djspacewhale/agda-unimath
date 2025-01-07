@@ -7,6 +7,7 @@ module foundation.strongly-extensional-maps where
 <details><summary>Imports</summary>
 
 ```agda
+open import foundation.action-on-identifications-functions
 open import foundation.apartness-relations
 open import foundation.dependent-pair-types
 open import foundation.universe-levels
@@ -49,15 +50,16 @@ strongly-extensional A B f =
 open import foundation.function-extensionality
 open import foundation.propositional-extensionality
 
-is-set-is-prop-strongly-extensional : {l1 l2 l3 l4 : Level} {X : Type-With-Apartness l1 l2} {Y : Type-With-Apartness l3 l4} (X-set : is-set (type-Type-With-Apartness X)) (Y-set : is-set (type-Type-With-Apartness Y)) (f : type-Type-With-Apartness X → type-Type-With-Apartness Y) → is-prop (strongly-extensional X Y f)
-pr1 (is-set-is-prop-strongly-extensional {l1} {l2} {l3} {l4} {X} X-set Y-set f p q) = eq-htpy lem where
-  lem : p ~ q
-  lem x = eq-htpy lem2 where
-    lem2 : p x ~ q x
-    lem2 y = eq-htpy lem3 where
-      lem3 : p x y ~ q x y
-      lem3 z = lem4 (rel-apart-Type-With-Apartness X x y) (p x y z) (q x y z) where
-        lem4 : {l : Level} (P : Prop l) (r s : type-Prop P) → r ＝ s
-        lem4 P r s = eq-is-prop (pr2 P)
-pr2 (is-set-is-prop-strongly-extensional X-set Y-set f p .p) refl = {!   !}
+htpy-strongly-extensional-strongly-extensional : {l1 l2 l3 l4 : Level} (X : Type-With-Apartness l1 l2) (Y : Type-With-Apartness l3 l4) (f : type-Type-With-Apartness X → type-Type-With-Apartness Y) (p q : strongly-extensional X Y f) → p ~ q
+htpy-strongly-extensional-strongly-extensional X Y f p q x = eq-htpy lem where
+  lem : p x ~ q x
+  lem y = eq-htpy lem2 where
+    lem2 : p x y ~ q x y
+    lem2 z = eq-is-prop (is-prop-type-Prop (rel-apart-Type-With-Apartness X x y))
+
+is-set-is-prop-strongly-extensional : {l1 l2 l3 l4 : Level} (X : Type-With-Apartness l1 l2) (Y : Type-With-Apartness l3 l4) (f : type-Type-With-Apartness X → type-Type-With-Apartness Y) → is-prop (strongly-extensional X Y f)
+pr1 (is-set-is-prop-strongly-extensional X Y f p q) = eq-htpy (htpy-strongly-extensional-strongly-extensional X Y f p q)
+pr2 (is-set-is-prop-strongly-extensional X Y f p .p) refl = lem refl where
+  lem : refl ＝ compute-htpy-eq-refl → eq-htpy (htpy-strongly-extensional-strongly-extensional X Y f p p) ＝ refl
+  lem x = {!   !}
 ```
