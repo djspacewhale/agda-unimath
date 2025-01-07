@@ -15,6 +15,7 @@ open import foundation.strongly-extensional-maps
 open import foundation.tight-apartness-relations
 open import foundation.universe-levels
 
+open import foundation-core.contractible-types
 open import foundation-core.empty-types
 open import foundation-core.identity-types
 open import foundation-core.negation
@@ -75,4 +76,12 @@ module _
   strongly-injective-is-injective {x} {y} p = is-tight-apart-Type-With-Tight-Apartness X x y lem where
     lem : ¬ pr1 (rel-apart-Type-With-Tight-Apartness X x y)
     lem q = consistent-apart-Type-With-Tight-Apartness Y (f-inj x) (f-inj y) p (is-strongly-injective-Strong-Injection X Y f x y q)
+```
+
+### Being strongly injective is a proposition
+
+```agda
+is-prop-strongly-injective : {l1 l2 l3 l4 : Level} (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) (p : strongly-extensional (type-with-apartness-Type-With-Tight-Apartness X) (type-with-apartness-Type-With-Tight-Apartness Y) f) → is-prop (strongly-injective X Y f p)
+pr1 (is-prop-strongly-injective X Y f p x y) = {!   !}
+pr2 (is-prop-strongly-injective X Y f p x y) = {!   !}
 ```
