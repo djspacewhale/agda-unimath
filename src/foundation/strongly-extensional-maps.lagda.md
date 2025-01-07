@@ -50,12 +50,14 @@ open import foundation.function-extensionality
 open import foundation.propositional-extensionality
 
 is-set-is-prop-strongly-extensional : {l1 l2 l3 l4 : Level} {X : Type-With-Apartness l1 l2} {Y : Type-With-Apartness l3 l4} (X-set : is-set (type-Type-With-Apartness X)) (Y-set : is-set (type-Type-With-Apartness Y)) (f : type-Type-With-Apartness X → type-Type-With-Apartness Y) → is-prop (strongly-extensional X Y f)
-pr1 (is-set-is-prop-strongly-extensional X-set Y-set f p q) = eq-htpy lem where
+pr1 (is-set-is-prop-strongly-extensional {l1} {l2} {l3} {l4} {X} X-set Y-set f p q) = eq-htpy lem where
   lem : p ~ q
   lem x = eq-htpy lem2 where
     lem2 : p x ~ q x
     lem2 y = eq-htpy lem3 where
       lem3 : p x y ~ q x y
-      lem3 z = {!   !}
-pr2 (is-set-is-prop-strongly-extensional X-set Y-set f x y) p = {!   !}
+      lem3 z = lem4 (rel-apart-Type-With-Apartness X x y) (p x y z) (q x y z) where
+        lem4 : {l : Level} (P : Prop l) (r s : type-Prop P) → r ＝ s
+        lem4 P r s = eq-is-prop (pr2 P)
+pr2 (is-set-is-prop-strongly-extensional X-set Y-set f p .p) refl = {!   !}
 ```
