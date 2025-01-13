@@ -41,19 +41,37 @@ module _
   {l1 l2 l3 l4 : Level}
   where
 
-  strongly-injective : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) → strongly-extensional (type-with-apartness-Type-With-Tight-Apartness X) (type-with-apartness-Type-With-Tight-Apartness Y) f → UU (l1 ⊔ l2 ⊔ l4)
-  strongly-injective X Y f _ = ((x y : type-Type-With-Tight-Apartness X) → apart-Type-With-Tight-Apartness X x y → apart-Type-With-Tight-Apartness Y (f x) (f y))
+  strongly-injective :
+    (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4)
+    (f : type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) →
+    strongly-extensional (type-with-apartness-Type-With-Tight-Apartness X) (type-with-apartness-Type-With-Tight-Apartness Y) f →
+    UU (l1 ⊔ l2 ⊔ l4)
+  strongly-injective X Y f _ =
+    ((x y : type-Type-With-Tight-Apartness X) → apart-Type-With-Tight-Apartness X x y → apart-Type-With-Tight-Apartness Y (f x) (f y))
 
-  Strong-Injection : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) → UU (l1 ⊔ l2 ⊔ l3 ⊔ l4)
-  Strong-Injection X Y = Σ (type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) λ f → Σ (strongly-extensional (type-with-apartness-Type-With-Tight-Apartness X) (type-with-apartness-Type-With-Tight-Apartness Y) f) λ p → strongly-injective X Y f p
+  Strong-Injection :
+    (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) →
+    UU (l1 ⊔ l2 ⊔ l3 ⊔ l4)
+  Strong-Injection X Y =
+    Σ (type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y) λ f →
+    Σ (strongly-extensional (type-with-apartness-Type-With-Tight-Apartness X) (type-with-apartness-Type-With-Tight-Apartness Y) f) λ p → strongly-injective X Y f p
 
-  map-Strong-Injection : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : Strong-Injection X Y) → type-Type-With-Tight-Apartness X → type-Type-With-Tight-Apartness Y
+  map-Strong-Injection :
+    (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4)
+    (f : Strong-Injection X Y) → type-Type-With-Tight-Apartness X →
+    type-Type-With-Tight-Apartness Y
   map-Strong-Injection X Y (f , p) x = f x
 
-  is-strongly-extensional-Strong-Injection : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : Strong-Injection X Y) → strongly-extensional (type-with-apartness-Type-With-Tight-Apartness X) (type-with-apartness-Type-With-Tight-Apartness Y) (map-Strong-Injection X Y f)
+  is-strongly-extensional-Strong-Injection :
+    (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4)
+    (f : Strong-Injection X Y) →
+    strongly-extensional (type-with-apartness-Type-With-Tight-Apartness X) (type-with-apartness-Type-With-Tight-Apartness Y) (map-Strong-Injection X Y f)
   is-strongly-extensional-Strong-Injection X Y (f , p , q) = p
 
-  is-strongly-injective-Strong-Injection : (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4) (f : Strong-Injection X Y) → strongly-injective X Y (map-Strong-Injection X Y f) (is-strongly-extensional-Strong-Injection X Y f)
+  is-strongly-injective-Strong-Injection :
+    (X : Type-With-Tight-Apartness l1 l2) (Y : Type-With-Tight-Apartness l3 l4)
+    (f : Strong-Injection X Y) →
+    strongly-injective X Y (map-Strong-Injection X Y f) (is-strongly-extensional-Strong-Injection X Y f)
   is-strongly-injective-Strong-Injection X Y (f , p , q) = q
 ```
 
