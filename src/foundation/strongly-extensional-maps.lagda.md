@@ -10,6 +10,7 @@ module foundation.strongly-extensional-maps where
 open import foundation.action-on-identifications-functions
 open import foundation.apartness-relations
 open import foundation.dependent-pair-types
+open import foundation.sets
 open import foundation.universe-levels
 
 open import foundation-core.contractible-types
@@ -50,16 +51,20 @@ strongly-extensional A B f =
 open import foundation.function-extensionality
 open import foundation.propositional-extensionality
 
-htpy-strongly-extensional-strongly-extensional : {l1 l2 l3 l4 : Level} (X : Type-With-Apartness l1 l2) (Y : Type-With-Apartness l3 l4) (f : type-Type-With-Apartness X → type-Type-With-Apartness Y) (p q : strongly-extensional X Y f) → p ~ q
+htpy-strongly-extensional-strongly-extensional :
+  {l1 l2 l3 l4 : Level} (X : Type-With-Apartness l1 l2) (Y : Type-With-Apartness l3 l4)
+  (f : type-Type-With-Apartness X → type-Type-With-Apartness Y) (p q : strongly-extensional X Y f) → p ~ q
 htpy-strongly-extensional-strongly-extensional X Y f p q x = eq-htpy lem where
   lem : p x ~ q x
   lem y = eq-htpy lem2 where
     lem2 : p x y ~ q x y
     lem2 z = eq-is-prop (is-prop-type-Prop (rel-apart-Type-With-Apartness X x y))
 
-is-set-is-prop-strongly-extensional : {l1 l2 l3 l4 : Level} (X : Type-With-Apartness l1 l2) (Y : Type-With-Apartness l3 l4) (f : type-Type-With-Apartness X → type-Type-With-Apartness Y) → is-prop (strongly-extensional X Y f)
+is-set-is-prop-strongly-extensional :
+  {l1 l2 l3 l4 : Level} (X : Type-With-Apartness l1 l2) (Y : Type-With-Apartness l3 l4)
+  (f : type-Type-With-Apartness X → type-Type-With-Apartness Y) → is-prop (strongly-extensional X Y f)
 pr1 (is-set-is-prop-strongly-extensional X Y f p q) = eq-htpy (htpy-strongly-extensional-strongly-extensional X Y f p q)
 pr2 (is-set-is-prop-strongly-extensional X Y f p .p) refl = lem refl where
   lem : refl ＝ compute-htpy-eq-refl → eq-htpy (htpy-strongly-extensional-strongly-extensional X Y f p p) ＝ refl
-  lem x = {!   !}
+  lem x = {!  !}
 ```
