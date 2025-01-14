@@ -19,7 +19,6 @@ open import foundation.unit-type
 open import foundation.universe-levels
 
 open import foundation-core.contractible-types
-open import foundation-core.empty-types
 open import foundation-core.equivalences
 open import foundation-core.function-types
 open import foundation-core.homotopies

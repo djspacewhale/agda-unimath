@@ -30,7 +30,6 @@ open import foundation.unit-type
 open import foundation.universe-levels
 
 open import foundation-core.contractible-types
-open import foundation-core.equivalences
 
 open import group-theory.central-elements-groups
 open import group-theory.commutative-monoids
@@ -746,7 +745,8 @@ module _
 
   add-std-fin-Ab : (n : ℕ) → (f : Fin n → type-Ab A) → type-Ab A
   add-std-fin-Ab zero-ℕ f = zero-Ab A
-  add-std-fin-Ab (succ-ℕ n) f = add-Ab A (add-std-fin-Ab n g) (f (inr star)) where
+  add-std-fin-Ab (succ-ℕ n) f =
+    add-Ab A (add-std-fin-Ab n g) (f (inr star)) where
     g : Fin n → type-Ab A
     g x = f (inl-Fin n x)
 ```
@@ -758,7 +758,8 @@ module _
   {l : Level} (A : Ab l)
   where
 
-  add-std-fin-Ab-inv : (n : ℕ) → (f : Fin n → type-Ab A) → (p : Fin n ≃ Fin n) → (add-std-fin-Ab A n f) ＝ add-std-fin-Ab A n (f ∘ (map-equiv p))
+  add-std-fin-Ab-inv :
+    (n : ℕ) → (f : Fin n → type-Ab A) → (p : Fin n ≃ Fin n) → (add-std-fin-Ab A n f) ＝ add-std-fin-Ab A n (f ∘ (map-equiv p))
   add-std-fin-Ab-inv zero-ℕ f p = refl
   add-std-fin-Ab-inv (succ-ℕ zero-ℕ) f p = {!   !}
   add-std-fin-Ab-inv (succ-ℕ (succ-ℕ zero-ℕ)) f p = {!   !}
