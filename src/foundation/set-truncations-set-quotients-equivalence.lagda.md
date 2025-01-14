@@ -33,12 +33,18 @@ module _
   {l : Level} (X : UU l)
   where
 
-  equiv-set-truncation-set-quotient : type-trunc-Set X ≃ set-quotient (mere-eq-equivalence-relation X)
-  equiv-set-truncation-set-quotient = equiv-uniqueness-set-quotient (mere-eq-equivalence-relation X) (trunc-Set X) (reflecting-map-mere-eq-unit-trunc-Set X) (is-set-quotient-trunc-Set X) (quotient-Set (mere-eq-equivalence-relation X)) (reflecting-map-quotient-map (mere-eq-equivalence-relation X)) (is-set-quotient-set-quotient (mere-eq-equivalence-relation X))
+  equiv-set-truncation-set-quotient :
+    type-trunc-Set X ≃ set-quotient (mere-eq-equivalence-relation X)
+  equiv-set-truncation-set-quotient =
+    equiv-uniqueness-set-quotient (mere-eq-equivalence-relation X) (trunc-Set X) (reflecting-map-mere-eq-unit-trunc-Set X) (is-set-quotient-trunc-Set X) (quotient-Set (mere-eq-equivalence-relation X)) (reflecting-map-quotient-map (mere-eq-equivalence-relation X)) (is-set-quotient-set-quotient (mere-eq-equivalence-relation X))
 
-  map-equiv-set-truncation-set-quotient : type-trunc-Set X → set-quotient (mere-eq-equivalence-relation X)
-  map-equiv-set-truncation-set-quotient = map-equiv equiv-set-truncation-set-quotient
+  map-equiv-set-truncation-set-quotient :
+    type-trunc-Set X → set-quotient (mere-eq-equivalence-relation X)
+  map-equiv-set-truncation-set-quotient =
+    map-equiv equiv-set-truncation-set-quotient
 
-  map-equiv-set-quotient-set-truncation : set-quotient (mere-eq-equivalence-relation X) → type-trunc-Set X
-  map-equiv-set-quotient-set-truncation = map-inv-equiv equiv-set-truncation-set-quotient
+  map-equiv-set-quotient-set-truncation :
+    set-quotient (mere-eq-equivalence-relation X) → type-trunc-Set X
+  map-equiv-set-quotient-set-truncation =
+    map-inv-equiv equiv-set-truncation-set-quotient
 ```

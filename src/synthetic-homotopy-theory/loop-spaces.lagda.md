@@ -21,8 +21,6 @@ open import foundation.unital-binary-operations
 open import foundation.universe-levels
 
 open import foundation-core.function-types
-open import foundation-core.homotopies
-open import foundation-core.identity-types
 open import foundation-core.retractions
 open import foundation-core.sections
 
@@ -33,9 +31,9 @@ open import structured-types.pointed-equivalences
 open import structured-types.pointed-homotopies
 open import structured-types.pointed-maps
 open import structured-types.pointed-types
+open import structured-types.wild-groups
 open import structured-types.wild-monoids
 open import structured-types.wild-quasigroups
-open import structured-types.wild-groups
 ```
 
 </details>
@@ -153,7 +151,8 @@ module _
   {l : Level} (A : Pointed-Type l)
   where
 
-  is-unital-associator-Ω : is-unital-associator (Ω-H-Space A) (associative-mul-Ω A)
+  is-unital-associator-Ω :
+    is-unital-associator (Ω-H-Space A) (associative-mul-Ω A)
   pr1 is-unital-associator-Ω y z = refl
   pr1 (pr2 is-unital-associator-Ω) = coherence-one
   pr1 (pr2 (pr2 is-unital-associator-Ω)) b y = coherence-two b y
@@ -164,11 +163,14 @@ module _
   pr1 (pr2 Ω-Wild-Monoid) = associative-mul-Ω A
   pr2 (pr2 Ω-Wild-Monoid) = is-unital-associator-Ω
 
-  equiv-left-comp-inv-Ω : (a b : type-Ω A) → mul-Ω A (mul-Ω A (inv-Ω A a) a) b ＝ b
+  equiv-left-comp-inv-Ω :
+    (a b : type-Ω A) → mul-Ω A (mul-Ω A (inv-Ω A a) a) b ＝ b
   equiv-left-comp-inv-Ω a b = inv (equiv-left-comp-inv a b)
 
-  equiv-right-comp-inv-Ω : (a b : type-Ω A) → mul-Ω A (mul-Ω A a b) (inv-Ω A b) ＝ a
-  equiv-right-comp-inv-Ω a b = inv (equiv-right-comp-inv a b ∙ inv (assoc a b (inv b)))
+  equiv-right-comp-inv-Ω :
+    (a b : type-Ω A) → mul-Ω A (mul-Ω A a b) (inv-Ω A b) ＝ a
+  equiv-right-comp-inv-Ω a b =
+    inv (equiv-right-comp-inv a b ∙ inv (assoc a b (inv b)))
 
   mul-Ω-binary-equiv : is-binary-equiv (mul-Ω A)
   mul-Ω-binary-equiv = is-binary-equiv-concat

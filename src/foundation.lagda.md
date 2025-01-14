@@ -188,6 +188,7 @@ open import foundation.finitely-coherently-invertible-maps public
 open import foundation.fixed-points-endofunctions public
 open import foundation.full-subtypes public
 open import foundation.function-extensionality public
+open import foundation.function-extensionality-lemmas public
 open import foundation.function-types public
 open import foundation.functional-correspondences public
 open import foundation.functoriality-action-on-identifications-functions public
@@ -355,6 +356,7 @@ open import foundation.sequential-limits public
 open import foundation.set-presented-types public
 open import foundation.set-quotients public
 open import foundation.set-truncations public
+open import foundation.set-truncations-set-quotients-equivalence public
 open import foundation.sets public
 open import foundation.shifting-sequences public
 open import foundation.sigma-closed-subuniverses public

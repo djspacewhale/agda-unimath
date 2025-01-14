@@ -26,14 +26,13 @@ open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
 open import foundation-core.empty-types
-open import foundation-core.function-types
 open import foundation-core.identity-types
 open import foundation-core.sets
 open import foundation-core.truncation-levels
 
 open import group-theory.abelian-groups
-open import group-theory.monoids
 open import group-theory.groups
+open import group-theory.monoids
 open import group-theory.semigroups
 
 open import structured-types.pointed-types
@@ -76,9 +75,11 @@ module _
   where
 
   iter-loop-mul : iter-loop-type X n → iter-loop-type X n → iter-loop-type X n
-  iter-loop-mul f g = binary-map-trunc-Set (mul-Ω (iterated-loop-space (nat-nonzero-ℕ n) X)) f g
+  iter-loop-mul f g =
+    binary-map-trunc-Set (mul-Ω (iterated-loop-space (nat-nonzero-ℕ n) X)) f g
 
-  iter-loop-mul-is-assoc : (x y z : iter-loop-type X n) → iter-loop-mul (iter-loop-mul x y) z ＝ iter-loop-mul x (iter-loop-mul y z)
+  iter-loop-mul-is-assoc :
+    (x y z : iter-loop-type X n) → iter-loop-mul (iter-loop-mul x y) z ＝ iter-loop-mul x (iter-loop-mul y z)
   iter-loop-mul-is-assoc x y z = {!   !}
 
   iter-loop-unit : iter-loop-type X n
@@ -96,19 +97,22 @@ module _
   where
 
   homotopy-semigroup : Semigroup l
-  homotopy-semigroup = (iter-loop-set X n) , ((iter-loop-mul X n) , iter-loop-mul-is-assoc X n)
+  homotopy-semigroup =
+    (iter-loop-set X n) , ((iter-loop-mul X n) , iter-loop-mul-is-assoc X n)
 
   homotopy-group-unit-laws : unit-laws (iter-loop-mul X n) (iter-loop-unit X n)
   pr1 homotopy-group-unit-laws p = {!   !}
   pr2 homotopy-group-unit-laws p = {!   !}
 
-  homotopy-group-is-group : is-group-is-unital-Semigroup homotopy-semigroup (iter-loop-unit X n , homotopy-group-unit-laws)
+  homotopy-group-is-group :
+    is-group-is-unital-Semigroup homotopy-semigroup (iter-loop-unit X n , homotopy-group-unit-laws)
   pr1 homotopy-group-is-group = iter-loop-inv X n
   pr1 (pr2 homotopy-group-is-group) p = {!   !}
   pr2 (pr2 homotopy-group-is-group) p = {!   !}
 
   homotopy-group : Group l
-  homotopy-group = homotopy-semigroup , ((iter-loop-unit X n) , homotopy-group-unit-laws) , homotopy-group-is-group
+  homotopy-group =
+    homotopy-semigroup , ((iter-loop-unit X n) , homotopy-group-unit-laws) , homotopy-group-is-group
 ```
 
 There is a common `π`-based notation for homotopy groups/sets which we slightly
@@ -117,7 +121,8 @@ modify to distinguish between sets and groups:
 ```agda
 π : {l : Level} (n : ℕ) (X : Pointed-Type l) → UU l
 π zero-ℕ X = type-trunc-Set (type-Pointed-Type X)
-π (succ-ℕ n) X = type-Group (homotopy-group X ((succ-ℕ n) , is-nonzero-succ-ℕ n))
+π (succ-ℕ n) X =
+  type-Group (homotopy-group X ((succ-ℕ n) , is-nonzero-succ-ℕ n))
 
 πG : {l : Level} (n : nonzero-ℕ) (X : Pointed-Type l) → Group l
 πG n X = homotopy-group X n

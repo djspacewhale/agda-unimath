@@ -110,7 +110,8 @@ module _
   {l : Level} {A : UU l} {x y : type-trunc-Set A}
   where
 
-  eq-to-trunc-eq : {x-inv y-inv : A} → (x ＝ unit-trunc-Set x-inv) → (y ＝ unit-trunc-Set y-inv) → (x-inv ＝ y-inv) → x ＝ y
+  eq-to-trunc-eq :
+    {x-inv y-inv : A} → (x ＝ unit-trunc-Set x-inv) → (y ＝ unit-trunc-Set y-inv) → (x-inv ＝ y-inv) → x ＝ y
   eq-to-trunc-eq p q r = p ∙ ap unit-trunc-Set r ∙ inv q
 ```
 

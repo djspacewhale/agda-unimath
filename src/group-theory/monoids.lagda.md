@@ -21,15 +21,12 @@ open import foundation.subtypes
 open import foundation.transport-along-equivalences
 open import foundation.truncation-levels
 open import foundation.truncations
+open import foundation.uniqueness-set-quotients
 open import foundation.unit-type
 open import foundation.unital-binary-operations
-open import foundation.uniqueness-set-quotients
 open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
-open import foundation-core.propositions
-open import foundation-core.sets
-open import foundation-core.truncation-levels
 
 open import group-theory.semigroups
 
