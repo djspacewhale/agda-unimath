@@ -14,6 +14,7 @@ open import structured-types.central-h-spaces public
 open import structured-types.commuting-squares-of-pointed-homotopies public
 open import structured-types.commuting-squares-of-pointed-maps public
 open import structured-types.commuting-triangles-of-pointed-maps public
+open import structured-types.configuration-spaces public
 open import structured-types.conjugation-pointed-types public
 open import structured-types.constant-pointed-maps public
 open import structured-types.contractible-pointed-types public

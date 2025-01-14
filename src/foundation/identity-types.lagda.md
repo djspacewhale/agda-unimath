@@ -240,7 +240,8 @@ module _
   {l : Level} {A : UU l}
   where
 
-  equiv-right-comp-inv : {x y z : A} (p : x ＝ y) (q : y ＝ z) → p ＝ p ∙ (q ∙ inv q)
+  equiv-right-comp-inv :
+    {x y z : A} (p : x ＝ y) (q : y ＝ z) → p ＝ p ∙ (q ∙ inv q)
   equiv-right-comp-inv refl refl = refl
 
   equiv-left-comp-inv : {x y z : A} (p : x ＝ y) (q : y ＝ z) → q ＝ inv p ∙ p ∙ q
@@ -254,10 +255,12 @@ module _
   {l : Level} {A : UU l}
   where
 
-  coherence-one : {x y z : A} (p : x ＝ y) (q : y ＝ z) → assoc p refl q ∙ refl ＝ ap (λ r → r ∙ q) right-unit
+  coherence-one :
+    {x y z : A} (p : x ＝ y) (q : y ＝ z) → assoc p refl q ∙ refl ＝ ap (λ r → r ∙ q) right-unit
   coherence-one refl refl = refl
 
-  coherence-two : {x y z : A} (p : x ＝ y) (q : y ＝ z) → assoc p q refl ∙ ap (λ r → p ∙ r) right-unit ＝ right-unit
+  coherence-two :
+    {x y z : A} (p : x ＝ y) (q : y ＝ z) → assoc p q refl ∙ ap (λ r → p ∙ r) right-unit ＝ right-unit
   coherence-two refl refl = refl
 ```
 

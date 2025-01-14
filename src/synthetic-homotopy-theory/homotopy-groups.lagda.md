@@ -69,7 +69,8 @@ module _
   where
 
   iter-loop-mul : iter-loop-type X n → iter-loop-type X n → iter-loop-type X n
-  iter-loop-mul f g = binary-map-trunc-Set (mul-Ω (iterated-loop-space (nat-nonzero-ℕ n) X)) f g
+  iter-loop-mul f g =
+    binary-map-trunc-Set (mul-Ω (iterated-loop-space (nat-nonzero-ℕ n) X)) f g
 ```
 
 ### `iter-loop-mul X n` endows the set `iter-loop-type X n` with a group structure

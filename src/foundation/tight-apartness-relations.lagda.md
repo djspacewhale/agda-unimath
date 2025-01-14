@@ -93,8 +93,10 @@ module _
   apart-Type-With-Tight-Apartness =
     apart-Type-With-Apartness type-with-apartness-Type-With-Tight-Apartness
 
-  consistent-apart-Type-With-Tight-Apartness : is-consistent rel-apart-Type-With-Tight-Apartness
-  consistent-apart-Type-With-Tight-Apartness = consistent-apart-Type-With-Apartness type-with-apartness-Type-With-Tight-Apartness
+  consistent-apart-Type-With-Tight-Apartness :
+    is-consistent rel-apart-Type-With-Tight-Apartness
+  consistent-apart-Type-With-Tight-Apartness =
+    consistent-apart-Type-With-Apartness type-with-apartness-Type-With-Tight-Apartness
 
   is-tight-apart-Type-With-Tight-Apartness :
     is-tight rel-apart-Type-With-Tight-Apartness

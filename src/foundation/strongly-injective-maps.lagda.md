@@ -91,7 +91,9 @@ module _
   f-inj = map-Strong-Injection X Y f
 
   strongly-injective-is-injective : is-injective f-inj
-  strongly-injective-is-injective {x} {y} p = is-tight-apart-Type-With-Tight-Apartness X x y lem where
+  strongly-injective-is-injective {x} {y} p =
+    is-tight-apart-Type-With-Tight-Apartness X x y lem where
     lem : ¬ pr1 (rel-apart-Type-With-Tight-Apartness X x y)
-    lem q = consistent-apart-Type-With-Tight-Apartness Y (f-inj x) (f-inj y) p (is-strongly-injective-Strong-Injection X Y f x y q)
+    lem q =
+      consistent-apart-Type-With-Tight-Apartness Y (f-inj x) (f-inj y) p (is-strongly-injective-Strong-Injection X Y f x y q)
 ```

@@ -42,10 +42,12 @@ For a type `X` with a
 ## Definition
 
 ```agda
-Conf : {l1 l2 : Level} (n : ℕ) (X : Type-With-Tight-Apartness l1 l2) → UU (l1 ⊔ l2)
+Conf :
+  {l1 l2 : Level} (n : ℕ) (X : Type-With-Tight-Apartness l1 l2) → UU (l1 ⊔ l2)
 Conf n X = Strong-Injection (Fin-Type-With-Tight-Apartness n) X
 
-Conf-is-set : {l1 l2 : Level} (n : ℕ) (X : Type-With-Tight-Apartness l1 l2) → is-set (Conf n X)
+Conf-is-set :
+  {l1 l2 : Level} (n : ℕ) (X : Type-With-Tight-Apartness l1 l2) → is-set (Conf n X)
 Conf-is-set n X (f , ext-f , inj-f) (.f , .ext-f , .inj-f) refl q = {!   !}
 ```
 
@@ -56,9 +58,12 @@ There is a natural action of the
 the **`n`'th unordered configuration space** of `X`.
 
 ```agda
-sym-Fin-action-Conf : {l1 l2 : Level} (n : ℕ) (X : Type-With-Tight-Apartness l1 l2) → action-Concrete-Group (l1 ⊔ l2) (symmetric-Concrete-Group (Fin-Set n))
+sym-Fin-action-Conf :
+  {l1 l2 : Level} (n : ℕ) (X : Type-With-Tight-Apartness l1 l2) → action-Concrete-Group (l1 ⊔ l2) (symmetric-Concrete-Group (Fin-Set n))
 sym-Fin-action-Conf n X ((Y , p) , f) = (Conf n X) , (Conf-is-set n X)
 
-UConf : {l1 l2 : Level} (n : ℕ) (X : Type-With-Tight-Apartness l1 l2) → UU (lsuc lzero ⊔ l1 ⊔ l2)
-UConf n X = orbit-action-Concrete-Group (symmetric-Concrete-Group (Fin-Set n)) (sym-Fin-action-Conf n X)
+UConf :
+  {l1 l2 : Level} (n : ℕ) (X : Type-With-Tight-Apartness l1 l2) → UU (lsuc lzero ⊔ l1 ⊔ l2)
+UConf n X =
+  orbit-action-Concrete-Group (symmetric-Concrete-Group (Fin-Set n)) (sym-Fin-action-Conf n X)
 ```

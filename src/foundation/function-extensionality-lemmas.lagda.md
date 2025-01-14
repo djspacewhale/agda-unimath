@@ -18,11 +18,8 @@ open import foundation.universe-levels
 
 open import foundation-core.contractible-types
 open import foundation-core.function-types
-open import foundation-core.homotopies
 open import foundation-core.identity-types
 open import foundation-core.invertible-maps
-open import foundation-core.propositions
-open import foundation-core.sections
 open import foundation-core.truncated-types
 open import foundation-core.truncation-levels
 ```
@@ -37,15 +34,18 @@ module _
   where
 
   funext-prop-section-is-prop : is-prop ((a : A) → type-Prop (P a))
-  pr1 (funext-prop-section-is-prop f g) = eq-htpy λ x → eq-is-prop (is-prop-type-Prop (P x))
+  pr1 (funext-prop-section-is-prop f g) =
+    eq-htpy λ x → eq-is-prop (is-prop-type-Prop (P x))
   pr2 (funext-prop-section-is-prop f g) eq = lem4 where
     lem1 : (λ x → eq-is-prop (is-prop-type-Prop (P x))) ~ htpy-eq eq
-    lem1 x = eq-is-contr (is-trunc-is-prop _ (is-prop-type-Prop (P x)) (f x) (g x))
+    lem1 x =
+      eq-is-contr (is-trunc-is-prop _ (is-prop-type-Prop (P x)) (f x) (g x))
 
     lem2 : eq-htpy (htpy-eq eq) ＝ eq
     lem2 = is-retraction-eq-htpy' eq
 
-    lem3 : eq-htpy (λ x → eq-is-prop (is-prop-type-Prop (P x))) ＝ eq-htpy (htpy-eq eq)
+    lem3 :
+      eq-htpy (λ x → eq-is-prop (is-prop-type-Prop (P x))) ＝ eq-htpy (htpy-eq eq)
     lem3 = ap eq-htpy (eq-htpy lem1)
 
     lem4 : eq-htpy (λ x → eq-is-prop (is-prop-type-Prop (P x))) ＝ eq

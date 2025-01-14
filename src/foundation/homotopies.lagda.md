@@ -379,7 +379,8 @@ module _
   {l1 l2 : Level} {A : UU l1} {B : UU l2} {x y : A}
   where
 
-  ap-eq-htpy : (f g : A → B) (p : f ~ g) {q : x ＝ y} → ap f q ＝ p x ∙ ap g q ∙ inv (p y)
+  ap-eq-htpy :
+    (f g : A → B) (p : f ~ g) {q : x ＝ y} → ap f q ＝ p x ∙ ap g q ∙ inv (p y)
   ap-eq-htpy f g p {refl} = inv (assoc (p x) refl (inv (p x)) ∙ right-inv (p x))
 ```
 
