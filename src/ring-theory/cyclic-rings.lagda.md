@@ -294,7 +294,7 @@ module _
             ( p)))
 ```
 
-### If `R` is a cyclic ring if and only if `1` is a generator of its additive group
+### `R` is a cyclic ring if and only if `1` is a generator of its additive group
 
 Equivalently, we assert that `R` is cyclic if and only if `initial-hom-Ring R`
 is surjective.
