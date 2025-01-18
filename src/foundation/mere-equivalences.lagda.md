@@ -49,6 +49,13 @@ abstract
 
 ## Properties
 
+### Types are merely equivalent to themselves
+
+```agda
+id-mere-equiv : {l : Level} → (X : UU l) → mere-equiv X X
+id-mere-equiv X = unit-trunc-Prop id-equiv
+```
+
 ### Mere equivalence is reflexive
 
 ```agda
