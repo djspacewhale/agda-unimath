@@ -109,12 +109,23 @@ is-not-one-is-prime-ℕ n H p = pr1 (pr2 (H 1) refl) (inv p)
 
 ### A prime is strictly greater than `1`
 
+Thus, primes have predecessors and predecessors of predecessors.
+
 ```agda
 le-one-is-prime-ℕ :
   (n : ℕ) → is-prime-ℕ n → le-ℕ 1 n
 le-one-is-prime-ℕ 0 x = ex-falso (is-nonzero-is-prime-ℕ 0 x refl)
 le-one-is-prime-ℕ 1 x = ex-falso (is-not-one-is-prime-ℕ 1 x refl)
 le-one-is-prime-ℕ (succ-ℕ (succ-ℕ n)) x = star
+
+pred-prime-ℕ : (n : ℕ) → is-prime-ℕ n → ℕ
+pred-prime-ℕ zero-ℕ n-prime = ex-falso (is-nonzero-is-prime-ℕ 0 n-prime refl)
+pred-prime-ℕ (succ-ℕ n) n-prime = n
+
+pred-pred-prime-ℕ : (n : ℕ) → is-prime-ℕ n → ℕ
+pred-pred-prime-ℕ zero-ℕ n-prime = ex-falso (is-nonzero-is-prime-ℕ 0 n-prime refl)
+pred-pred-prime-ℕ (succ-ℕ zero-ℕ) n-prime = ex-falso (is-not-one-is-prime-ℕ 1 n-prime refl)
+pred-pred-prime-ℕ (succ-ℕ (succ-ℕ n)) n-prime = n
 ```
 
 ### Being a prime is a proposition
