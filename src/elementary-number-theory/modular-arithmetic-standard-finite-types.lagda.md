@@ -335,6 +335,14 @@ cong-mul-Fin {succ-ℕ k} x y =
   cong-nat-mod-succ-ℕ k ((nat-Fin (succ-ℕ k) x) *ℕ (nat-Fin (succ-ℕ k) y))
 ```
 
+## Exponentiation on the standard finite sets
+
+```agda
+exp-Fin : (k : ℕ) → Fin k → ℕ → Fin k
+exp-Fin (succ-ℕ k) x zero-ℕ = mod-succ-ℕ k 1
+exp-Fin (succ-ℕ k) x (succ-ℕ n) = mul-Fin (succ-ℕ k) (exp-Fin (succ-ℕ k) x n) x
+```
+
 ## Laws
 
 ### Laws for addition
