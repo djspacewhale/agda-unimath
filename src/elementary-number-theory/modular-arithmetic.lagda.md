@@ -13,6 +13,7 @@ open import elementary-number-theory.congruence-integers
 open import elementary-number-theory.congruence-natural-numbers
 open import elementary-number-theory.divisibility-integers
 open import elementary-number-theory.equality-integers
+open import elementary-number-theory.exponentiation-integers
 open import elementary-number-theory.inequality-integers
 open import elementary-number-theory.integers
 open import elementary-number-theory.modular-arithmetic-standard-finite-types
@@ -413,6 +414,14 @@ is-left-mul-neg-one-neg-ℤ-Mod' :
   (k : ℕ) (x : ℤ-Mod k) → neg-ℤ-Mod k x ＝ mul-ℤ-Mod k x (neg-one-ℤ-Mod k)
 is-left-mul-neg-one-neg-ℤ-Mod' zero-ℕ = inv ∘ right-neg-unit-law-mul-ℤ
 is-left-mul-neg-one-neg-ℤ-Mod' (succ-ℕ k) = is-mul-neg-one-neg-Fin' k
+```
+
+## Exponentiation of integers modulo `k`
+
+```agda
+exp-ℤ-Mod : (k : ℕ) → ℤ-Mod k → ℕ → ℤ-Mod k
+exp-ℤ-Mod zero-ℕ = exp-ℤ
+exp-ℤ-Mod (succ-ℕ k) = exp-Fin (succ-ℕ k)
 ```
 
 ## Congruence classes of integers modulo `k`
