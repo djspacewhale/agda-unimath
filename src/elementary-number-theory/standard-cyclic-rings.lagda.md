@@ -8,12 +8,15 @@ module elementary-number-theory.standard-cyclic-rings where
 
 ```agda
 open import commutative-algebra.commutative-rings
+open import commutative-algebra.discrete-fields
 
 open import elementary-number-theory.addition-integers
+open import elementary-number-theory.exponentiation-integers
 open import elementary-number-theory.integers
 open import elementary-number-theory.modular-arithmetic
 open import elementary-number-theory.modular-arithmetic-standard-finite-types
 open import elementary-number-theory.natural-numbers
+open import elementary-number-theory.prime-numbers
 open import elementary-number-theory.ring-of-integers
 open import elementary-number-theory.standard-cyclic-groups
 
@@ -23,15 +26,22 @@ open import foundation.dependent-pair-types
 open import foundation.existential-quantification
 open import foundation.homotopies
 open import foundation.identity-types
+open import foundation.negated-equality
 open import foundation.surjective-maps
 open import foundation.universe-levels
 
+open import foundation-core.empty-types
+open import foundation-core.equivalences
+
 open import group-theory.cyclic-groups
 open import group-theory.generating-elements-groups
+open import group-theory.invertible-elements-monoids
 
 open import ring-theory.cyclic-rings
 open import ring-theory.integer-multiples-of-elements-rings
+open import ring-theory.invertible-elements-rings
 open import ring-theory.rings
+open import ring-theory.trivial-rings
 ```
 
 </details>
@@ -71,6 +81,19 @@ integer-multiple-ℤ-Mod n k x = integer-multiple-Ring (ℤ-Mod-Ring n) k x
 ```
 
 ## Properties
+
+### For `n ≠ 1`, the standard cyclic rings are nontrivial
+
+```agda
+nontrivial-ℤ-Mod :
+  (n : ℕ) → n ≠ 1 → is-nontrivial-Ring (ℤ-Mod-Ring n)
+nontrivial-ℤ-Mod zero-ℕ n≠1 ()
+nontrivial-ℤ-Mod (succ-ℕ zero-ℕ) n≠1 p = n≠1 refl
+nontrivial-ℤ-Mod (succ-ℕ (succ-ℕ n)) n≠1 p = {!   !}
+
+is-one-trivial-ℤ-Mod : is-trivial-Ring (ℤ-Mod-Ring 1)
+is-one-trivial-ℤ-Mod = refl
+```
 
 ### The negative-one element of the ring `ℤ/n` coincides with the element `neg-one-ℤ-Mod n`
 
@@ -187,6 +210,20 @@ is-cyclic-ℤ-Mod-Ring :
   ( n : ℕ) → is-cyclic-Ring (ℤ-Mod-Ring n)
 is-cyclic-ℤ-Mod-Ring =
   is-cyclic-ℤ-Mod-Group
+```
+
+### The standard cyclic rings are fields when `n` is prime
+
+The existence of multiplicative inverses is also known as **Fermat's little
+theorem**; we prove it in a
+[separate module](elementary-number-theory/fermat-little-theorem.lagda.md).
+
+```agda
+is-field-ℤ-Mod : (p : Prime-ℕ) → is-discrete-field-Commutative-Ring (ℤ-Mod-Commutative-Ring (nat-Prime-ℕ p))
+pr1 (is-field-ℤ-Mod p) 0=1 = {!   !}
+pr1 (pr2 (is-field-ℤ-Mod (p , p-prime)) x nonzero-x) = exp-ℤ-Mod p x (pred-pred-prime-ℕ p p-prime)
+pr1 (pr2 (pr2 (is-field-ℤ-Mod p) x nonzero-x)) = {!   !} ∙ {!   !}
+pr2 (pr2 (pr2 (is-field-ℤ-Mod p) x nonzero-x)) = {!   !}
 ```
 
 ## See also
