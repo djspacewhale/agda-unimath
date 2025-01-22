@@ -18,6 +18,8 @@ open import foundation-core.cartesian-product-types
 open import order-theory.interval-subposets
 open import order-theory.locally-finite-posets
 open import order-theory.posets
+
+open import ring-theory.algebras-rings
 ```
 
 </details>
