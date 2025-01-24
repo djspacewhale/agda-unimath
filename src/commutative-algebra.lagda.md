@@ -36,6 +36,7 @@ open import commutative-algebra.joins-ideals-commutative-rings public
 open import commutative-algebra.joins-radical-ideals-commutative-rings public
 open import commutative-algebra.local-commutative-rings public
 open import commutative-algebra.maximal-ideals-commutative-rings public
+open import commutative-algebra.modules-commutative-rings public
 open import commutative-algebra.multiples-of-elements-commutative-rings public
 open import commutative-algebra.nilradical-commutative-rings public
 open import commutative-algebra.nilradicals-commutative-semirings public

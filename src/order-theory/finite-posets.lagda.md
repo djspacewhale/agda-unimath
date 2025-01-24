@@ -13,6 +13,13 @@ open import foundation.function-types
 open import foundation.propositions
 open import foundation.universe-levels
 
+open  import foundation-core.decidable-propositions
+open import foundation-core.cartesian-product-types
+open import foundation-core.equivalences
+open import foundation-core.identity-types
+open import foundation-core.sections
+open import foundation-core.retractions
+
 open import order-theory.finite-preorders
 open import order-theory.posets
 open import order-theory.preorders
@@ -71,4 +78,20 @@ is-antisymmetric-leq-Poset-𝔽 = pr2
 poset-Poset-𝔽 : {l1 l2 : Level} → Poset-𝔽 l1 l2 → Poset l1 l2
 pr1 (poset-Poset-𝔽 P) = preorder-Poset-𝔽 P
 pr2 (poset-Poset-𝔽 P) = is-antisymmetric-leq-Poset-𝔽 P
+```
+
+## Properties
+
+### The definition above agrees with `Poset-𝔽`
+
+```agda
+Poset-𝔽' : (l1 l2 : Level) → UU (lsuc l1 ⊔ lsuc l2)
+Poset-𝔽' l1 l2 = Σ (Poset l1 l2) λ X → is-finite (type-Poset X)
+
+Poset-𝔽-𝔽'-equiv : (l1 l2 : Level) → Poset-𝔽 l1 l2 ≃ Poset-𝔽' l1 l2
+pr1 (Poset-𝔽-𝔽'-equiv l1 l2) X = poset-Poset-𝔽 X , pr2 (pr1 (pr1 X))
+pr1 (pr1 (pr2 (Poset-𝔽-𝔽'-equiv l1 l2))) X' = ((type-Poset (pr1 X') , pr2 X') , (λ x y → {!   !}) , {!   !}) , pr2 (pr1 X')
+pr2 (pr1 (pr2 (Poset-𝔽-𝔽'-equiv l1 l2))) X' = {!   !}
+pr1 (pr2 (pr2 (Poset-𝔽-𝔽'-equiv l1 l2))) X' = {!   !}
+pr2 (pr2 (pr2 (Poset-𝔽-𝔽'-equiv l1 l2))) X' = {!   !}
 ```
