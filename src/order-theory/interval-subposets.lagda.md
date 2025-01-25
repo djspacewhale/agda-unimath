@@ -9,6 +9,7 @@ module order-theory.interval-subposets where
 ```agda
 open import foundation.dependent-pair-types
 open import foundation.inhabited-types
+open import foundation.propositional-truncations
 open import foundation.propositions
 open import foundation.universe-levels
 
@@ -59,4 +60,15 @@ module _
   inhabited-interval : UU (l1 ⊔ l2)
   inhabited-interval =
     Σ (type-Poset X × type-Poset X) λ (p , q) → (is-inhabited-interval X p q)
+```
+
+### When `x ≤ y`, `[x , y]` is inhabited
+
+```agda
+module _
+  {l1 l2 : Level} (X : Poset l1 l2) (x y : type-Poset X) (x≤y : leq-Poset X x y)
+  where
+
+  inhabited-interval-x≤y : is-inhabited-interval X x y
+  inhabited-interval-x≤y = unit-trunc-Prop (x , ((X .pr1 .pr2 .pr2 .pr1 x) , x≤y))
 ```

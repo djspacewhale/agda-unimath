@@ -12,6 +12,8 @@ open import elementary-number-theory.natural-numbers
 
 open import foundation.action-on-identifications-functions
 open import foundation.coproduct-types
+open import foundation.dependent-pair-types
+open import foundation.equivalences
 open import foundation.function-types
 open import foundation.homotopies
 open import foundation.identity-types
@@ -19,12 +21,17 @@ open import foundation.unit-type
 open import foundation.universe-levels
 open import foundation.whiskering-homotopies-composition
 
+open import foundation-core.contractible-types
+open import foundation-core.equivalences
+open import foundation-core.homotopies
+
 open import linear-algebra.vectors
 open import linear-algebra.vectors-on-semirings
 
 open import ring-theory.semirings
 
 open import univalent-combinatorics.coproduct-types
+open import univalent-combinatorics.equivalences-standard-finite-types
 open import univalent-combinatorics.standard-finite-types
 ```
 
@@ -266,4 +273,26 @@ split-sum-Semiring R n (succ-ℕ m) f =
     ( add-Semiring' R (f (inr star)))
     ( split-sum-Semiring R n m (f ∘ inl))) ∙
   ( associative-add-Semiring R _ _ _)
+```
+
+### Sums are invariant under reindexing
+
+That is, for an automorphism `f` of `Fin n`, the sum indexed by, say, `g` is
+equal to the sum indexed by `g ∘ f`. This permits us to define sums _merely_
+indexed by a finite type.
+
+```agda
+module _
+  {l : Level} (R : Semiring l)
+  where
+
+  reindex-sum-Semiring : (n : ℕ) (f : Fin n ≃ Fin n) → (g : functional-vec-Semiring R n) → sum-Semiring R n g ＝ sum-Semiring R n (g ∘ map-equiv f)
+  reindex-sum-Semiring zero-ℕ f g = refl
+  reindex-sum-Semiring (succ-ℕ zero-ℕ) (f , is-equiv) g = htpy-sum-Semiring R 1 htpy where
+    htpy : g ~ g ∘ f
+    htpy (inr star) = ap g lem where
+      lem : inr star ＝ f (inr star)
+      lem = eq-is-contr is-contr-Fin-one-ℕ
+  reindex-sum-Semiring (succ-ℕ (succ-ℕ zero-ℕ)) (f , is-equiv) g = {!   !}
+  reindex-sum-Semiring (succ-ℕ (succ-ℕ (succ-ℕ n))) (f , is-equiv) g = {!   !}
 ```

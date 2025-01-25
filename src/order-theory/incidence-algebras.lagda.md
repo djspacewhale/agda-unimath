@@ -8,12 +8,20 @@ module order-theory.incidence-algebras where
 
 ```agda
 open import commutative-algebra.commutative-rings
+open import commutative-algebra.function-commutative-rings
+open import commutative-algebra.sums-commutative-rings
+
+open import elementary-number-theory.natural-numbers
 
 open import foundation.dependent-pair-types
 open import foundation.inhabited-types
 open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
+open import foundation-core.function-types
+open import foundation-core.sets
+
+open import linear-algebra.vectors-on-commutative-rings
 
 open import order-theory.interval-subposets
 open import order-theory.locally-finite-posets
@@ -21,6 +29,10 @@ open import order-theory.posets
 
 open import ring-theory.algebras-rings
 open import ring-theory.rings
+
+open import univalent-combinatorics.finite-types
+open import univalent-combinatorics.counting
+open import univalent-combinatorics.standard-finite-types
 ```
 
 </details>
@@ -42,17 +54,27 @@ module _
   {l1 l2 l3 : Level} {P : Poset l1 l2} (loc-fin : is-locally-finite-Poset P) (R : Commutative-Ring l3)
   where
 
-  interval-map : UU (l1 ⊔ l2 ⊔ l3)
-  interval-map = inhabited-interval P → type-Commutative-Ring R
+  incidence-Ring : Commutative-Ring (l1 ⊔ l2 ⊔ l3)
+  incidence-Ring = function-Commutative-Ring R (inhabited-interval P)
+
+  inhabited-interval-map : UU (l1 ⊔ l2 ⊔ l3)
+  inhabited-interval-map = type-Commutative-Ring incidence-Ring
+
+  convolution : inhabited-interval-map → inhabited-interval-map → inhabited-interval-map
+  convolution f g ((x , y), inhb) = sum-Commutative-Ring R (number-of-elements-𝔽 ((type-Poset (poset-interval-Subposet P x y)) , (loc-fin x y .pr1))) sum where
+    sum : functional-vec-Commutative-Ring R (number-of-elements-𝔽 (pr1 (pr1 (poset-interval-Subposet P x y)) , loc-fin x y .pr1))
+    sum = convolve ∘ λ a → {!   !} where
+      convolve : (z : type-Poset (poset-interval-Subposet P x y)) → type-Commutative-Ring R
+      convolve (z , x≤z , z≤y) = mul-Commutative-Ring R (f ((x , z) , inhabited-interval-x≤y P x z x≤z)) (g ((z , y) , inhabited-interval-x≤y P z y z≤y))
 ```
 
 ## Special functions in the space of interval maps
 
 ```agda
-  δ : interval-map
+  δ : inhabited-interval-map
   δ ((x , y) , inhb) = {!   !}
 
-  ζ : interval-map
+  ζ : inhabited-interval-map
   ζ x≤y = one-Commutative-Ring R
 ```
 
