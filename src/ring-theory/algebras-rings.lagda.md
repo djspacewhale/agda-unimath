@@ -204,3 +204,13 @@ module _
 
 This remains to be defined.
 [#740](https://github.com/UniMath/agda-unimath/issues/740)
+
+We define **unital (left) `R`-algebras** as rings `S` equipped with a ring map
+`R → S` whose image lies in the [center](ring-theory.central-elements-rings.md)
+of `S`.
+
+```agda
+module _
+  {l : Level} (R : Ring l)
+  where
+```

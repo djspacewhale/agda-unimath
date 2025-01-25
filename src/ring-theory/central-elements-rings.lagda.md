@@ -8,12 +8,33 @@ module ring-theory.central-elements-rings where
 
 ```agda
 open import foundation.action-on-identifications-functions
+open import foundation.dependent-pair-types
 open import foundation.identity-types
+open import foundation.large-locale-of-propositions
 open import foundation.propositions
+open import foundation.unital-binary-operations
 open import foundation.universe-levels
+
+open import foundation-core.cartesian-product-types
+open import foundation-core.contractible-types
+open import foundation-core.injective-maps
+open import foundation-core.sets
+
+open import group-theory.abelian-groups
+open import group-theory.groups
+open import group-theory.monoids
+open import group-theory.semigroups
+open import group-theory.subgroups
+open import group-theory.subsets-groups
+
+open import order-theory.large-frames
+open import order-theory.large-posets
+open import order-theory.large-preorders
 
 open import ring-theory.central-elements-semirings
 open import ring-theory.rings
+open import ring-theory.subrings
+open import ring-theory.subsets-rings
 ```
 
 </details>
@@ -124,4 +145,36 @@ module _
     is-central-element-Ring R y → is-central-element-Ring R (mul-Ring R x y)
   is-central-element-mul-Ring =
     is-central-element-mul-Semiring (semiring-Ring R)
+```
+
+### The center of `R` is a subring of `R`
+
+This remains a work in progress.
+
+```agda
+module _
+  {l : Level} (R : Ring l)
+  where
+
+  center-subtype : subset-Ring l R
+  center-subtype = λ r → is-central-element-ring-Prop R r
+
+  ring-center : UU l
+  ring-center = type-subset-Ring R center-subtype
+
+  center-inclusion : ring-center → type-Ring R
+  center-inclusion = inclusion-subset-Ring R center-subtype
+
+  center-injection : injection ring-center (type-Ring R)
+  center-injection = injection-subset-Ring R center-subtype
+
+  is-injective-center-inclusion : is-injective center-inclusion
+  is-injective-center-inclusion = pr2 center-injection
+
+  ring-center-is-set : is-set ring-center
+  ring-center-is-set =
+    is-set-is-injective (is-set-type-Ring R) is-injective-center-inclusion
+
+  center-Set : Set l
+  center-Set = ring-center , ring-center-is-set
 ```

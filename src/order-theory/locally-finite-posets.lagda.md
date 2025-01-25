@@ -13,6 +13,8 @@ open import foundation.dependent-pair-types
 open import foundation.propositions
 open import foundation.universe-levels
 
+open import foundation-core.cartesian-product-types
+open import foundation-core.decidable-propositions
 open import foundation-core.identity-types
 
 open import order-theory.finite-posets
@@ -54,15 +56,6 @@ module _
   is-prop-is-locally-finite-Poset : is-prop is-locally-finite-Poset
   is-prop-is-locally-finite-Poset =
     is-prop-type-Prop is-locally-finite-Poset-Prop
-
-  interval-locally-finite-Poset : (x y : type-Poset X) → Poset (l1 ⊔ l2) l2
-  interval-locally-finite-Poset x y = poset-interval-Subposet X x y
-
-  interval-𝔽-locally-finite-Poset : Poset-𝔽 {!   !} {!   !}
-  interval-𝔽-locally-finite-Poset = {!   !}
-
-  type-𝔽-interval-locally-finite-Poset : (x y : type-Poset X) → 𝔽 {!   !}
-  type-𝔽-interval-locally-finite-Poset x y = finite-type-Preorder-𝔽 (preorder-𝔽-Poset-𝔽 {!   !})
 ```
 
 ## Properties
@@ -73,8 +66,4 @@ module _
 module _
   {l1 l2 : Level} (X : Poset l1 l2) (loc-fin : is-locally-finite-Poset X)
   where
-
-  is-locally-finite-has-decidable-equality :
-    has-decidable-equality (type-Poset X)
-  is-locally-finite-has-decidable-equality x y = {!   !}
 ```

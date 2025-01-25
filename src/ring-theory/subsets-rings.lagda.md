@@ -7,12 +7,15 @@ module ring-theory.subsets-rings where
 <details><summary>Imports</summary>
 
 ```agda
+open import foundation.dependent-pair-types
 open import foundation.identity-types
 open import foundation.propositional-extensionality
 open import foundation.propositions
 open import foundation.sets
 open import foundation.subtypes
 open import foundation.universe-levels
+
+open import foundation-core.injective-maps
 
 open import group-theory.subgroups-abelian-groups
 
@@ -59,6 +62,10 @@ module _
     (x y : type-subset-Ring) →
     x ＝ y → (inclusion-subset-Ring x ＝ inclusion-subset-Ring y)
   ap-inclusion-subset-Ring = ap-inclusion-subtype S
+
+  injection-subset-Ring : injection type-subset-Ring (type-Ring R)
+  pr1 injection-subset-Ring = inclusion-subset-Ring
+  pr2 injection-subset-Ring = eq-type-subtype S
 
   is-in-subset-inclusion-subset-Ring :
     (x : type-subset-Ring) → is-in-subset-Ring (inclusion-subset-Ring x)

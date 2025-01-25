@@ -20,6 +20,7 @@ open import order-theory.locally-finite-posets
 open import order-theory.posets
 
 open import ring-theory.algebras-rings
+open import ring-theory.rings
 ```
 
 </details>
@@ -38,12 +39,21 @@ given by a "convolution" of maps. This is the **incidence algebra** of `P` over
 
 ```agda
 module _
-  {l1 l2 l3 : Level} (P : Poset l1 l2) (loc-fin : is-locally-finite-Poset P)
-  (x y : type-Poset P) (R : Commutative-Ring l3)
+  {l1 l2 l3 : Level} {P : Poset l1 l2} (loc-fin : is-locally-finite-Poset P) (R : Commutative-Ring l3)
   where
 
   interval-map : UU (l1 ⊔ l2 ⊔ l3)
   interval-map = inhabited-interval P → type-Commutative-Ring R
+```
+
+## Special functions in the space of interval maps
+
+```agda
+  δ : interval-map
+  δ ((x , y) , inhb) = {!   !}
+
+  ζ : interval-map
+  ζ x≤y = one-Commutative-Ring R
 ```
 
 WIP: complete this definition after _R-modules_ have been defined. Defining
