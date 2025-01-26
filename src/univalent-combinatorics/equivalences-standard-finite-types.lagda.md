@@ -10,6 +10,7 @@ module univalent-combinatorics.equivalences-standard-finite-types where
 open import elementary-number-theory.exponentiation-natural-numbers
 open import elementary-number-theory.natural-numbers
 
+open import foundation.action-on-identifications-functions
 open import foundation.contractible-types
 open import foundation.dependent-pair-types
 open import foundation.equivalences
@@ -87,7 +88,10 @@ pr1 (count-Fin-2-equiv) = 2
 pr1 (pr2 count-Fin-2-equiv) (inl (inr star)) = flip
 pr1 (pr2 count-Fin-2-equiv) (inr star) = id-equiv
 pr1 (pr1 (pr2 (pr2 count-Fin-2-equiv))) = Fin-2-equiv-counting
-pr2 (pr1 (pr2 (pr2 count-Fin-2-equiv))) (f , f-is-equiv) = eq-type-subtype (λ g → is-equiv-Prop g) {!   !}
+pr2 (pr1 (pr2 (pr2 count-Fin-2-equiv))) (f , f-is-equiv) = eq-type-subtype (λ g → is-equiv-Prop g) (eq-htpy lem) where
+  lem : pr1 ((pr1 (pr2 count-Fin-2-equiv) ∘ Fin-2-equiv-counting) (f , f-is-equiv)) ~ f
+  lem (inl (inr star)) = {!   !}
+  lem (inr star) = {!   !}
 pr1 (pr2 (pr2 (pr2 count-Fin-2-equiv))) = Fin-2-equiv-counting
 pr2 (pr2 (pr2 (pr2 count-Fin-2-equiv))) (inl (inr star)) = refl
 pr2 (pr2 (pr2 (pr2 count-Fin-2-equiv))) (inr star) = refl

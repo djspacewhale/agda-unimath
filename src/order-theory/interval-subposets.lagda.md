@@ -70,5 +70,5 @@ module _
   where
 
   inhabited-interval-x≤y : is-inhabited-interval X x y
-  inhabited-interval-x≤y = unit-trunc-Prop (x , ((X .pr1 .pr2 .pr2 .pr1 x) , x≤y))
+  inhabited-interval-x≤y = unit-trunc-Prop (x , ((pr1 (pr2 (pr2 (pr1 X))) x) , x≤y))
 ```
