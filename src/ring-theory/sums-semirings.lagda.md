@@ -31,7 +31,7 @@ open import linear-algebra.vectors-on-semirings
 open import ring-theory.semirings
 
 open import univalent-combinatorics.coproduct-types
-open import univalent-combinatorics.equivalences-standard-finite-types
+
 open import univalent-combinatorics.standard-finite-types
 ```
 

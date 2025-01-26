@@ -14,7 +14,11 @@ open import foundation.dependent-pair-types
 open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
+open import foundation-core.equivalences
+open import foundation-core.function-types
 open import foundation-core.identity-types
+open import foundation-core.sections
+open import foundation-core.retractions
 open import foundation-core.sets
 
 open import group-theory.abelian-groups
@@ -54,8 +58,24 @@ module _
     (map-hom-Ring R* (endomorphism-ring-ab-left-module-Ring R* M) (mul-hom-left-module-Ring R* M)) , lem where
     lem :
       preserves-mul-Semigroup (pr1 (pr1 (pr1 R*))) (pr1 (pr1 (ab-endomorphism-ring-Ab (pr1 M)))) (pr1 (pr1 (pr2 M)))
-    lem {r} {s} = pr2 (pr1 (pr2 M))
+    lem = pr2 (pr1 (pr2 M))
   pr1 (pr2 (pr2 (left-mod-to-right-mod-CRing M))) {r} {s} =
-    ap (pr1 (pr1 (pr2 M))) (commutative-mul-Commutative-Ring R r s) ∙ preserves-mul-hom-Ring R* (endomorphism-ring-ab-left-module-Ring R* M) (mul-hom-left-module-Ring R* M)
+    ap (pr1 (pr1 (pr2 M))) (commutative-mul-Commutative-Ring R r s) ∙ pr1 (pr2 (pr2 M))
   pr2 (pr2 (pr2 (left-mod-to-right-mod-CRing M))) = pr2 (pr2 (pr2 M))
+
+  right-mod-to-left-mod-CRing :
+    {l2 : Level} → right-module-Ring l2 (R*) → left-module-Ring l2 (R*)
+  pr1 (right-mod-to-left-mod-CRing M) = ab-right-module-Ring R* M
+  pr1 (pr2 (right-mod-to-left-mod-CRing M)) = (map-hom-Ring R* (op-Ring (endomorphism-ring-ab-right-module-Ring R* M)) (mul-hom-right-module-Ring R* M)) , lem where
+    lem : preserves-mul-Semigroup (pr1 (pr1 (pr1 R*))) (pr1 (pr1 (ab-endomorphism-ring-Ab (pr1 M)))) (pr1 (pr1 (pr2 M)))
+    lem = pr2 (pr1 (pr2 M))
+  pr1 (pr2 (pr2 (right-mod-to-left-mod-CRing M))) {r} {s} = ap (pr1 (pr1 (pr2 M))) (commutative-mul-Commutative-Ring R r s) ∙ pr1 (pr2 (pr2 M))
+  pr2 (pr2 (pr2 (right-mod-to-left-mod-CRing M))) = pr2 (pr2 (pr2 M))
+
+  left-mod-right-mod-CRing-equiv : {l2 : Level} → left-module-Ring l2 (R*) ≃ right-module-Ring l2 (R*)
+  pr1 left-mod-right-mod-CRing-equiv = left-mod-to-right-mod-CRing
+  pr1 (pr1 (pr2 left-mod-right-mod-CRing-equiv)) = right-mod-to-left-mod-CRing
+  pr2 (pr1 (pr2 left-mod-right-mod-CRing-equiv)) (M , M-mul) = {!   !}
+  pr1 (pr2 (pr2 left-mod-right-mod-CRing-equiv)) = right-mod-to-left-mod-CRing
+  pr2 (pr2 (pr2 left-mod-right-mod-CRing-equiv)) (M , M-mul) = {!   !}
 ```

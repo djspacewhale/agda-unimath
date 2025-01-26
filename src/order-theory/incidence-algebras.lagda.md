@@ -8,8 +8,6 @@ module order-theory.incidence-algebras where
 
 ```agda
 open import commutative-algebra.commutative-rings
-open import commutative-algebra.function-commutative-rings
-open import commutative-algebra.sums-commutative-rings
 
 open import elementary-number-theory.natural-numbers
 
@@ -55,13 +53,13 @@ module _
   where
 
   incidence-Ring : Commutative-Ring (l1 ⊔ l2 ⊔ l3)
-  incidence-Ring = function-Commutative-Ring R (inhabited-interval P)
+  incidence-Ring = {!   !}
 
   inhabited-interval-map : UU (l1 ⊔ l2 ⊔ l3)
-  inhabited-interval-map = type-Commutative-Ring incidence-Ring
+  inhabited-interval-map = {!   !}
 
   convolution : inhabited-interval-map → inhabited-interval-map → inhabited-interval-map
-  convolution f g ((x , y), inhb) = ?
+  convolution f g ((x , y), inhb) = {!   !}
 ```
 
 ## Special functions in the space of interval maps
