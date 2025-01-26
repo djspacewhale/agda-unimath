@@ -58,6 +58,20 @@ module _
     is-prop-type-Prop is-locally-finite-Poset-Prop
 ```
 
+### The finite set of an interval in a locally finite poset
+
+```agda
+module _
+  {l1 l2 : Level} {X : Poset l1 l2} (loc-fin : is-locally-finite-Poset X)
+  where
+
+  interval-locally-finite-Poset : (x y : type-Poset X) → Poset (l1 ⊔ l2) l2
+  interval-locally-finite-Poset x y = poset-interval-Subposet X x y
+
+  interval-locally-finite-Poset-𝔽 : (x y : type-Poset X) → 𝔽 (l1 ⊔ l2)
+  interval-locally-finite-Poset-𝔽 x y = (type-Poset (interval-locally-finite-Poset x y)) , (pr1 (loc-fin x y))
+```
+
 ## Properties
 
 ### Locally finite posets have decidable equality
