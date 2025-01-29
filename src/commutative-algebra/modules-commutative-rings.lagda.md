@@ -11,6 +11,7 @@ open import commutative-algebra.commutative-rings
 
 open import foundation.action-on-identifications-functions
 open import foundation.dependent-pair-types
+open import foundation.structure-identity-principle
 open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
@@ -38,8 +39,11 @@ open import ring-theory.semirings
 
 ## Idea
 
-When `R` is a _commutative_ ring, left and right `R`-modules coincide, and we
-may simply discuss **modules** over `R`.
+When `R` is a _commutative_ ring, left and right `R`-modules (within a
+[universe level](foundation.universe-levels.md)) coincide, and we may simply
+discuss **modules** over `R`. The isomorphism crucially uses the
+[structure identity principle](foundation.structure-identity-principle.md) to
+establish that the interchange maps are inverses.
 
 ## Definitions
 
