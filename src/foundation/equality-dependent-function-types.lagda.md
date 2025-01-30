@@ -88,6 +88,9 @@ module _
     ( g : (x : A) → B x) → (f ＝ g) ≃ ((x : A) → Eq-B x (g x))
   pr1 (extensionality-Π e g) = map-extensionality-Π e g
   pr2 (extensionality-Π e g) = is-equiv-map-extensionality-Π e g
+
+  inv-map-extensionality-Π : ( (x : A) (y : B x) → (f x ＝ y) ≃ Eq-B x y) → (g : (x : A) → B x) → ((x : A) → Eq-B x (g x)) → (f ＝ g)
+  inv-map-extensionality-Π e g h = map-inv-equiv (extensionality-Π e g) h
 ```
 
 ## See also
