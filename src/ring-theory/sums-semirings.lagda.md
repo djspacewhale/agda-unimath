@@ -22,6 +22,7 @@ open import foundation.universe-levels
 open import foundation.whiskering-homotopies-composition
 
 open import foundation-core.contractible-types
+open import foundation-core.empty-types
 open import foundation-core.equivalences
 open import foundation-core.homotopies
 
@@ -31,7 +32,7 @@ open import linear-algebra.vectors-on-semirings
 open import ring-theory.semirings
 
 open import univalent-combinatorics.coproduct-types
-
+open import univalent-combinatorics.2-element-types
 open import univalent-combinatorics.standard-finite-types
 ```
 
@@ -286,13 +287,16 @@ module _
   {l : Level} (R : Semiring l)
   where
 
+  reindex-sum-Semiring-2 : (f : Fin 2 ≃ Fin 2) → (g : functional-vec-Semiring R 2) → sum-Semiring R 2 g ＝ sum-Semiring R 2 (g ∘ map-equiv f)
+  reindex-sum-Semiring-2 (f , f-equiv) g = {!   !}
+
   reindex-sum-Semiring : (n : ℕ) (f : Fin n ≃ Fin n) → (g : functional-vec-Semiring R n) → sum-Semiring R n g ＝ sum-Semiring R n (g ∘ map-equiv f)
-  reindex-sum-Semiring zero-ℕ f g = refl
-  reindex-sum-Semiring (succ-ℕ zero-ℕ) (f , is-equiv) g = htpy-sum-Semiring R 1 htpy where
+  reindex-sum-Semiring 0 _ _ = refl
+  reindex-sum-Semiring (succ-ℕ 0) (f , _) g = htpy-sum-Semiring R 1 htpy where
     htpy : g ~ g ∘ f
     htpy (inr star) = ap g lem where
       lem : inr star ＝ f (inr star)
       lem = eq-is-contr is-contr-Fin-one-ℕ
-  reindex-sum-Semiring (succ-ℕ (succ-ℕ zero-ℕ)) (f , is-equiv) g = {!   !}
-  reindex-sum-Semiring (succ-ℕ (succ-ℕ (succ-ℕ n))) (f , is-equiv) g = {!   !}
+  reindex-sum-Semiring (succ-ℕ (succ-ℕ 0)) f g = reindex-sum-Semiring-2 f g
+  reindex-sum-Semiring (succ-ℕ (succ-ℕ (succ-ℕ n))) (f , f-equiv) g = {!   !}
 ```
