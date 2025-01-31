@@ -52,11 +52,11 @@ module _
   {l1 l2 l3 : Level} {P : Poset l1 l2} (loc-fin : is-locally-finite-Poset P) (R : Commutative-Ring l3)
   where
 
-  incidence-Ring : Commutative-Ring (l1 ⊔ l2 ⊔ l3)
-  incidence-Ring = {!   !}
+  incidence-Module : {!   !}
+  incidence-Module = {!   !}
 
   inhabited-interval-map : UU (l1 ⊔ l2 ⊔ l3)
-  inhabited-interval-map = {!   !}
+  inhabited-interval-map = inhabited-interval P → type-Commutative-Ring R
 
   convolution : inhabited-interval-map → inhabited-interval-map → inhabited-interval-map
   convolution f g ((x , y), inhb) = {!   !}
