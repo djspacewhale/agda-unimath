@@ -32,7 +32,7 @@ open import order-theory.posets
 
 ## Idea
 
-Given a [directed family](domain-theory.directed-families-posets.md) `x : J → P`
+Given a [directed family](order-theory.directed-families-posets.md) `x : J → P`
 in a [poset](order-theory.posets.md) `P` and a
 [surjection](foundation.surjective-maps.md) `f : I ↠ J`, then we can
 {{#concept "reindex" Disambiguation="directed family in a poset" Agda=reindex-directed-family-Poset}}
