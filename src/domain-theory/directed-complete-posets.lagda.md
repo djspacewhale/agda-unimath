@@ -7,7 +7,7 @@ module domain-theory.directed-complete-posets where
 <details><summary>Imports</summary>
 
 ```agda
-open import domain-theory.directed-families-posets
+open import order-theory.directed-families-posets
 
 open import foundation.binary-relations
 open import foundation.dependent-pair-types

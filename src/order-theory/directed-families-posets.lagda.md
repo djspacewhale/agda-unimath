@@ -1,7 +1,7 @@
 # Directed families in posets
 
 ```agda
-module domain-theory.directed-families-posets where
+module order-theory.directed-families-posets where
 ```
 
 <details><summary>Imports</summary>

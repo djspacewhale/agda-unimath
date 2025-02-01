@@ -7,7 +7,7 @@ module domain-theory.omega-continuous-maps-posets where
 <details><summary>Imports</summary>
 
 ```agda
-open import domain-theory.directed-families-posets
+open import order-theory.directed-families-posets
 
 open import elementary-number-theory.decidable-total-order-natural-numbers
 open import elementary-number-theory.inequality-natural-numbers

@@ -7,7 +7,7 @@ module domain-theory.omega-continuous-maps-omega-complete-posets where
 <details><summary>Imports</summary>
 
 ```agda
-open import domain-theory.directed-families-posets
+open import order-theory.directed-families-posets
 open import domain-theory.omega-complete-posets
 open import domain-theory.omega-continuous-maps-posets
 

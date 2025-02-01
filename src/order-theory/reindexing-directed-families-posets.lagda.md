@@ -1,13 +1,13 @@
 # Reindexing directed families in posets
 
 ```agda
-module domain-theory.reindexing-directed-families-posets where
+module order-theory.reindexing-directed-families-posets where
 ```
 
 <details><summary>Imports</summary>
 
 ```agda
-open import domain-theory.directed-families-posets
+open import order-theory.directed-families-posets
 
 open import foundation.action-on-identifications-functions
 open import foundation.cartesian-product-types

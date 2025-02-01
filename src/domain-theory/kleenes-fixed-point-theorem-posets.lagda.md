@@ -7,7 +7,7 @@ module domain-theory.kleenes-fixed-point-theorem-posets where
 <details><summary>Imports</summary>
 
 ```agda
-open import domain-theory.directed-families-posets
+open import order-theory.directed-families-posets
 open import domain-theory.omega-continuous-maps-posets
 
 open import elementary-number-theory.decidable-total-order-natural-numbers
