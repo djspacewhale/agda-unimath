@@ -40,6 +40,7 @@ open import foundation.unit-type
 open import foundation.univalence
 open import foundation.universe-levels
 
+open import foundation-core.coproduct-types
 open import foundation-core.torsorial-type-families
 
 open import univalent-combinatorics.counting
@@ -729,6 +730,21 @@ abstract
           ( λ m → has-cardinality m X)
           ( p)
           ( pr2 (has-finite-cardinality-is-finite H)))
+```
+
+### The finite types in any universe are equivalent to the standard finite types
+
+```agda
+module _
+  {l : Level}
+  where
+
+  std-Fin-to-𝔽 : Fin-Total-Space → 𝔽 l
+  std-Fin-to-𝔽 (succ-ℕ n , inl x) = {!   !}
+  std-Fin-to-𝔽 (succ-ℕ n , inr star) = {!   !}
+
+  𝔽-to-std-Fin : 𝔽 l → Fin-Total-Space
+  𝔽-to-std-Fin (X , is-fin) = {!   !}
 ```
 
 ## External links

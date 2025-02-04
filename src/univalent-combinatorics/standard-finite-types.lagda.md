@@ -127,6 +127,13 @@ raise-Fin-Set : (l : Level) (k : ℕ) → Set l
 raise-Fin-Set l k = raise-Set l (Fin-Set k)
 ```
 
+### The type of standard finite types
+
+```agda
+Fin-Total-Space : UU lzero
+Fin-Total-Space = Σ ℕ λ n → Fin n
+```
+
 ## Properties
 
 ### Being on the left is decidable
