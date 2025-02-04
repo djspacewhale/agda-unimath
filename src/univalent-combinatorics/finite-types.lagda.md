@@ -744,7 +744,8 @@ module _
   std-Fin-to-𝔽 (succ-ℕ n , inr star) = {!   !}
 
   𝔽-to-std-Fin : 𝔽 l → Fin-Total-Space
-  𝔽-to-std-Fin (X , is-fin) = {!   !}
+  pr1 (𝔽-to-std-Fin (X , is-fin)) = number-of-elements-is-finite is-fin
+  pr2 (𝔽-to-std-Fin (X , is-fin)) = {!   !}
 ```
 
 ## External links
