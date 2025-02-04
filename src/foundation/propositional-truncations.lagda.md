@@ -235,6 +235,12 @@ module _
 
   equiv-unit-trunc-Prop : type-Prop A ≃ type-trunc-Prop (type-Prop A)
   equiv-unit-trunc-Prop = equiv-unit-trunc A
+
+  map-equiv-unit-trunc-Prop : type-Prop A → type-trunc-Prop (type-Prop A)
+  map-equiv-unit-trunc-Prop = map-equiv equiv-unit-trunc-Prop
+
+  map-inv-equiv-unit-trunc-Prop : type-trunc-Prop (type-Prop A) → type-Prop A
+  map-inv-equiv-unit-trunc-Prop = map-inv-equiv equiv-unit-trunc-Prop
 ```
 
 ### The propositional truncation is idempotent
