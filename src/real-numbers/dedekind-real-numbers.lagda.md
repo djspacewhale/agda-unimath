@@ -201,7 +201,28 @@ module _
   mul-ℝ : ℝ l → ℝ l → ℝ l
   pr1 (mul-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)) q = ∃ ℚ λ a → ∃ ℚ λ b → ∃ ℚ λ c → ∃ ℚ λ d → Lx a ∧ Ux b ∧ Ly c ∧ Uy d ∧ le-ℚ-Prop q {!   !}
   pr1 (pr2 (mul-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut))) q = ∃ ℚ λ a → ∃ ℚ λ b → ∃ ℚ λ c → ∃ ℚ λ d → Lx a ∧ Ux b ∧ Ly c ∧ Uy d ∧ le-ℚ-Prop {!   !} q
-  pr2 (pr2 (mul-ℝ x y)) = {!   !}
+  pr1 (pr1 (pr2 (pr2 (mul-ℝ x y)))) = {!   !}
+  pr2 (pr1 (pr2 (pr2 (mul-ℝ x y)))) = {!   !}
+  pr1 (pr1 (pr1 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q) Lq = {!   !}
+  pr2 (pr1 (pr1 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q) Lq = {!   !}
+  pr1 (pr2 (pr1 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q) Uq = {!   !}
+  pr2 (pr2 (pr1 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q) Uq = {!   !}
+  pr1 (pr2 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q (Lq , Uq) = {!   !}
+  pr2 (pr2 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q r q≤r = {!   !}
+```
+
+### The linear order on the Dedekind real numbers
+
+```agda
+module _
+  {l : Level}
+  where
+
+  leq-ℝ : ℝ l → ℝ l → Prop l
+  leq-ℝ (Lx , _) (Ly , _) = ∀' ℚ λ q → Lx q ⇒ Ly q
+
+  le-ℝ : ℝ l → ℝ l → Prop l
+  le-ℝ (_ , Ux , _) (Ly , _) = ∃ ℚ λ q → Ux q ∧ Ly q
 ```
 
 ## Properties
@@ -230,8 +251,8 @@ abstract
 
 ```agda
 apartness-ℝ : (l2 : Level) → Apartness-Relation l2 (ℝ l2)
-pr1 (apartness-ℝ l2) (Lx , Ux , x-cut) (Ly , Uy , y-cut) = {!   !}
-pr1 (pr2 (apartness-ℝ l2)) x x#x = {!   !}
+pr1 (apartness-ℝ l2) x y = le-ℝ x y ∨ le-ℝ y x
+pr1 (pr2 (apartness-ℝ l2)) (Lx , Ux , LU-inhb , (Lx-iff , Ux-iff) , x-sep , x-loc) x#x = x-sep {!   !} {!   !}
 pr1 (pr2 (pr2 (apartness-ℝ l2))) x y x#y = {!   !}
 pr2 (pr2 (pr2 (apartness-ℝ l2))) x y z x#y = {!   !}
 ```
