@@ -200,7 +200,7 @@ module _
 
   mul-ℝ : ℝ l → ℝ l → ℝ l
   pr1 (mul-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)) q = ∃ ℚ λ a → ∃ ℚ λ b → ∃ ℚ λ c → ∃ ℚ λ d → Lx a ∧ Ux b ∧ Ly c ∧ Uy d ∧ le-ℚ-Prop q {!   !}
-  pr1 (pr2 (mul-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut))) q = {!   !}
+  pr1 (pr2 (mul-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut))) q = ∃ ℚ λ a → ∃ ℚ λ b → ∃ ℚ λ c → ∃ ℚ λ d → Lx a ∧ Ux b ∧ Ly c ∧ Uy d ∧ le-ℚ-Prop {!   !} q
   pr2 (pr2 (mul-ℝ x y)) = {!   !}
 ```
 
