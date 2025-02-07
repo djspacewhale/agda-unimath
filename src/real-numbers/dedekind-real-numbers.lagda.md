@@ -7,10 +7,15 @@ module real-numbers.dedekind-real-numbers where
 <details><summary>Imports</summary>
 
 ```agda
+open import elementary-number-theory.addition-rational-numbers
 open import elementary-number-theory.inequality-rational-numbers
+open import elementary-number-theory.integer-fractions
 open import elementary-number-theory.rational-numbers
+open import elementary-number-theory.reduced-integer-fractions
 open import elementary-number-theory.strict-inequality-rational-numbers
 
+open import foundation.apartness-relations
+open import foundation.binary-relations
 open import foundation.binary-transport
 open import foundation.cartesian-product-types
 open import foundation.complements-subtypes
@@ -31,6 +36,7 @@ open import foundation.propositional-truncations
 open import foundation.propositions
 open import foundation.sets
 open import foundation.subtypes
+open import foundation.tight-apartness-relations
 open import foundation.transport-along-identifications
 open import foundation.truncated-types
 open import foundation.universal-quantification
@@ -161,6 +167,43 @@ module _
   is-in-cut-ℝ = is-in-subtype cut-ℝ
 ```
 
+## Ring operations on the Dedekind real numbers
+
+```agda
+module _
+  {l : Level}
+  where
+
+  add-ℝ : ℝ l → ℝ l → ℝ l
+  pr1 (add-ℝ (Lx , _) (Ly , _)) q = ∃ ℚ (λ r → ∃ ℚ (λ s → Lx r ∧ Ly s ∧ Id-Prop ℚ-Set q (add-ℚ r s)))
+  pr1 (pr2 (add-ℝ (_ , Ux , _) (_ , Uy , _))) q = ∃ ℚ (λ r → ∃ ℚ (λ s → Ux r ∧ Uy s ∧ Id-Prop ℚ-Set q (add-ℚ r s)))
+  pr1 (pr1 (pr2 (pr2 (add-ℝ (Lx , Ux , (ex-Lx , ex-Ux) , rest-x) (Ly , Uy , (ex-Ly , ex-Uy) , rest-y))))) = {!   !}
+  pr2 (pr1 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut))))) = {!   !}
+  pr1 (pr1 (pr1 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q) Lq = {!   !}
+  pr2 (pr1 (pr1 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q) Lq = {!   !}
+  pr1 (pr2 (pr1 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q) Uq = {!   !}
+  pr2 (pr2 (pr1 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q) Uq = {!   !}
+  pr1 (pr2 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q (Lq , Uq) = {!   !}
+  pr2 (pr2 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q r q≤r = {!   !}
+
+  neg-ℝ : ℝ l → ℝ l
+  pr1 (neg-ℝ (_ , Ux , _)) q = Ux (neg-ℚ q)
+  pr1 (pr2 (neg-ℝ (Lx , _))) q = Lx (neg-ℚ q)
+  pr1 (pr1 (pr2 (pr2 (neg-ℝ x)))) = {!   !}
+  pr2 (pr1 (pr2 (pr2 (neg-ℝ x)))) = {!   !}
+  pr1 (pr1 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Lq = {!   !}
+  pr2 (pr1 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Lq = {!   !}
+  pr1 (pr2 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Uq = {!   !}
+  pr2 (pr2 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Uq = {!   !}
+  pr1 (pr2 (pr2 (pr2 (pr2 (neg-ℝ (_ , _ , _ , _ , x-sep , _)))))) q (Lq , Uq) = x-sep (neg-ℚ q) (Uq , Lq)
+  pr2 (pr2 (pr2 (pr2 (pr2 (neg-ℝ x))))) q r q≤r = {!   !}
+
+  mul-ℝ : ℝ l → ℝ l → ℝ l
+  pr1 (mul-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)) q = ∃ ℚ λ a → ∃ ℚ λ b → ∃ ℚ λ c → ∃ ℚ λ d → Lx a ∧ Ux b ∧ Ly c ∧ Uy d ∧ le-ℚ-Prop q {!   !}
+  pr1 (pr2 (mul-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut))) q = {!   !}
+  pr2 (pr2 (mul-ℝ x y)) = {!   !}
+```
+
 ## Properties
 
 ### The Dedekind real numbers form a set
@@ -181,6 +224,16 @@ abstract
 
 ℝ-Set : (l : Level) → Set (lsuc l)
 ℝ-Set l = ℝ l , is-set-ℝ l
+```
+
+### The Dedekind real numbers admit a tight apartness
+
+```agda
+apartness-ℝ : (l2 : Level) → Apartness-Relation l2 (ℝ l2)
+pr1 (apartness-ℝ l2) (Lx , Ux , x-cut) (Ly , Uy , y-cut) = {!   !}
+pr1 (pr2 (apartness-ℝ l2)) x x#x = {!   !}
+pr1 (pr2 (pr2 (apartness-ℝ l2))) x y x#y = {!   !}
+pr2 (pr2 (pr2 (apartness-ℝ l2))) x y z x#y = {!   !}
 ```
 
 ## Properties of lower/upper Dedekind cuts
