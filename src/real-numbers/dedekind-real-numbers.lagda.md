@@ -7,9 +7,17 @@ module real-numbers.dedekind-real-numbers where
 <details><summary>Imports</summary>
 
 ```agda
+open import elementary-number-theory.absolute-value-integers
+open import elementary-number-theory.addition-integers
 open import elementary-number-theory.addition-rational-numbers
+open import elementary-number-theory.greatest-common-divisor-integers
+open import elementary-number-theory.greatest-common-divisor-natural-numbers
 open import elementary-number-theory.inequality-rational-numbers
 open import elementary-number-theory.integer-fractions
+open import elementary-number-theory.integers
+open import elementary-number-theory.multiplication-integers
+open import elementary-number-theory.natural-numbers
+open import elementary-number-theory.positive-integers
 open import elementary-number-theory.rational-numbers
 open import elementary-number-theory.reduced-integer-fractions
 open import elementary-number-theory.strict-inequality-rational-numbers
@@ -39,6 +47,8 @@ open import foundation.subtypes
 open import foundation.tight-apartness-relations
 open import foundation.transport-along-identifications
 open import foundation.truncated-types
+open import foundation.truncations
+open import foundation.unit-type
 open import foundation.universal-quantification
 open import foundation.universe-levels
 
@@ -184,19 +194,19 @@ module _
   pr1 (pr2 (pr1 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q) Uq = {!   !}
   pr2 (pr2 (pr1 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q) Uq = {!   !}
   pr1 (pr2 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q (Lq , Uq) = {!   !}
-  pr2 (pr2 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q r q≤r = {!   !}
+  pr2 (pr2 (pr2 (pr2 (pr2 (add-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)))))) q r q<r = {!   !}
 
   neg-ℝ : ℝ l → ℝ l
   pr1 (neg-ℝ (_ , Ux , _)) q = Ux (neg-ℚ q)
   pr1 (pr2 (neg-ℝ (Lx , _))) q = Lx (neg-ℚ q)
-  pr1 (pr1 (pr2 (pr2 (neg-ℝ x)))) = {!   !}
-  pr2 (pr1 (pr2 (pr2 (neg-ℝ x)))) = {!   !}
-  pr1 (pr1 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Lq = {!   !}
+  pr1 (pr1 (pr2 (pr2 (neg-ℝ x)))) = intro-exists {!   !} {!   !}
+  pr2 (pr1 (pr2 (pr2 (neg-ℝ x)))) = intro-exists {!   !} {!   !}
+  pr1 (pr1 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Lq = intro-exists {!   !} {!   !}
   pr2 (pr1 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Lq = {!   !}
-  pr1 (pr2 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Uq = {!   !}
+  pr1 (pr2 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Uq = intro-exists {!   !} {!   !}
   pr2 (pr2 (pr1 (pr2 (pr2 (pr2 (neg-ℝ x))))) q) Uq = {!   !}
   pr1 (pr2 (pr2 (pr2 (pr2 (neg-ℝ (_ , _ , _ , _ , x-sep , _)))))) q (Lq , Uq) = x-sep (neg-ℚ q) (Uq , Lq)
-  pr2 (pr2 (pr2 (pr2 (pr2 (neg-ℝ x))))) q r q≤r = {!   !}
+  pr2 (pr2 (pr2 (pr2 (pr2 (neg-ℝ (Lx , Ux , x-cut)))))) q r q<r = {!   !}
 
   mul-ℝ : ℝ l → ℝ l → ℝ l
   pr1 (mul-ℝ (Lx , Ux , x-cut) (Ly , Uy , y-cut)) q = ∃ ℚ λ a → ∃ ℚ λ b → ∃ ℚ λ c → ∃ ℚ λ d → Lx a ∧ Ux b ∧ Ly c ∧ Uy d ∧ le-ℚ-Prop q {!   !}
@@ -207,8 +217,8 @@ module _
   pr2 (pr1 (pr1 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q) Lq = {!   !}
   pr1 (pr2 (pr1 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q) Uq = {!   !}
   pr2 (pr2 (pr1 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q) Uq = {!   !}
-  pr1 (pr2 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q (Lq , Uq) = {!   !}
-  pr2 (pr2 (pr2 (pr2 (pr2 (mul-ℝ x y))))) q r q≤r = {!   !}
+  pr1 (pr2 (pr2 (pr2 (pr2 (mul-ℝ (Lx , Ux , x-inhb , x-rounded , x-sep , x-loc) (Ly , Uy , y-inhb , y-rounded , y-sep , y-loc)))))) q (Lq , Uq) = {!   !}
+  pr2 (pr2 (pr2 (pr2 (pr2 (mul-ℝ (Lx , Ux , x-inhb , x-rounded , x-sep , x-loc) (Ly , Uy , y-inhb , y-rounded , y-sep , y-loc)))))) q r q<r = {!   !}
 ```
 
 ### The linear order on the Dedekind real numbers
@@ -250,11 +260,11 @@ abstract
 ### The Dedekind real numbers admit a tight apartness
 
 ```agda
-apartness-ℝ : (l2 : Level) → Apartness-Relation l2 (ℝ l2)
-pr1 (apartness-ℝ l2) x y = le-ℝ x y ∨ le-ℝ y x
-pr1 (pr2 (apartness-ℝ l2)) (Lx , Ux , LU-inhb , (Lx-iff , Ux-iff) , x-sep , x-loc) x#x = x-sep {!   !} {!   !}
-pr1 (pr2 (pr2 (apartness-ℝ l2))) x y x#y = {!   !}
-pr2 (pr2 (pr2 (apartness-ℝ l2))) x y z x#y = {!   !}
+apartness-ℝ : (l : Level) → Apartness-Relation l (ℝ l)
+pr1 (apartness-ℝ l) x y = le-ℝ x y ∨ le-ℝ y x
+pr1 (pr2 (apartness-ℝ l)) (Lx , Ux , LU-inhb , (Lx-iff , Ux-iff) , x-sep , x-loc) x#x = x-sep {!   !} {!   !}
+pr1 (pr2 (pr2 (apartness-ℝ l))) x y x#y = {!   !}
+pr2 (pr2 (pr2 (apartness-ℝ l))) x y z x#y = {!   !}
 ```
 
 ## Properties of lower/upper Dedekind cuts
