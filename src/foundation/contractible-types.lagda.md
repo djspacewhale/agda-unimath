@@ -89,6 +89,18 @@ abstract
   is-contr-Contr l = pair (center-Contr l) contraction-Contr
 ```
 
+### Contractible types are propostions
+
+```agda
+is-contr-is-prop : {l : Level} (X : UU l) → is-contr X → is-prop X
+pr1 (is-contr-is-prop X (z , z-center) x y) = inv (z-center x) ∙ z-center y
+pr2 (is-contr-is-prop X (z , z-center) x x) refl = left-inv (z-center x)
+
+contr-Prop : {l : Level} (X : UU l) → is-contr X → Prop l
+pr1 (contr-Prop X X-contr) = X
+pr2 (contr-Prop X X-contr) = is-contr-is-prop X X-contr
+```
+
 ### The predicate that a subuniverse contains any contractible types
 
 ```agda
