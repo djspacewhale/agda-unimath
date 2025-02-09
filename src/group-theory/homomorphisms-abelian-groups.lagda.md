@@ -9,19 +9,27 @@ module group-theory.homomorphisms-abelian-groups where
 ```agda
 open import category-theory.large-categories
 
+open import foundation.action-on-identifications-binary-functions
+open import foundation.action-on-identifications-functions
 open import foundation.dependent-pair-types
 open import foundation.equivalences
 open import foundation.function-types
 open import foundation.identity-types
+open import foundation.logical-equivalences
 open import foundation.sets
 open import foundation.torsorial-type-families
 open import foundation.universe-levels
 
 open import group-theory.abelian-groups
 open import group-theory.category-of-abelian-groups
+open import group-theory.groups
 open import group-theory.homomorphisms-commutative-monoids
 open import group-theory.homomorphisms-groups
 open import group-theory.homomorphisms-semigroups
+open import group-theory.semigroups
+
+open import reflection.erasing-equality
+open import reflection.group-solver
 ```
 
 </details>
@@ -194,4 +202,88 @@ right-unit-law-comp-hom-Ab :
   ( f : hom-Ab A B) → Id (comp-hom-Ab A A B f (id-hom-Ab A)) f
 right-unit-law-comp-hom-Ab A B =
   right-unit-law-comp-hom-Semigroup (semigroup-Ab A) (semigroup-Ab B)
+```
+
+### A group `G` is abelian iff `λ g → inv-Group G g` is a homomorphism
+
+```agda
+module _
+  {l : Level} (G : Group l)
+  where
+
+  inv-map-Group : type-Group G → type-Group G
+  inv-map-Group g = inv-Group G g
+
+  is-abelian-is-hom-inv-map-Group : is-abelian-Group G → preserves-mul-Group G G inv-map-Group
+  is-abelian-is-hom-inv-map-Group G-ab {x} {y} =
+    equational-reasoning
+      inv-map-Group (mul-Group G x y) ＝ mul-Group G (inv-Group G y) (inv-Group G x)
+        by distributive-inv-mul-Group G
+      ＝ mul-Group G (inv-map-Group x) (inv-map-Group y)
+        by G-ab (inv-Group G y) (inv-Group G x)
+
+  is-hom-inv-map-Group-is-abelian : preserves-mul-Group G G inv-map-Group → is-abelian-Group G
+  is-hom-inv-map-Group-is-abelian inv-hom x y =
+    equational-reasoning
+      mul-Group G x y ＝ mul-Group G (inv-Group G (inv-Group G x)) (inv-Group G (inv-Group G y))
+        by inv (ap-binary (mul-Group G) (inv-inv-Group G x) (inv-inv-Group G y))
+      ＝ inv-Group G (mul-Group G (inv-Group G y) (inv-Group G x))
+        by inv (distributive-inv-mul-Group G)
+      ＝ mul-Group G (inv-Group G (inv-Group G y)) (inv-Group G (inv-Group G x))
+        by inv-hom
+      ＝ mul-Group G y x
+        by ap-binary (mul-Group G) (inv-inv-Group G y) (inv-inv-Group G x)
+
+  is-abelian-iff-is-hom-inv-Group : is-abelian-Group G ↔ preserves-mul-Group G G inv-map-Group
+  pr1 is-abelian-iff-is-hom-inv-Group = is-abelian-is-hom-inv-map-Group
+  pr2 is-abelian-iff-is-hom-inv-Group = is-hom-inv-map-Group-is-abelian
+
+neg-hom-Ab' : {l : Level} (A : Ab l) → hom-Ab A A
+neg-hom-Ab' A = (neg-Ab A) , is-abelian-is-hom-inv-map-Group (group-Ab A) (commutative-add-Ab A)
+```
+
+### The abelian group of homomorphisms `G → H`
+
+```agda
+module _
+  {l1 l2 : Level} (G : Ab l1) (H : Ab l2)
+  where
+
+  zero-hom-Ab : hom-Ab G H
+  pr1 zero-hom-Ab = λ _ → zero-Ab H
+  pr2 zero-hom-Ab {x} {y} = inv (left-unit-law-add-Ab H (pr1 zero-hom-Ab (add-Ab G x y)))
+
+  neg-hom-Ab : hom-Ab G H → hom-Ab G H
+  pr1 (neg-hom-Ab f) x = neg-Ab H (map-hom-Ab G H f x)
+  pr2 (neg-hom-Ab (f , f-preserves-add)) {x} {y} = equational-reasoning
+    pr1 (neg-hom-Ab (f , f-preserves-add)) (add-Ab G x y) ＝ neg-Ab H (add-Ab H (f x) (f y))
+      by ap (neg-Ab H) f-preserves-add
+    ＝ add-Ab H (pr1 (neg-hom-Ab (f , f-preserves-add)) x) (pr1 (neg-hom-Ab (f , f-preserves-add)) y)
+      by is-abelian-is-hom-inv-map-Group (group-Ab H) (commutative-add-Ab H)
+
+  add-map-Ab : hom-Ab G H → hom-Ab G H → hom-Ab G H
+  pr1 (add-map-Ab f g) x = add-Ab H (map-hom-Ab G H f x) (map-hom-Ab G H g x)
+  pr2 (add-map-Ab (f , f-preserves-add) (g , g-preserves-add)) {x} {y} = equational-reasoning
+    pr1 (add-map-Ab (f , f-preserves-add) (g , g-preserves-add)) (add-Ab G x y) ＝ add-Ab H (add-Ab H (f x) (f y)) (add-Ab H (g x) (g y))
+      by ap-add-Ab H f-preserves-add g-preserves-add
+    ＝ add-Ab H (pr1 (add-map-Ab (f , f-preserves-add) (g , g-preserves-add)) x) (pr1 (add-map-Ab (f , f-preserves-add) (g , g-preserves-add)) y)
+      by {!   !}
+
+  semigroup-hom-Ab : Semigroup (l1 ⊔ l2)
+  pr1 semigroup-hom-Ab = hom-set-Ab G H
+  pr1 (pr2 semigroup-hom-Ab) = add-map-Ab
+  pr2 (pr2 semigroup-hom-Ab) f g h = eq-htpy-hom-Ab G H λ x → pr2 (pr2 (pr1 (pr1 H))) (pr1 f x) (pr1 g x) (pr1 h x)
+
+  group-hom-Ab : Group (l1 ⊔ l2)
+  pr1 group-hom-Ab = semigroup-hom-Ab
+  pr1 (pr1 (pr2 group-hom-Ab)) = zero-hom-Ab
+  pr1 (pr2 (pr1 (pr2 group-hom-Ab))) f = eq-htpy-hom-Ab G H (λ x → pr1 (pr2 (pr1 (pr2 (pr1 H)))) (pr1 f x))
+  pr2 (pr2 (pr1 (pr2 group-hom-Ab))) f = eq-htpy-hom-Ab G H (λ x → pr2 (pr2 (pr1 (pr2 (pr1 H)))) (pr1 f x))
+  pr1 (pr2 (pr2 group-hom-Ab)) = neg-hom-Ab
+  pr1 (pr2 (pr2 (pr2 group-hom-Ab))) f = eq-htpy-hom-Ab G H (λ x → pr1 (pr2 (pr2 (pr2 (pr1 H)))) (pr1 f x))
+  pr2 (pr2 (pr2 (pr2 group-hom-Ab))) f = eq-htpy-hom-Ab G H (λ x → pr2 (pr2 (pr2 (pr2 (pr1 H)))) (pr1 f x))
+
+  ab-hom-Ab : Ab (l1 ⊔ l2)
+  pr1 ab-hom-Ab = group-hom-Ab
+  pr2 ab-hom-Ab f g = eq-htpy-hom-Ab G H (λ x → pr2 H (pr1 f x) (pr1 g x))
 ```
