@@ -9,6 +9,7 @@ module metric-spaces.cantor-space where
 ```agda
 open import elementary-number-theory.natural-numbers
 
+open import foundation.compact-types
 open import foundation.identity-types
 open import foundation.universe-levels
 
