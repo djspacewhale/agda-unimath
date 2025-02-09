@@ -10,7 +10,10 @@ module elementary-number-theory.conatural-numbers where
 
 ```agda
 open import foundation.action-on-identifications-functions
+open import foundation.booleans
+open import foundation.compact-types
 open import foundation.coproduct-types
+open import foundation.decidable-types
 open import foundation.dependent-pair-types
 open import foundation.homotopies
 open import foundation.injective-maps
@@ -21,6 +24,7 @@ open import foundation.sections
 open import foundation.unit-type
 open import foundation.universe-levels
 
+open import foundation-core.empty-types
 open import foundation-core.identity-types
 ```
 
@@ -171,6 +175,15 @@ is-injective-cons-ℕ∞' =
 ```agda
 is-injective-succ-ℕ∞ : is-injective succ-ℕ∞
 is-injective-succ-ℕ∞ p = is-injective-inl (is-injective-cons-ℕ∞' p)
+```
+
+### The conatural numbers are [compact](foundation.compact-types.md)
+
+```agda
+Σ-compact-ℕ∞ : Σ-compact ℕ∞
+Σ-compact-ℕ∞ p with p infinity-ℕ∞
+...               | true = {!   !}
+...               | false = {!   !}
 ```
 
 ## External links
