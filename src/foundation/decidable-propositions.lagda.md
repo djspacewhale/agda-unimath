@@ -29,6 +29,7 @@ open import foundation.universe-levels
 
 open import foundation-core.contractible-types
 open import foundation-core.coproduct-types
+open import foundation-core.decidable-propositions
 open import foundation-core.function-types
 open import foundation-core.homotopies
 open import foundation-core.identity-types
@@ -310,4 +311,15 @@ abstract
     ¬ (type-Decidable-Prop P ↔ ¬ (type-Decidable-Prop P))
   no-fixed-points-neg-Decidable-Prop P =
     no-fixed-points-neg (type-Decidable-Prop P)
+```
+
+### `is-decidable P` is contractible when `P` is indeed decidable
+
+```agda
+is-decidable-prop-is-decidable-is-contractible : {l : Level} (P : Decidable-Prop l) → is-contr (is-decidable (type-Decidable-Prop P))
+pr1 (is-decidable-prop-is-decidable-is-contractible (P , P-prop , P-dec)) = P-dec
+pr2 (is-decidable-prop-is-decidable-is-contractible (P , P-prop , inl x)) (inl y) = ap inl (pr1 (P-prop x y))
+pr2 (is-decidable-prop-is-decidable-is-contractible (P , P-prop , inr x)) (inl y) = ex-falso (x y)
+pr2 (is-decidable-prop-is-decidable-is-contractible (P , P-prop , inl x)) (inr y) = ex-falso (y x)
+pr2 (is-decidable-prop-is-decidable-is-contractible (P , P-prop , inr x)) (inr y) = ap inr (pr1 (is-prop-neg x y))
 ```
