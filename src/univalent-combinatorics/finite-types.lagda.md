@@ -732,22 +732,6 @@ abstract
           ( pr2 (has-finite-cardinality-is-finite H)))
 ```
 
-### The finite types in any universe are equivalent to the standard finite types
-
-```agda
-module _
-  {l : Level}
-  where
-
-  std-Fin-to-𝔽 : Fin-Total-Space → 𝔽 l
-  std-Fin-to-𝔽 (succ-ℕ n , inl x) = {!   !}
-  std-Fin-to-𝔽 (succ-ℕ n , inr star) = {!   !}
-
-  𝔽-to-std-Fin : 𝔽 l → Fin-Total-Space
-  pr1 (𝔽-to-std-Fin (X , is-fin)) = number-of-elements-is-finite is-fin
-  pr2 (𝔽-to-std-Fin (X , is-fin)) = {!   !}
-```
-
 ## External links
 
 - [Finiteness in Sheaf Topoi](https://grossack.site/2024/08/19/finiteness-in-sheaf-topoi),
