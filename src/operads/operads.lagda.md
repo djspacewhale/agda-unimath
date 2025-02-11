@@ -24,8 +24,8 @@ open import univalent-combinatorics.standard-finite-types
 
 **Operads** are gadgets that formalize the idea of a family of `n`-ary
 operations on an object in a symmetric monoidal category. In this module, we
-define operads - what some literature call _symmetric_ operads - in 0-types as
-[structured](foundation.structured-types.md) set-bundles of
+define operads - what some in the literature call _symmetric_ operads - in
+0-types as [structured](foundation.structured-types.md) set-bundles of
 [standard finite types](univalent-combinatorics.standard-finite-types.md).
 
 ## Definition
