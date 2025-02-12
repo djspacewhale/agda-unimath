@@ -15,6 +15,8 @@ open import foundation.universe-levels
 
 open import foundation-core.identity-types
 
+open import group-theory.abelian-groups
+open import group-theory.addition-homomorphisms-abelian-groups
 open import group-theory.homomorphisms-abelian-groups
 
 open import ring-theory.homomorphisms-rings
@@ -72,8 +74,18 @@ module _
   where
 
   zero-derivation-Ring : derivation-Ring R
-  pr1 zero-derivation-Ring = {!   !}
-  pr2 zero-derivation-Ring = {!   !}
+  pr1 zero-derivation-Ring = zero-hom-Ab (pr1 R) (pr1 R)
+  pr2 zero-derivation-Ring x y = equational-reasoning
+    pr1 (pr1 zero-derivation-Ring) ((R *R x) y) ＝ zero-Ring R
+      by refl
+    ＝ add-Ring R (zero-Ring R) (zero-Ring R)
+      by inv (left-unit-law-add-Ring R (zero-Ring R))
+    ＝ {! add-Ring R  !}
+      by {!   !}
+
+  add-derivation-Ring : derivation-Ring R → derivation-Ring R → derivation-Ring R
+  pr1 (add-derivation-Ring (d , d-der) (e , e-der)) = add-hom-Ab (pr1 R) (pr1 R) d e
+  pr2 (add-derivation-Ring d e) x y = {!   !}
 ```
 
 ### The commutator of derivations is a derivation
