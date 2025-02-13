@@ -42,7 +42,7 @@ module _
   {l : Level} (R : Ring l)
   where
 
-  abstract
+  private
     _+R_ : type-Ring R → type-Ring R → type-Ring R
     _+R_ = add-Ring R
 
@@ -73,14 +73,21 @@ module _
   {l : Level} (R : Ring l)
   where
 
+  private
+    _+R_ : type-Ring R → type-Ring R → type-Ring R
+    _+R_ = add-Ring R
+
+    _*R_ : type-Ring R → type-Ring R → type-Ring R
+    _*R_ = mul-Ring R
+
   zero-derivation-Ring : derivation-Ring R
   pr1 zero-derivation-Ring = zero-hom-Ab (pr1 R) (pr1 R)
   pr2 zero-derivation-Ring x y = equational-reasoning
-    pr1 (pr1 zero-derivation-Ring) ((R *R x) y) ＝ zero-Ring R
+    pr1 (pr1 zero-derivation-Ring) ((x *R y)) ＝ zero-Ring R
       by refl
-    ＝ add-Ring R (zero-Ring R) (zero-Ring R)
+    ＝ (zero-Ring R) +R (zero-Ring R)
       by inv (left-unit-law-add-Ring R (zero-Ring R))
-    ＝ {! add-Ring R  !}
+    ＝ {!   !}
       by {!   !}
 
   add-derivation-Ring : derivation-Ring R → derivation-Ring R → derivation-Ring R
