@@ -170,6 +170,23 @@ module _
   pr2 (extensionality-Torsor-Group Y) = is-equiv-equiv-eq-Torsor-Group Y
 ```
 
+### `type-Torsor-Group X` is equivalent to `type-Group G`, with equivalence induced by `G`'s action
+
+This relates to an equivalent definition of a torsor: an inhabited `G`-set `X`
+is a torsor precisely when the shear map `G × X → X × X` is an equivalence.
+
+```agda
+module _
+  {l1 l2 : Level} (G : Group l1) (X : Torsor-Group G l2)
+  where
+
+  is-torsor-action-Group' : UU (l1 ⊔ l2)
+  is-torsor-action-Group' = is-equiv (shear-action-Group G (action-Torsor-Group G X))
+
+  equiv-type-torsor-Group : type-Group G ≃ type-Torsor-Group G X
+  equiv-type-torsor-Group = {!   !}
+```
+
 ### Characterization of the identity type of equivalences between `Torsor-Group`
 
 ```agda
@@ -639,3 +656,7 @@ module _
       ( ( equiv-Eq-equiv-Torsor-Group (principal-Torsor-Group G)) ,
         ( λ {p} {q} → preserves-mul-equiv-Eq-equiv-Torsor-Group {p} {q}))
 ```
+
+## External links
+
+- [Torsors](https://ncatlab.org/nlab/show/torsor) at nlab
