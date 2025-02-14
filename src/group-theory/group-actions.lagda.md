@@ -17,6 +17,8 @@ open import foundation.identity-types
 open import foundation.sets
 open import foundation.universe-levels
 
+open import foundation-core.cartesian-product-types
+
 open import group-theory.groups
 open import group-theory.homomorphisms-groups
 open import group-theory.subgroups
@@ -94,6 +96,17 @@ module _
       ( ( ap (mul-action-Group' x) (left-inverse-law-mul-Group G g)) ∙
         ( preserves-unit-mul-action-Group x))) ∙
     ( preserves-mul-action-Group (inv-Group G g) g x)
+```
+
+### The shear map associated to a group action
+
+```agda
+module _
+  {l1 l2 : Level} (G : Group l1) (X : action-Group G l2)
+  where
+
+  shear-action-Group : type-Group G × type-action-Group G X → type-action-Group G X × type-action-Group G X
+  shear-action-Group (g , x) = (mul-action-Group G X g x) , x
 ```
 
 ## Examples
