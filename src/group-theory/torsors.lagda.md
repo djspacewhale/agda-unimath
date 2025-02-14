@@ -15,6 +15,7 @@ open import foundation.function-types
 open import foundation.fundamental-theorem-of-identity-types
 open import foundation.homotopies
 open import foundation.identity-types
+open import foundation.inhabited-types
 open import foundation.mere-equality
 open import foundation.propositional-truncations
 open import foundation.propositions
@@ -24,7 +25,10 @@ open import foundation.sets
 open import foundation.subtype-identity-principle
 open import foundation.torsorial-type-families
 open import foundation.transport-along-identifications
+open import foundation.truncations
 open import foundation.universe-levels
+
+open import foundation-core.cartesian-product-types
 
 open import group-theory.concrete-groups
 open import group-theory.equivalences-group-actions
@@ -177,14 +181,25 @@ is a torsor precisely when the shear map `G × X → X × X` is an equivalence.
 
 ```agda
 module _
-  {l1 l2 : Level} (G : Group l1) (X : Torsor-Group G l2)
+  {l1 l2 : Level} (G : Group l1) (X : action-Group G l2)
   where
 
-  is-torsor-action-Group' : UU (l1 ⊔ l2)
-  is-torsor-action-Group' = is-equiv (shear-action-Group G (action-Torsor-Group G X))
+  is-torsor-Group' : UU (l1 ⊔ l2)
+  is-torsor-Group' = is-inhabited (type-action-Group G X) × is-equiv (shear-action-Group G X)
 
-  equiv-type-torsor-Group : type-Group G ≃ type-Torsor-Group G X
-  equiv-type-torsor-Group = {!   !}
+  is-torsor-iff-is-torsor' : is-torsor-Group G X ≃ is-torsor-Group'
+  pr1 (pr1 is-torsor-iff-is-torsor' X-tor) = rec-trunc-Prop {!   !} {!   !} X-tor
+  pr1 (pr1 (pr2 (pr1 is-torsor-iff-is-torsor' X-tor))) x = {!   !}
+  pr2 (pr1 (pr2 (pr1 is-torsor-iff-is-torsor' X-tor))) x = {!   !}
+  pr1 (pr2 (pr2 (pr1 is-torsor-iff-is-torsor' X-tor))) x = {!   !}
+  pr2 (pr2 (pr2 (pr1 is-torsor-iff-is-torsor' X-tor))) x = {!   !}
+  pr1 (pr1 (pr2 is-torsor-iff-is-torsor')) = {!   !}
+  pr2 (pr1 (pr2 is-torsor-iff-is-torsor')) = {!   !}
+  pr1 (pr2 (pr2 is-torsor-iff-is-torsor')) = {!   !}
+  pr2 (pr2 (pr2 is-torsor-iff-is-torsor')) = {!   !}
+
+  equiv-type-torsor-Group : is-torsor-Group' → type-Group G ≃ type-action-Group G X
+  equiv-type-torsor-Group X-tor = {!   !}
 ```
 
 ### Characterization of the identity type of equivalences between `Torsor-Group`

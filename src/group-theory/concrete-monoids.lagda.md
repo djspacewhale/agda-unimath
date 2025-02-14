@@ -8,14 +8,33 @@ module group-theory.concrete-monoids where
 
 ```agda
 open import category-theory.categories
+open import category-theory.isomorphisms-in-precategories
+open import category-theory.precategories
 
 open import foundation.0-connected-types
 open import foundation.cartesian-product-types
 open import foundation.dependent-pair-types
+open import foundation.equivalences
 open import foundation.universe-levels
 
+open import foundation-core.commuting-squares-of-maps
+open import foundation-core.equivalences
+open import foundation-core.function-types
+open import foundation-core.identity-types
+open import foundation-core.retractions
+open import foundation-core.sections
+open import foundation-core.sets
+open import foundation-core.subtypes
+
+open import group-theory.equivalences-group-actions
 open import group-theory.cores-monoids
+open import group-theory.groups
+open import group-theory.group-actions
+open import group-theory.homomorphisms-group-actions
+open import group-theory.homomorphisms-groups
+open import group-theory.isomorphisms-monoids
 open import group-theory.monoids
+open import group-theory.submonoids
 open import group-theory.torsors
 ```
 
@@ -67,8 +86,33 @@ module _
   {l : Level} (M : Monoid l)
   where
 
+  M' : Group l
+  M' = core-Monoid M
+
   obj-concrete-monoid-Monoid : UU (lsuc l)
-  obj-concrete-monoid-Monoid = classifying-type-Group (core-Monoid M)
+  obj-concrete-monoid-Monoid = classifying-type-Group M'
+
+  precategory-concrete-monoid-Monoid : Precategory (lsuc l) l
+  pr1 precategory-concrete-monoid-Monoid = obj-concrete-monoid-Monoid
+  pr1 (pr2 precategory-concrete-monoid-Monoid) _ _ = set-Monoid M
+  pr1 (pr1 (pr2 (pr2 precategory-concrete-monoid-Monoid))) x y = mul-Monoid M x y
+  pr1 (pr2 (pr1 (pr2 (pr2 precategory-concrete-monoid-Monoid))) x y z) = mul-Monoid M (mul-Monoid M x y) z
+  pr2 (pr2 (pr1 (pr2 (pr2 precategory-concrete-monoid-Monoid))) x y z) = ((associative-mul-Monoid M x y z) , refl)
+  pr1 (pr2 (pr2 (pr2 precategory-concrete-monoid-Monoid))) _ = unit-Monoid M
+  pr1 (pr2 (pr2 (pr2 (pr2 precategory-concrete-monoid-Monoid)))) = left-unit-law-mul-Monoid M
+  pr2 (pr2 (pr2 (pr2 (pr2 precategory-concrete-monoid-Monoid)))) = right-unit-law-mul-Monoid M
+
+  equiv-torsor-from-iso : (X Y : obj-concrete-monoid-Monoid) → type-Group M' → equiv-Torsor-Group M' X Y
+  pr1 (pr1 (equiv-torsor-from-iso ((X , X-act) , X-tor) ((Y , Y-act) , Y-tor) e)) = {!   !}
+  pr2 (pr1 (equiv-torsor-from-iso X Y e)) = {!   !}
+  pr2 (equiv-torsor-from-iso X Y e) g x = {!   !}
+
+  category-concrete-monoid-Monoid : Category (lsuc l) l
+  pr1 category-concrete-monoid-Monoid = precategory-concrete-monoid-Monoid
+  pr1 (pr1 (pr2 category-concrete-monoid-Monoid X Y)) e = eq-equiv-Torsor-Group M' X Y (equiv-torsor-from-iso X Y e)
+  pr2 (pr1 (pr2 category-concrete-monoid-Monoid X Y)) e = {!   !}
+  pr1 (pr2 (pr2 category-concrete-monoid-Monoid X Y)) e = eq-equiv-Torsor-Group M' X Y (equiv-torsor-from-iso X Y e)
+  pr2 (pr2 (pr2 category-concrete-monoid-Monoid X .X)) refl = {!   !}
 ```
 
 The remainder of the construction remains to be written down. We note that this
