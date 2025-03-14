@@ -32,6 +32,8 @@ open import foundation.torsorial-type-families
 open import foundation.transport-along-identifications
 open import foundation.unit-type
 open import foundation.universe-levels
+
+open import foundation-core.decidable-propositions
 ```
 
 </details>
@@ -198,6 +200,9 @@ is-decidable-is-prime-ℕ n =
     ( is-prime-is-prime-easy-ℕ n)
     ( is-prime-easy-is-prime-ℕ n)
     ( is-decidable-is-prime-easy-ℕ n)
+
+is-prime-ℕ-Decidable-Prop : (n : ℕ) → Decidable-Prop lzero
+is-prime-ℕ-Decidable-Prop n = (is-prime-ℕ n) , ((is-prop-is-prime-ℕ n) , is-decidable-is-prime-ℕ n)
 ```
 
 ### The number `2` is a prime
