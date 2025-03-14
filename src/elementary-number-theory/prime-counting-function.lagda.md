@@ -1,8 +1,6 @@
 # The prime counting function
 
 ```agda
-{-# OPTIONS --allow-unsolved-metas #-}
-
 module elementary-number-theory.prime-counting-function where
 ```
 
