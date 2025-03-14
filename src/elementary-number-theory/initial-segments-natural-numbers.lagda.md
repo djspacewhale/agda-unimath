@@ -1,6 +1,8 @@
 # Initial segments of the natural numbers
 
 ```agda
+{-# OPTIONS --allow-unsolved-metas #-}
+
 module elementary-number-theory.initial-segments-natural-numbers where
 ```
 
@@ -14,12 +16,23 @@ open import elementary-number-theory.natural-numbers
 open import foundation.dependent-pair-types
 open import foundation.function-types
 open import foundation.identity-types
+open import foundation.propositional-truncations
 open import foundation.propositions
 open import foundation.subtypes
+open import foundation.unit-type
 open import foundation.universe-levels
 
+open import foundation-core.contractible-types
+open import foundation-core.coproduct-types
+open import foundation-core.equivalences
+open import foundation-core.retractions
+open import foundation-core.sections
+open import foundation-core.subtypes
+
+open import univalent-combinatorics.counting
 open import univalent-combinatorics.decidable-subtypes
 open import univalent-combinatorics.finite-types
+open import univalent-combinatorics.standard-finite-types
 ```
 
 </details>
@@ -134,7 +147,21 @@ pr2 [ n ] m sm≤n = transitive-leq-ℕ m (succ-ℕ m) n sm≤n (succ-leq-ℕ m)
 leq-initial-segment-ℕ-set : (n : ℕ) → UU lzero
 leq-initial-segment-ℕ-set n = type-subtype (subset-initial-segment-ℕ [ n ])
 
+leq-initial-segment-ℕ-set-to-Fin : (n : ℕ) → leq-initial-segment-ℕ-set n → Fin (succ-ℕ n)
+leq-initial-segment-ℕ-set-to-Fin n (zero-ℕ , _) = inr star
+leq-initial-segment-ℕ-set-to-Fin (succ-ℕ n) (succ-ℕ m , m≤n) = inl-Fin (succ-ℕ n) (leq-initial-segment-ℕ-set-to-Fin n (m , m≤n))
+
+leq-initial-segment-ℕ-set-count : (n : ℕ) → count (leq-initial-segment-ℕ-set n)
+pr1 (leq-initial-segment-ℕ-set-count n) = succ-ℕ n
+pr1 (pr1 (pr2 (leq-initial-segment-ℕ-set-count n)) x) = nat-Fin (succ-ℕ n) x
+pr2 (pr1 (pr2 (leq-initial-segment-ℕ-set-count n)) x) = upper-bound-nat-Fin n x
+pr1 (pr1 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) = leq-initial-segment-ℕ-set-to-Fin n
+pr2 (pr1 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) (m , m≤n) = eq-type-subtype (λ x → leq-ℕ-Prop x n) {!   !}
+pr1 (pr2 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) = leq-initial-segment-ℕ-set-to-Fin n
+pr2 (pr2 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) (inl x) = {!   !}
+pr2 (pr2 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) (inr star) = {!   !}
+
 leq-initial-segment-ℕ-Finite-Type : (n : ℕ) → Finite-Type lzero
 pr1 (leq-initial-segment-ℕ-Finite-Type n) = leq-initial-segment-ℕ-set n
-pr2 (leq-initial-segment-ℕ-Finite-Type n) = {!   !}
+pr2 (leq-initial-segment-ℕ-Finite-Type n) = unit-trunc-Prop (leq-initial-segment-ℕ-set-count n)
 ```
