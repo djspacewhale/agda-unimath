@@ -202,7 +202,8 @@ is-decidable-is-prime-ℕ n =
     ( is-decidable-is-prime-easy-ℕ n)
 
 is-prime-ℕ-Decidable-Prop : (n : ℕ) → Decidable-Prop lzero
-is-prime-ℕ-Decidable-Prop n = (is-prime-ℕ n) , ((is-prop-is-prime-ℕ n) , is-decidable-is-prime-ℕ n)
+is-prime-ℕ-Decidable-Prop n =
+  (is-prime-ℕ n) , ((is-prop-is-prime-ℕ n) , is-decidable-is-prime-ℕ n)
 ```
 
 ### The number `2` is a prime

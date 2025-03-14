@@ -32,5 +32,7 @@ numbers in `0 1 ... n`.
 
 ```agda
 π : ℕ → ℕ
-π n = number-of-elements-subset-Finite-Type (leq-initial-segment-ℕ-Finite-Type n) λ (m , _) → is-prime-ℕ-Decidable-Prop m
+π n =
+  number-of-elements-subset-Finite-Type (leq-initial-segment-ℕ-Finite-Type n)
+  λ (m , _) → is-prime-ℕ-Decidable-Prop m
 ```
