@@ -648,9 +648,9 @@ module _
 - For the notion of path-split maps see
   [`foundation.path-split-maps`](foundation.path-split-maps.md).
 - For the notion of finitely coherent equivalence, see
-  [`foundation.finitely-coherent-equivalence`)(foundation.finitely-coherent-equivalence.md).
+  [`foundation.finitely-coherent-equivalence`](foundation.finitely-coherent-equivalence.md).
 - For the notion of finitely coherently invertible map, see
-  [`foundation.finitely-coherently-invertible-map`)(foundation.finitely-coherently-invertible-map.md).
+  [`foundation.finitely-coherently-invertible-map`](foundation.finitely-coherently-invertible-map.md).
 - For the notion of infinitely coherent equivalence, see
   [`foundation.infinitely-coherent-equivalences`](foundation.infinitely-coherent-equivalences.md).
 
