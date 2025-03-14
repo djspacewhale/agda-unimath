@@ -7,6 +7,7 @@ module elementary-number-theory.initial-segments-natural-numbers where
 <details><summary>Imports</summary>
 
 ```agda
+open import elementary-number-theory.inequality-natural-numbers
 open import elementary-number-theory.maximum-natural-numbers
 open import elementary-number-theory.natural-numbers
 
@@ -16,6 +17,9 @@ open import foundation.identity-types
 open import foundation.propositions
 open import foundation.subtypes
 open import foundation.universe-levels
+
+open import univalent-combinatorics.decidable-subtypes
+open import univalent-combinatorics.finite-types
 ```
 
 </details>
@@ -116,4 +120,21 @@ max-initial-segment-ℕ I zero-ℕ y H K = K
 max-initial-segment-ℕ I (succ-ℕ x) zero-ℕ H K = H
 max-initial-segment-ℕ I (succ-ℕ x) (succ-ℕ y) H K =
   max-initial-segment-ℕ (shift-initial-segment-ℕ I) x y H K
+```
+
+### The initial segments of numbers less than `n` are finite
+
+Even better, they have count `n+1`.
+
+```agda
+[_] : ℕ → initial-segment-ℕ lzero
+pr1 [ n ] = λ m → leq-ℕ-Prop m n
+pr2 [ n ] m sm≤n = transitive-leq-ℕ m (succ-ℕ m) n sm≤n (succ-leq-ℕ m)
+
+leq-initial-segment-ℕ-set : (n : ℕ) → UU lzero
+leq-initial-segment-ℕ-set n = type-subtype (subset-initial-segment-ℕ [ n ])
+
+leq-initial-segment-ℕ-Finite-Type : (n : ℕ) → Finite-Type lzero
+pr1 (leq-initial-segment-ℕ-Finite-Type n) = leq-initial-segment-ℕ-set n
+pr2 (leq-initial-segment-ℕ-Finite-Type n) = {!   !}
 ```
