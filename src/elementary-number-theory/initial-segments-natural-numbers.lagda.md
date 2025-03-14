@@ -22,9 +22,12 @@ open import foundation.subtypes
 open import foundation.unit-type
 open import foundation.universe-levels
 
+open import foundation-core.contractible-maps
 open import foundation-core.contractible-types
 open import foundation-core.coproduct-types
+open import foundation-core.empty-types
 open import foundation-core.equivalences
+open import foundation-core.fibers-of-maps
 open import foundation-core.retractions
 open import foundation-core.sections
 
@@ -139,31 +142,35 @@ max-initial-segment-ℕ I (succ-ℕ x) (succ-ℕ y) H K =
 Even better, they have count `n+1`.
 
 ```agda
-[_] : ℕ → initial-segment-ℕ lzero
-pr1 [ n ] = λ m → leq-ℕ-Prop m n
-pr2 [ n ] m sm≤n = transitive-leq-ℕ m (succ-ℕ m) n sm≤n (succ-leq-ℕ m)
+leq-initial-segment-ℕ : ℕ → initial-segment-ℕ lzero
+pr1 (leq-initial-segment-ℕ n) = λ m → leq-ℕ-Prop m n
+pr2 (leq-initial-segment-ℕ n) m sm≤n = transitive-leq-ℕ m (succ-ℕ m) n sm≤n (succ-leq-ℕ m)
 
 leq-initial-segment-ℕ-set : (n : ℕ) → UU lzero
-leq-initial-segment-ℕ-set n = type-subtype (subset-initial-segment-ℕ [ n ])
+leq-initial-segment-ℕ-set n = type-subtype (subset-initial-segment-ℕ (leq-initial-segment-ℕ n))
 
-leq-initial-segment-ℕ-set-to-Fin :
-  (n : ℕ) → leq-initial-segment-ℕ-set n → Fin (succ-ℕ n)
-leq-initial-segment-ℕ-set-to-Fin n (zero-ℕ , _) = inr star
-leq-initial-segment-ℕ-set-to-Fin (succ-ℕ n) (succ-ℕ m , m≤n) =
-  inl-Fin (succ-ℕ n) (leq-initial-segment-ℕ-set-to-Fin n (m , m≤n))
+inl-leq-initial-segment-ℕ : (m n : ℕ) → leq-ℕ m n → leq-initial-segment-ℕ-set m → leq-initial-segment-ℕ-set n
+inl-leq-initial-segment-ℕ m n m≤n (p , p≤m) = p , (transitive-leq-ℕ p m n m≤n p≤m)
+
+Fin-succ-to-leq-initial-segment-ℕ-set : (n : ℕ) → Fin (succ-ℕ n) → leq-initial-segment-ℕ-set n
+Fin-succ-to-leq-initial-segment-ℕ-set zero-ℕ (inr star) = zero-ℕ , (refl-leq-ℕ zero-ℕ)
+Fin-succ-to-leq-initial-segment-ℕ-set (succ-ℕ n) (inl x) = inl-leq-initial-segment-ℕ n (succ-ℕ n) (succ-leq-ℕ n) (Fin-succ-to-leq-initial-segment-ℕ-set n x)
+Fin-succ-to-leq-initial-segment-ℕ-set (succ-ℕ n) (inr star) = succ-ℕ n , refl-leq-ℕ n
+
+is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set : (n : ℕ) → is-contr-map (λ m → Fin-succ-to-leq-initial-segment-ℕ-set n m)
+pr1 (is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set zero-ℕ (zero-ℕ , _)) = (inr star) , refl
+pr2 (is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set zero-ℕ (zero-ℕ , _)) (inr star , refl) = refl
+pr1 (pr1 (is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set (succ-ℕ n) (zero-ℕ , star))) = {!   !}
+pr1 (pr1 (is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set (succ-ℕ n) (succ-ℕ m , m≤n))) = {!   !}
+pr2 (pr1 (is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set (succ-ℕ n) (zero-ℕ , star))) = {!   !}
+pr2 (pr1 (is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set (succ-ℕ n) (succ-ℕ m , m≤n))) = {!   !}
+pr2 (is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set (succ-ℕ n) (m , m≤n)) (inl x , refl) = {!   !}
+pr2 (is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set (succ-ℕ n) (m , m≤n)) (inr star , refl) = {!   !}
 
 leq-initial-segment-ℕ-set-count : (n : ℕ) → count (leq-initial-segment-ℕ-set n)
 pr1 (leq-initial-segment-ℕ-set-count n) = succ-ℕ n
-pr1 (pr1 (pr2 (leq-initial-segment-ℕ-set-count n)) x) = nat-Fin (succ-ℕ n) x
-pr2 (pr1 (pr2 (leq-initial-segment-ℕ-set-count n)) x) = upper-bound-nat-Fin n x
-pr1 (pr1 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) =
-  leq-initial-segment-ℕ-set-to-Fin n
-pr2 (pr1 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) (m , m≤n) =
-  eq-type-subtype (λ x → leq-ℕ-Prop x n) {!   !}
-pr1 (pr2 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) =
-  leq-initial-segment-ℕ-set-to-Fin n
-pr2 (pr2 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) (inl x) = {!   !}
-pr2 (pr2 (pr2 (pr2 (leq-initial-segment-ℕ-set-count n)))) (inr star) = {!   !}
+pr1 (pr2 (leq-initial-segment-ℕ-set-count n)) = Fin-succ-to-leq-initial-segment-ℕ-set n
+pr2 (pr2 (leq-initial-segment-ℕ-set-count n)) = is-equiv-is-contr-map (is-contr-map-Fin-succ-to-leq-initial-segment-ℕ-set n)
 
 leq-initial-segment-ℕ-Finite-Type : (n : ℕ) → Finite-Type lzero
 pr1 (leq-initial-segment-ℕ-Finite-Type n) = leq-initial-segment-ℕ-set n
