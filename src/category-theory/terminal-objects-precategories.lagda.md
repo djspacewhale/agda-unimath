@@ -13,6 +13,7 @@ open import foundation.contractible-types
 open import foundation.dependent-pair-types
 open import foundation.function-types
 open import foundation.identity-types
+open import foundation.propositions
 open import foundation.universe-levels
 ```
 
@@ -30,10 +31,15 @@ object.
 ### The universal property of a terminal object in a precategory
 
 ```agda
+is-terminal-prop-obj-Precategory : {l1 l2 : Level} (C : Precategory l1 l2) → obj-Precategory C → Prop (l1 ⊔ l2)
+is-terminal-prop-obj-Precategory C x = Π-Prop (obj-Precategory C) (λ y → is-contr-Prop (hom-Precategory C y x))
+
 is-terminal-obj-Precategory :
   {l1 l2 : Level} (C : Precategory l1 l2) → obj-Precategory C → UU (l1 ⊔ l2)
-is-terminal-obj-Precategory C x =
-  (y : obj-Precategory C) → is-contr (hom-Precategory C y x)
+is-terminal-obj-Precategory C x = type-Prop (is-terminal-prop-obj-Precategory C x)
+
+is-prop-is-terminal-obj-Precategory : {l1 l2 : Level} (C : Precategory l1 l2) → (x : obj-Precategory C) → is-prop (is-terminal-obj-Precategory C x)
+is-prop-is-terminal-obj-Precategory C x = is-prop-type-Prop (is-terminal-prop-obj-Precategory C x)
 
 module _
   {l1 l2 : Level} (C : Precategory l1 l2)
