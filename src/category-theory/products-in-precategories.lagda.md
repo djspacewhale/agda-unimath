@@ -24,7 +24,7 @@ open import foundation.universe-levels
 
 ## Idea
 
-A product of two objects `x` and `x` in a category `C` consists of:
+A product of two objects `x` and `x` in a precategory `C` consists of:
 
 - an object `p`
 - morphisms `l : hom p x` and `r : hom p y` such that for every object `z` and
