@@ -12,6 +12,7 @@ open import category-theory.precategories
 open import category-theory.terminal-objects-precategories
 
 open import foundation.conjunction
+open import foundation.dependent-pair-types
 open import foundation.propositions
 open import foundation.universe-levels
 
@@ -22,8 +23,9 @@ open import foundation-core.identity-types
 
 ## Idea
 
-A **zero object** in a [precategory](category-theory.precategories.md) `𝒞` is an
-object that is both an initial and terminal object.
+A **zero object** in a [precategory](category-theory.precategories.md) `C` is an
+object that is both an initial and terminal object. `C` **has a zero object**
+when it is equipped with one.
 
 ## Definitions
 
@@ -42,4 +44,7 @@ module _
 
   is-prop-is-zero-obj-Precategory : is-prop is-zero-obj-Precategory
   is-prop-is-zero-obj-Precategory = is-prop-type-Prop is-zero-prop-obj-Precategory
+
+has-zero-object-Precategory : {l1 l2 : Level} (C : Precategory l1 l2) → UU (l1 ⊔ l2)
+has-zero-object-Precategory C = Σ (obj-Precategory C) λ x → is-zero-obj-Precategory C x
 ```

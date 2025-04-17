@@ -13,6 +13,8 @@ open import category-theory.zero-objects-precategories
 
 open import foundation.universe-levels
 
+open import foundation-core.cartesian-product-types
+
 open import group-theory.commutative-monoids
 ```
 
@@ -31,7 +33,16 @@ Such precategories are interesting as their hom-sets admit a canonical
 ## Definition
 
 ```agda
+is-semiadditive-Precategory : {l1 l2 : Level} (C : Precategory l1 l2) → UU (l1 ⊔ l2)
+is-semiadditive-Precategory C = has-zero-object-Precategory C × has-finite-biproducts-Precategory C
+```
+
+## Properties
+
+### The commutative monoid structure on hom sets
+
+```agda
 module _
-  {l1 l2 : Level} (C : Precategory l1 l2)
+  {l1 l2 : Level} (C : Precategory l1 l2) (semiadditive : is-semiadditive-Precategory C)
   where
 ```

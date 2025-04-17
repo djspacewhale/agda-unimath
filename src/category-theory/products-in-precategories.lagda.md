@@ -24,7 +24,7 @@ open import foundation.universe-levels
 
 ## Idea
 
-A product of two objects `x` and `x` in a precategory `C` consists of:
+A product of two objects `x` and `y` in a precategory `C` consists of:
 
 - an object `p`
 - morphisms `l : hom p x` and `r : hom p y` such that for every object `z` and
@@ -163,4 +163,19 @@ module _
     morphism-into-product-obj-Precategory C t _ _ _
       (comp-hom-Precategory C f (pr1-product-obj-Precategory C t x₁ x₂))
       (comp-hom-Precategory C g (pr2-product-obj-Precategory C t x₁ x₂))
+```
+
+### The diagonal morphisms
+
+There's an obvious morphism from `x`, say, to the product `x × x` obtained by
+cashing out the universal property of the product with two copies of the
+identity morphism `id : hom x x`.
+
+```agda
+module _
+  {l1 l2 : Level} {C : Precategory l1 l2} (x x^2 : obj-Precategory C) (p1 p2 : hom-Precategory C x^2 x) (prod : is-product-obj-Precategory C x x x^2 p1 p2)
+  where
+
+  Δ-hom-Precategory : hom-Precategory C x x^2
+  Δ-hom-Precategory = {!   !}
 ```
