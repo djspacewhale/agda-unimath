@@ -25,7 +25,7 @@ open import synthetic-homotopy-theory.loop-spaces
 ## Idea
 
 For a [pointed type](structured-types.pointed-types.md) `A` and paths
-`p q : Ω A` the **commutator** of `p` and `q` is the composite path
+`p q : Ω A`, the **commutator** of `p` and `q` is the composite path
 `p ∙ q ∙ p⁻¹ ∙ q⁻¹`.
 
 ## Definition
