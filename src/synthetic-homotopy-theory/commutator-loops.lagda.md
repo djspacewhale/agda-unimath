@@ -1,9 +1,7 @@
 # The commutator of loops
 
 ```agda
-
 module synthetic-homotopy-theory.commutator-loops where
-
 ```
 
 <details><summary>Imports</summary>
@@ -14,8 +12,8 @@ open import foundation.identity-types
 open import foundation.universe-levels
 
 open import structured-types.pointed-homotopies
-open import structured-types.pointed-types
 open import structured-types.pointed-maps
+open import structured-types.pointed-types
 
 open import synthetic-homotopy-theory.loop-spaces
 ```
