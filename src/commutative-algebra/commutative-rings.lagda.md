@@ -721,6 +721,9 @@ module _
   map-hom-Ring-CRing-op-Ring : hom-Ring (ring-Commutative-Ring R) S → hom-Ring (ring-Commutative-Ring R) (op-Ring S)
   map-hom-Ring-CRing-op-Ring = map-equiv equiv-map-hom-Ring-CRing-op-Ring
 
+  inv-map-hom-Ring-CRing-op-Ring : hom-Ring (ring-Commutative-Ring R) (op-Ring S) → hom-Ring (ring-Commutative-Ring R) S
+  inv-map-hom-Ring-CRing-op-Ring = map-equiv (inv-equiv equiv-map-hom-Ring-CRing-op-Ring)
+
   is-equiv-map-hom-Ring-CRing-op-Ring : is-equiv map-hom-Ring-CRing-op-Ring
   is-equiv-map-hom-Ring-CRing-op-Ring = is-equiv-map-equiv equiv-map-hom-Ring-CRing-op-Ring
 ```
