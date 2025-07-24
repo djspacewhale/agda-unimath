@@ -74,7 +74,8 @@ module _
     ( pair refl refl)
 
   is-involution-op-Ring : is-involution op-Ring
-  is-involution-op-Ring R = eq-iso-Ring (op-Ring (op-Ring R)) R (iso-ring-op-op-Ring R)
+  is-involution-op-Ring R =
+    eq-iso-Ring (op-Ring (op-Ring R)) R (iso-ring-op-op-Ring R)
 
   equiv-involution-op-Ring : Ring l ≃ Ring l
   pr1 equiv-involution-op-Ring = op-Ring
@@ -92,7 +93,8 @@ module _
 
   equiv-hom-Ring-op-Ring : hom-Ring R S ≃ hom-Ring (op-Ring R) (op-Ring S)
   pr1 (pr1 equiv-hom-Ring-op-Ring f) = hom-ab-hom-Ring R S f
-  pr2 (pr1 equiv-hom-Ring-op-Ring f) = (λ {x} {x = x₁} → pr1 (pr2 f)) , pr2 (pr2 f)
+  pr2 (pr1 equiv-hom-Ring-op-Ring f) =
+    ( λ {x} {x = x₁} → pr1 (pr2 f)) , pr2 (pr2 f)
   pr1 (pr1 (pr2 equiv-hom-Ring-op-Ring)) = λ z →
       pair (pr1 z) (pair (λ {x} {x = x₁} → pr1 (pr2 z)) (pr2 (pr2 z)))
   pr2 (pr1 (pr2 equiv-hom-Ring-op-Ring)) = λ x → refl
@@ -103,7 +105,8 @@ module _
   map-equiv-hom-Ring-op-Ring : hom-Ring R S → hom-Ring (op-Ring R) (op-Ring S)
   map-equiv-hom-Ring-op-Ring = map-equiv equiv-hom-Ring-op-Ring
 
-  inv-map-equiv-hom-Ring-op-Ring : hom-Ring (op-Ring R) (op-Ring S) → hom-Ring R S
+  inv-map-equiv-hom-Ring-op-Ring :
+    hom-Ring (op-Ring R) (op-Ring S) → hom-Ring R S
   inv-map-equiv-hom-Ring-op-Ring = map-equiv (inv-equiv equiv-hom-Ring-op-Ring)
 
   id-hom-Ring-op-Ring : hom-Ring R S ＝ hom-Ring (op-Ring R) (op-Ring S)
@@ -121,5 +124,7 @@ module _
   where
 
   equiv-hom-Ring-to-op-Ring : hom-Ring R (op-Ring S) ≃ hom-Ring (op-Ring R) S
-  equiv-hom-Ring-to-op-Ring = equiv-tr (λ T → hom-Ring (op-Ring R) T) (is-involution-op-Ring S) ∘e equiv-hom-Ring-op-Ring R (op-Ring S)
+  equiv-hom-Ring-to-op-Ring =
+    equiv-tr (λ T → hom-Ring (op-Ring R) T) (is-involution-op-Ring S)
+    ∘e equiv-hom-Ring-op-Ring R (op-Ring S)
 ```
