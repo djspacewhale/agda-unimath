@@ -21,6 +21,7 @@ open import foundation-core.equality-dependent-pair-types
 open import foundation-core.function-types
 open import foundation-core.identity-types
 open import foundation-core.invertible-maps
+open import foundation-core.sets
 
 open import group-theory.abelian-groups
 open import group-theory.endomorphism-rings-abelian-groups
@@ -91,6 +92,31 @@ module _
 ```agda
 Module-CRing : {l1 : Level} (l2 : Level) (R : Commutative-Ring l1) → UU (l1 ⊔ lsuc l2)
 Module-CRing l2 R = left-module-Ring l2 (ring-Commutative-Ring R)
+
+module _
+  {l1 l2 : Level} (R : Commutative-Ring l1) (M : Module-CRing l2 R)
+  where
+
+  ab-Module-CRing : Ab l2
+  ab-Module-CRing = pr1 M
+
+  set-Module-CRing : Set l2
+  set-Module-CRing = set-Ab ab-Module-CRing
+
+  type-Module-CRing : UU l2
+  type-Module-CRing = type-Ab ab-Module-CRing
+
+  add-Module-CRing : (x y : type-Module-CRing) → type-Module-CRing
+  add-Module-CRing = add-Ab ab-Module-CRing
+
+  zero-Module-CRing : type-Module-CRing
+  zero-Module-CRing = zero-Ab ab-Module-CRing
+
+  is-zero-Module-CRing : type-Module-CRing → UU l2
+  is-zero-Module-CRing = is-zero-Ab ab-Module-CRing
+
+  neg-Module-CRing : type-Module-CRing → type-Module-CRing
+  neg-Module-CRing = neg-Ab ab-Module-CRing
 ```
 
 ## Properties
