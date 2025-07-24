@@ -1,6 +1,8 @@
 # Commutative rings
 
 ```agda
+{-# OPTIONS --lossy-unification #-}
+
 module commutative-algebra.commutative-rings where
 ```
 
@@ -34,12 +36,16 @@ open import foundation.universe-levels
 open import group-theory.abelian-groups
 open import group-theory.commutative-monoids
 open import group-theory.groups
+open import group-theory.homomorphisms-abelian-groups
 open import group-theory.monoids
 open import group-theory.semigroups
 
 open import lists.concatenation-lists
 open import lists.lists
 
+open import ring-theory.homomorphisms-rings
+open import ring-theory.isomorphisms-rings
+open import ring-theory.opposite-rings
 open import ring-theory.rings
 open import ring-theory.semirings
 ```
@@ -663,4 +669,36 @@ module _
         ( add-list-Commutative-Ring l2))
   preserves-concat-add-list-Commutative-Ring =
     preserves-concat-add-list-Ring ring-Commutative-Ring
+```
+
+## Properties
+
+### A ring is commutative iff the identity map is a [homomorphism](ring-theory.homomorphisms.md) to its [opposite ring](ring-theory.opposite-rings.md)
+
+Proof: This says exactly that `x * y ＝ id (x * y) ＝ y * x`.
+
+```agda
+module _
+  {l : Level} (R : Ring l)
+  where
+
+  hom-Ab-map-Ring-to-op-Ring : hom-Ab (ab-Ring R) (ab-Ring (op-Ring R))
+  hom-Ab-map-Ring-to-op-Ring = id-hom-Ab (ab-Ring R)
+
+  is-commutative-Ring-id-is-hom-to-op-Ring : is-ring-homomorphism-hom-Ab R (op-Ring R) hom-Ab-map-Ring-to-op-Ring → is-commutative-Ring R
+  is-commutative-Ring-id-is-hom-to-op-Ring id-hom x y = pr1 id-hom
+
+  id-is-hom-to-op-Ring-is-commutative-Ring : is-commutative-Ring R → is-ring-homomorphism-hom-Ab R (op-Ring R) hom-Ab-map-Ring-to-op-Ring
+  id-is-hom-to-op-Ring-is-commutative-Ring R-comm = pair (λ {x} {x = x₁} → R-comm x x₁) refl
+
+  iso-Ring-op-Ring-is-commutative-Ring : is-commutative-Ring R → iso-Ring R (op-Ring R)
+  pr1 (pr1 (iso-Ring-op-Ring-is-commutative-Ring R-comm)) = hom-Ab-map-Ring-to-op-Ring
+  pr2 (pr1 (iso-Ring-op-Ring-is-commutative-Ring R-comm)) = id-is-hom-to-op-Ring-is-commutative-Ring R-comm
+  pr2 (iso-Ring-op-Ring-is-commutative-Ring R-comm) = is-iso-ring-is-iso-Ab R (op-Ring R) (pr1 (iso-Ring-op-Ring-is-commutative-Ring R-comm)) (pair ((λ z → z) , (λ {x} {x = x₁} → refl)) (pair refl refl))
+
+iso-CRing-op-CRing : {l : Level} (R : Commutative-Ring l) → iso-Ring (ring-Commutative-Ring R) (op-Ring (ring-Commutative-Ring R))
+iso-CRing-op-CRing R = iso-Ring-op-Ring-is-commutative-Ring (ring-Commutative-Ring R) (commutative-mul-Commutative-Ring R)
+
+id-CRing-op-CRing : {l : Level} (R : Commutative-Ring l) → ring-Commutative-Ring R ＝ op-Ring (ring-Commutative-Ring R)
+id-CRing-op-CRing R = eq-iso-Ring (ring-Commutative-Ring R) (op-Ring (ring-Commutative-Ring R)) (iso-CRing-op-CRing R)
 ```
