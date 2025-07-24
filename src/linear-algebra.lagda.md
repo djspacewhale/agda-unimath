@@ -7,6 +7,7 @@ module linear-algebra where
 
 open import linear-algebra.constant-matrices public
 open import linear-algebra.constant-tuples public
+open import linear-algebra.dependent-products-left-modules-rings public
 open import linear-algebra.diagonal-matrices-on-rings public
 open import linear-algebra.finite-sequences-in-commutative-monoids public
 open import linear-algebra.finite-sequences-in-commutative-rings public
@@ -20,6 +21,7 @@ open import linear-algebra.left-modules-rings public
 open import linear-algebra.linear-maps-left-modules-rings public
 open import linear-algebra.matrices public
 open import linear-algebra.matrices-on-rings public
+open import linear-algebra.modules-commutative-rings public
 open import linear-algebra.multiplication-matrices public
 open import linear-algebra.right-modules-rings public
 open import linear-algebra.scalar-multiplication-matrices public

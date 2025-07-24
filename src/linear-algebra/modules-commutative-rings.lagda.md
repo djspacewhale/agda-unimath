@@ -62,35 +62,52 @@ module _
   left-mod-to-right-mod-CRing :
     {l2 : Level} → left-module-Ring l2 (R*) → right-module-Ring l2 (R*)
   pr1 (left-mod-to-right-mod-CRing M) = ab-left-module-Ring R* M
-  pr2 (left-mod-to-right-mod-CRing {l2} M) = map-hom-Ring-CRing-op-Ring R (endomorphism-ring-ab-left-module-Ring R* M) (mul-hom-left-module-Ring R* M)
+  pr2 (left-mod-to-right-mod-CRing {l2} M) =
+    map-hom-Ring-CRing-op-Ring R (endomorphism-ring-ab-left-module-Ring R* M)
+    ( mul-hom-left-module-Ring R* M)
 
   right-mod-to-left-mod-CRing :
     {l2 : Level} → right-module-Ring l2 (R*) → left-module-Ring l2 (R*)
   pr1 (right-mod-to-left-mod-CRing M) = ab-right-module-Ring R* M
-  pr2 (right-mod-to-left-mod-CRing {l2} M) = inv-map-hom-Ring-CRing-op-Ring R (endomorphism-ring-ab-right-module-Ring R* M) (mul-hom-right-module-Ring R* M)
+  pr2 (right-mod-to-left-mod-CRing {l2} M) =
+    inv-map-hom-Ring-CRing-op-Ring R
+    ( endomorphism-ring-ab-right-module-Ring R* M)
+    ( mul-hom-right-module-Ring R* M)
 
-  left-mod-right-mod-CRing-equiv : {l2 : Level} → left-module-Ring l2 (R*) ≃ right-module-Ring l2 (R*)
+  left-mod-right-mod-CRing-equiv :
+    {l2 : Level} → left-module-Ring l2 (R*) ≃ right-module-Ring l2 (R*)
   pr1 left-mod-right-mod-CRing-equiv = left-mod-to-right-mod-CRing
   pr1 (pr1 (pr2 left-mod-right-mod-CRing-equiv)) = right-mod-to-left-mod-CRing
-  pr2 (pr1 (pr2 left-mod-right-mod-CRing-equiv)) (M , M-mul) = eq-pair-Σ refl lem
+  pr2 (pr1 (pr2 left-mod-right-mod-CRing-equiv)) (M , M-mul) =
+    eq-pair-Σ refl lem
     where
-    lem : dependent-identification (λ A → hom-Ring R* (op-Ring (endomorphism-ring-Ab A))) refl (pr2
+    lem :
+      dependent-identification
+      ( λ A → hom-Ring R* (op-Ring (endomorphism-ring-Ab A))) refl (pr2
       ( left-mod-to-right-mod-CRing
       ( pr1 (pr1 (pr2 left-mod-right-mod-CRing-equiv)) (M , M-mul)))) M-mul
-    lem = is-section-map-inv-is-equiv (is-equiv-map-hom-Ring-CRing-op-Ring R (endomorphism-ring-Ab M)) M-mul
+    lem =
+      is-section-map-inv-is-equiv
+      ( is-equiv-map-hom-Ring-CRing-op-Ring R (endomorphism-ring-Ab M)) M-mul
   pr1 (pr2 (pr2 left-mod-right-mod-CRing-equiv)) = right-mod-to-left-mod-CRing
-  pr2 (pr2 (pr2 left-mod-right-mod-CRing-equiv)) (M , M-mul) = eq-pair-Σ refl lem
+  pr2 (pr2 (pr2 left-mod-right-mod-CRing-equiv)) (M , M-mul) =
+    eq-pair-Σ refl lem
     where
-    lem : dependent-identification (λ A → hom-Ring R* (endomorphism-ring-Ab A)) refl (pr2
+    lem :
+      dependent-identification
+      ( λ A → hom-Ring R* (endomorphism-ring-Ab A)) refl (pr2
       ( right-mod-to-left-mod-CRing
       ( pr1 left-mod-right-mod-CRing-equiv (M , M-mul)))) M-mul
-    lem = is-retraction-map-section-is-equiv (is-equiv-map-hom-Ring-CRing-op-Ring R (endomorphism-ring-Ab M)) M-mul
+    lem =
+      is-retraction-map-section-is-equiv
+      ( is-equiv-map-hom-Ring-CRing-op-Ring R (endomorphism-ring-Ab M)) M-mul
 ```
 
 ## Modules over a commutative ring
 
 ```agda
-Module-CRing : {l1 : Level} (l2 : Level) (R : Commutative-Ring l1) → UU (l1 ⊔ lsuc l2)
+Module-CRing :
+  {l1 : Level} (l2 : Level) (R : Commutative-Ring l1) → UU (l1 ⊔ lsuc l2)
 Module-CRing l2 R = left-module-Ring l2 (ring-Commutative-Ring R)
 
 module _

@@ -690,22 +690,41 @@ module _
   hom-Ab-map-Ring-to-op-Ring : hom-Ab (ab-Ring R) (ab-Ring (op-Ring R))
   hom-Ab-map-Ring-to-op-Ring = id-hom-Ab (ab-Ring R)
 
-  is-commutative-Ring-id-is-hom-to-op-Ring : is-ring-homomorphism-hom-Ab R (op-Ring R) hom-Ab-map-Ring-to-op-Ring → is-commutative-Ring R
+  is-commutative-Ring-id-is-hom-to-op-Ring :
+    is-ring-homomorphism-hom-Ab R (op-Ring R) hom-Ab-map-Ring-to-op-Ring
+    → is-commutative-Ring R
   is-commutative-Ring-id-is-hom-to-op-Ring id-hom x y = pr1 id-hom
 
-  id-is-hom-to-op-Ring-is-commutative-Ring : is-commutative-Ring R → is-ring-homomorphism-hom-Ab R (op-Ring R) hom-Ab-map-Ring-to-op-Ring
-  id-is-hom-to-op-Ring-is-commutative-Ring R-comm = pair (λ {x} {x = x₁} → R-comm x x₁) refl
+  id-is-hom-to-op-Ring-is-commutative-Ring :
+    is-commutative-Ring R
+    → is-ring-homomorphism-hom-Ab R (op-Ring R) hom-Ab-map-Ring-to-op-Ring
+  id-is-hom-to-op-Ring-is-commutative-Ring R-comm =
+    pair (λ {x} {x = x₁} → R-comm x x₁) refl
 
-  iso-Ring-op-Ring-is-commutative-Ring : is-commutative-Ring R → iso-Ring R (op-Ring R)
-  pr1 (pr1 (iso-Ring-op-Ring-is-commutative-Ring R-comm)) = hom-Ab-map-Ring-to-op-Ring
-  pr2 (pr1 (iso-Ring-op-Ring-is-commutative-Ring R-comm)) = id-is-hom-to-op-Ring-is-commutative-Ring R-comm
-  pr2 (iso-Ring-op-Ring-is-commutative-Ring R-comm) = is-iso-ring-is-iso-Ab R (op-Ring R) (pr1 (iso-Ring-op-Ring-is-commutative-Ring R-comm)) (pair ((λ z → z) , (λ {x} {x = x₁} → refl)) (pair refl refl))
+  iso-Ring-op-Ring-is-commutative-Ring :
+    is-commutative-Ring R → iso-Ring R (op-Ring R)
+  pr1 (pr1 (iso-Ring-op-Ring-is-commutative-Ring R-comm)) =
+    hom-Ab-map-Ring-to-op-Ring
+  pr2 (pr1 (iso-Ring-op-Ring-is-commutative-Ring R-comm)) =
+    id-is-hom-to-op-Ring-is-commutative-Ring R-comm
+  pr2 (iso-Ring-op-Ring-is-commutative-Ring R-comm) =
+    is-iso-ring-is-iso-Ab R (op-Ring R)
+    ( pr1 (iso-Ring-op-Ring-is-commutative-Ring R-comm))
+    ( pair ((λ z → z) , (λ {x} {x = x₁} → refl)) (pair refl refl))
 
-iso-CRing-op-CRing : {l : Level} (R : Commutative-Ring l) → iso-Ring (ring-Commutative-Ring R) (op-Ring (ring-Commutative-Ring R))
-iso-CRing-op-CRing R = iso-Ring-op-Ring-is-commutative-Ring (ring-Commutative-Ring R) (commutative-mul-Commutative-Ring R)
+iso-CRing-op-CRing :
+  {l : Level} (R : Commutative-Ring l)
+  → iso-Ring (ring-Commutative-Ring R) (op-Ring (ring-Commutative-Ring R))
+iso-CRing-op-CRing R =
+  iso-Ring-op-Ring-is-commutative-Ring (ring-Commutative-Ring R)
+  ( commutative-mul-Commutative-Ring R)
 
-id-CRing-op-CRing : {l : Level} (R : Commutative-Ring l) → ring-Commutative-Ring R ＝ op-Ring (ring-Commutative-Ring R)
-id-CRing-op-CRing R = eq-iso-Ring (ring-Commutative-Ring R) (op-Ring (ring-Commutative-Ring R)) (iso-CRing-op-CRing R)
+id-CRing-op-CRing :
+  {l : Level} (R : Commutative-Ring l)
+  → ring-Commutative-Ring R ＝ op-Ring (ring-Commutative-Ring R)
+id-CRing-op-CRing R =
+  eq-iso-Ring (ring-Commutative-Ring R)
+  ( op-Ring (ring-Commutative-Ring R)) (iso-CRing-op-CRing R)
 ```
 
 ### The canonical equivalence between `hom-Ring R S` and `hom-Ring R (op-Ring S)`, for commutative `R`
@@ -715,15 +734,25 @@ module _
   {l1 l2 : Level} (R : Commutative-Ring l1) (S : Ring l2)
   where
 
-  equiv-map-hom-Ring-CRing-op-Ring : hom-Ring (ring-Commutative-Ring R) S ≃ hom-Ring (ring-Commutative-Ring R) (op-Ring S)
-  equiv-map-hom-Ring-CRing-op-Ring = equiv-tr (λ T → hom-Ring T (op-Ring S)) (inv (id-CRing-op-CRing R)) ∘e equiv-hom-Ring-op-Ring (ring-Commutative-Ring R) S
+  equiv-map-hom-Ring-CRing-op-Ring :
+    hom-Ring (ring-Commutative-Ring R) S
+    ≃ hom-Ring (ring-Commutative-Ring R) (op-Ring S)
+  equiv-map-hom-Ring-CRing-op-Ring =
+    equiv-tr (λ T → hom-Ring T (op-Ring S)) (inv (id-CRing-op-CRing R))
+    ∘e equiv-hom-Ring-op-Ring (ring-Commutative-Ring R) S
 
-  map-hom-Ring-CRing-op-Ring : hom-Ring (ring-Commutative-Ring R) S → hom-Ring (ring-Commutative-Ring R) (op-Ring S)
+  map-hom-Ring-CRing-op-Ring :
+    hom-Ring (ring-Commutative-Ring R) S
+    → hom-Ring (ring-Commutative-Ring R) (op-Ring S)
   map-hom-Ring-CRing-op-Ring = map-equiv equiv-map-hom-Ring-CRing-op-Ring
 
-  inv-map-hom-Ring-CRing-op-Ring : hom-Ring (ring-Commutative-Ring R) (op-Ring S) → hom-Ring (ring-Commutative-Ring R) S
-  inv-map-hom-Ring-CRing-op-Ring = map-equiv (inv-equiv equiv-map-hom-Ring-CRing-op-Ring)
+  inv-map-hom-Ring-CRing-op-Ring :
+    hom-Ring (ring-Commutative-Ring R) (op-Ring S)
+    → hom-Ring (ring-Commutative-Ring R) S
+  inv-map-hom-Ring-CRing-op-Ring =
+    map-equiv (inv-equiv equiv-map-hom-Ring-CRing-op-Ring)
 
   is-equiv-map-hom-Ring-CRing-op-Ring : is-equiv map-hom-Ring-CRing-op-Ring
-  is-equiv-map-hom-Ring-CRing-op-Ring = is-equiv-map-equiv equiv-map-hom-Ring-CRing-op-Ring
+  is-equiv-map-hom-Ring-CRing-op-Ring =
+    is-equiv-map-equiv equiv-map-hom-Ring-CRing-op-Ring
 ```
