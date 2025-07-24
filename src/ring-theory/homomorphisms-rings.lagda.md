@@ -33,7 +33,7 @@ open import ring-theory.rings
 
 ## Idea
 
-Ring homomorphisms are maps between rings that preserve the ring structure
+Ring homomorphisms are maps between rings that preserve the ring structure.
 
 ## Definitions
 
