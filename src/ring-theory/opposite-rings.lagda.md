@@ -121,5 +121,5 @@ module _
   where
 
   equiv-hom-Ring-to-op-Ring : hom-Ring R (op-Ring S) ≃ hom-Ring (op-Ring R) S
-  equiv-hom-Ring-to-op-Ring = tr (λ T → hom-Ring (op-Ring R) S ≃ hom-Ring (op-Ring R) S) (is-involution-op-Ring S) id-equiv ∘e equiv-hom-Ring-op-Ring R (op-Ring S)
+  equiv-hom-Ring-to-op-Ring = equiv-tr (λ T → hom-Ring (op-Ring R) T) (is-involution-op-Ring S) ∘e equiv-hom-Ring-op-Ring R (op-Ring S)
 ```
