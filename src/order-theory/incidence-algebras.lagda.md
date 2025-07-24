@@ -14,10 +14,19 @@ open import foundation.inhabited-types
 open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
+open import foundation-core.sets
+
+open import group-theory.endomorphism-rings-abelian-groups
+open import group-theory.function-abelian-groups
+
+open import linear-algebra.left-modules-rings
+open import linear-algebra.modules-commutative-rings
 
 open import order-theory.interval-subposets
 open import order-theory.locally-finite-posets
 open import order-theory.posets
+
+open import ring-theory.homomorphisms-rings
 ```
 
 </details>
@@ -37,11 +46,17 @@ given by a "convolution" of maps. This is the **incidence algebra** of `P` over
 ```agda
 module _
   {l1 l2 l3 : Level} (P : Poset l1 l2) (loc-fin : is-locally-finite-Poset P)
-  (x y : type-Poset P) (R : Commutative-Ring l3)
+  (R : Commutative-Ring l3)
   where
 
-  interval-map : UU (l1 ⊔ l2 ⊔ l3)
-  interval-map = inhabited-interval P → type-Commutative-Ring R
+  incidence-module-CRing : Module-CRing (l1 ⊔ l2 ⊔ l3) R
+  incidence-module-CRing = {!   !}
+
+  convolution-incidence-module-CRing :
+    type-Module-CRing R incidence-module-CRing →
+    type-Module-CRing R incidence-module-CRing →
+    type-Module-CRing R incidence-module-CRing
+  convolution-incidence-module-CRing f g = {!   !}
 ```
 
 WIP: complete this definition after _R-modules_ have been defined. Defining
