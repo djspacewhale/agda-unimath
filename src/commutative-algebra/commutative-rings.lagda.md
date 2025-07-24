@@ -30,8 +30,13 @@ open import foundation.involutions
 open import foundation.negation
 open import foundation.propositions
 open import foundation.sets
+open import foundation.transport-along-equivalences
+open import foundation.transport-along-identifications
 open import foundation.unital-binary-operations
 open import foundation.universe-levels
+
+open import foundation-core.retractions
+open import foundation-core.sections
 
 open import group-theory.abelian-groups
 open import group-theory.commutative-monoids
@@ -701,4 +706,21 @@ iso-CRing-op-CRing R = iso-Ring-op-Ring-is-commutative-Ring (ring-Commutative-Ri
 
 id-CRing-op-CRing : {l : Level} (R : Commutative-Ring l) → ring-Commutative-Ring R ＝ op-Ring (ring-Commutative-Ring R)
 id-CRing-op-CRing R = eq-iso-Ring (ring-Commutative-Ring R) (op-Ring (ring-Commutative-Ring R)) (iso-CRing-op-CRing R)
+```
+
+### The canonical equivalence between `hom-Ring R S` and `hom-Ring R (op-Ring S)`, for commutative `R`
+
+```agda
+module _
+  {l1 l2 : Level} (R : Commutative-Ring l1) (S : Ring l2)
+  where
+
+  equiv-map-hom-Ring-CRing-op-Ring : hom-Ring (ring-Commutative-Ring R) S ≃ hom-Ring (ring-Commutative-Ring R) (op-Ring S)
+  equiv-map-hom-Ring-CRing-op-Ring = equiv-tr (λ T → hom-Ring T (op-Ring S)) (inv (id-CRing-op-CRing R)) ∘e equiv-hom-Ring-op-Ring (ring-Commutative-Ring R) S
+
+  map-hom-Ring-CRing-op-Ring : hom-Ring (ring-Commutative-Ring R) S → hom-Ring (ring-Commutative-Ring R) (op-Ring S)
+  map-hom-Ring-CRing-op-Ring = map-equiv equiv-map-hom-Ring-CRing-op-Ring
+
+  is-equiv-map-hom-Ring-CRing-op-Ring : is-equiv map-hom-Ring-CRing-op-Ring
+  is-equiv-map-hom-Ring-CRing-op-Ring = is-equiv-map-equiv equiv-map-hom-Ring-CRing-op-Ring
 ```
