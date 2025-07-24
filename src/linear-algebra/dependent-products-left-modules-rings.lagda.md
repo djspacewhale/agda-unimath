@@ -1,6 +1,8 @@
 # Dependent products of left modules over a ring
 
 ```agda
+{-# OPTIONS --lossy-unification #-}
+
 module linear-algebra.dependent-products-left-modules-rings where
 ```
 
@@ -57,7 +59,8 @@ module _
     mul-left-module-Ring R (M i) r (x i)
   pr2 (pr1 ab-hom-Π-left-module-Ring r) = eq-htpy
     ( λ x → pr2 (pr1 (pr1 (pr2 (M x))) r))
-  pr2 ab-hom-Π-left-module-Ring {r} {s} = eq-htpy-hom-Ab ab-Π-left-module-Ring ab-Π-left-module-Ring htpy
+  pr2 ab-hom-Π-left-module-Ring {r} {s} =
+    eq-htpy-hom-Ab ab-Π-left-module-Ring ab-Π-left-module-Ring htpy
     where
     htpy : htpy-hom-Ab (Π-Ab I (λ i → pr1 (M i))) (Π-Ab I (λ i → pr1 (M i)))
       ( pr1 ab-hom-Π-left-module-Ring
@@ -73,12 +76,16 @@ module _
         ~ pr1 (pr1 (pr2
         ( pr1 (pr1 (ab-Ring (endomorphism-ring-Ab ab-Π-left-module-Ring)))))
         ( pr1 ab-hom-Π-left-module-Ring r) (pr1 ab-hom-Π-left-module-Ring s)) x
-      htpy2 y = {!   !} ∙ (right-distributive-mul-add-left-module-Ring R (M y) r s (x y)) ∙ {!   !}
+      htpy2 i =
+        {!   !}
+        ∙ ( right-distributive-mul-add-left-module-Ring R (M i) r s (x i))
+        ∙ {!   !}
 
   ab-hom-is-ring-hom-Π-left-module-Ring :
     is-ring-homomorphism-hom-Ab R (endomorphism-ring-Ab ab-Π-left-module-Ring)
     ab-hom-Π-left-module-Ring
-  pr1 ab-hom-is-ring-hom-Π-left-module-Ring {r} {s} = eq-htpy-hom-Ab ab-Π-left-module-Ring ab-Π-left-module-Ring htpy
+  pr1 ab-hom-is-ring-hom-Π-left-module-Ring {r} {s} =
+    eq-htpy-hom-Ab ab-Π-left-module-Ring ab-Π-left-module-Ring htpy
     where
     htpy : htpy-hom-Ab (Π-Ab I (λ i → pr1 (M i))) (Π-Ab I (λ i → pr1 (M i)))
       ( pr1 (pr1 (hom-commutative-monoid-hom-Ab (pr1 R)
@@ -97,9 +104,8 @@ module _
       where
       htpy2 : pr1 (pr1 (pr1 (hom-commutative-monoid-hom-Ab (pr1 R)
         ( pr1 (endomorphism-ring-Ab ab-Π-left-module-Ring))
-        ab-hom-Π-left-module-Ring))
-        ( pr1 (pr2 (multiplicative-semigroup-Semiring (semiring-Ring R))) r s))
-        x
+        ab-hom-Π-left-module-Ring)) (pr1 (pr2
+        ( multiplicative-semigroup-Semiring (semiring-Ring R))) r s)) x
         ~ pr1 (pr1 (pr2 (multiplicative-semigroup-Semiring
         ( semiring-Ring (endomorphism-ring-Ab ab-Π-left-module-Ring))))
         ( pr1 (pr1 (hom-commutative-monoid-hom-Ab (pr1 R)
@@ -108,8 +114,12 @@ module _
         ( pr1 (pr1 (hom-commutative-monoid-hom-Ab (pr1 R)
         ( pr1 (endomorphism-ring-Ab ab-Π-left-module-Ring))
         ab-hom-Π-left-module-Ring)) s)) x
-      htpy2 y = {!   !} ∙ (associative-mul-left-module-Ring R (M y) r s (x y)) ∙ {!   !}
-  pr2 ab-hom-is-ring-hom-Π-left-module-Ring = eq-htpy-hom-Ab ab-Π-left-module-Ring ab-Π-left-module-Ring htpy
+      htpy2 i =
+        {!   !}
+        ∙ ( associative-mul-left-module-Ring R (M i) r s (x i))
+        ∙ {!   !}
+  pr2 ab-hom-is-ring-hom-Π-left-module-Ring =
+    eq-htpy-hom-Ab ab-Π-left-module-Ring ab-Π-left-module-Ring htpy
     where
     htpy : htpy-hom-Ab (Π-Ab I (λ i → pr1 (M i))) (Π-Ab I (λ i → pr1 (M i)))
       ( pr1 (pr1
@@ -128,7 +138,9 @@ module _
         ( pr1 (pr2 (multiplicative-monoid-Semiring (semiring-Ring R))))) x
         ~ pr1 (pr1 (pr2 (multiplicative-monoid-Semiring
         ( semiring-Ring (endomorphism-ring-Ab ab-Π-left-module-Ring))))) x
-      htpy2 y = {!   !} ∙ (left-unit-law-mul-left-module-Ring R (M y) (x y))
+      htpy2 i =
+        {!   !}
+        ∙ (left-unit-law-mul-left-module-Ring R (M i) (x i))
 
   action-Π-left-module-Ring :
     hom-Ring R (endomorphism-ring-Ab ab-Π-left-module-Ring)
