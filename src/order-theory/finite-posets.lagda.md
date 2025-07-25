@@ -134,5 +134,6 @@ module _
   finite-type-Finite-Poset : Finite-Type l1
   pr1 finite-type-Finite-Poset = type-Poset (poset-Finite-Poset P)
   pr2 finite-type-Finite-Poset =
-    is-finite-type-is-finite-Poset (poset-Finite-Poset P) (is-finite-poset-Finite-Poset P)
+    is-finite-type-is-finite-Poset (poset-Finite-Poset P)
+    ( is-finite-poset-Finite-Poset P)
 ```
