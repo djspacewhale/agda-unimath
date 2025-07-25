@@ -60,7 +60,11 @@ module _
   is-inhabited-interval-Prop : Prop (l1 ⊔ l2)
   pr1 is-inhabited-interval-Prop = is-inhabited-interval
   pr2 is-inhabited-interval-Prop = is-prop-is-inhabited-interval
+```
 
+### The type of inhabited intervals of a poset
+
+```agda
 module _
   {l1 l2 : Level} (X : Poset l1 l2)
   where
