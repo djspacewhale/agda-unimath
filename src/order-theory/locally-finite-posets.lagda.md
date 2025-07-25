@@ -131,7 +131,7 @@ module _
 
   equiv-is-eq-both-intervals-are-inhabited-Poset :
     (x y : type-Poset P) →
-    ((x ＝ y) ≃ is-inhabited-interval P x y × is-inhabited-interval P y x)
+    ((x ＝ y) ≃ ((is-inhabited-interval P x y) × (is-inhabited-interval P y x)))
   pr1 (equiv-is-eq-both-intervals-are-inhabited-Poset x y) =
     both-intervals-are-inhabited-is-eq-Poset x y
   pr1 (pr1 (pr2 (equiv-is-eq-both-intervals-are-inhabited-Poset x y))) =
