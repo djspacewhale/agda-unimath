@@ -68,7 +68,8 @@ module _
   incidence-type-CRing = inhabited-interval-Poset P → type-Commutative-Ring R
 
   incidence-Ab : Ab (l1 ⊔ l2 ⊔ l3)
-  incidence-Ab = function-Ab (ab-Commutative-Ring R) (inhabited-interval-Poset P)
+  incidence-Ab =
+    function-Ab (ab-Commutative-Ring R) (inhabited-interval-Poset P)
 
   incidence-module-CRing : Module-CRing (l1 ⊔ l2 ⊔ l3) R
   incidence-module-CRing = {!   !}
