@@ -13,6 +13,7 @@ open import foundation.propositions
 open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
+open import foundation-core.subtypes
 
 open import order-theory.posets
 open import order-theory.subposets
@@ -52,11 +53,22 @@ module _
   is-inhabited-interval =
     is-inhabited (type-Poset (poset-interval-Subposet X x y))
 
+  is-prop-is-inhabited-interval : is-prop is-inhabited-interval
+  is-prop-is-inhabited-interval =
+    is-property-is-inhabited (pr1 (pr1 (poset-interval-Subposet X x y)))
+
+  is-inhabited-interval-Prop : Prop (l1 ⊔ l2)
+  pr1 is-inhabited-interval-Prop = is-inhabited-interval
+  pr2 is-inhabited-interval-Prop = is-prop-is-inhabited-interval
+
 module _
   {l1 l2 : Level} (X : Poset l1 l2)
   where
 
-  inhabited-interval : UU (l1 ⊔ l2)
-  inhabited-interval =
-    Σ (type-Poset X × type-Poset X) λ (p , q) → (is-inhabited-interval X p q)
+  inhabited-interval-subtype-Poset :
+    subtype (l1 ⊔ l2) (type-Poset X × type-Poset X)
+  inhabited-interval-subtype-Poset (x , y) = is-inhabited-interval-Prop X x y
+
+  inhabited-interval-Poset : UU (l1 ⊔ l2)
+  inhabited-interval-Poset = type-subtype inhabited-interval-subtype-Poset
 ```
