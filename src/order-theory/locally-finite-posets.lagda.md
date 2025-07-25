@@ -74,4 +74,9 @@ module _
   finite-interval-subposet-locally-finite-Poset x y =
     Finite-Poset'-to-Finite-Poset (l1 ⊔ l2) l2
     ( finite-interval-subposet-locally-finite-Poset' x y)
+
+  finite-type-interval-locally-finite-Poset :
+    ( x y : type-Poset X) → Finite-Type (l1 ⊔ l2)
+  finite-type-interval-locally-finite-Poset x y =
+    finite-type-Finite-Poset (finite-interval-subposet-locally-finite-Poset x y)
 ```

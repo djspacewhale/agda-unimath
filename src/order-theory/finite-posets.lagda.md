@@ -80,6 +80,12 @@ is-antisymmetric-leq-Finite-Poset = pr2
 poset-Finite-Poset : {l1 l2 : Level} → Finite-Poset l1 l2 → Poset l1 l2
 pr1 (poset-Finite-Poset P) = preorder-Finite-Poset P
 pr2 (poset-Finite-Poset P) = is-antisymmetric-leq-Finite-Poset P
+
+is-finite-poset-Finite-Poset :
+  {l1 l2 : Level} (P : Finite-Poset l1 l2)
+  → is-finite-Poset (poset-Finite-Poset P)
+is-finite-poset-Finite-Poset (P , _) =
+  pair (pr2 (pr1 P)) (λ x y → pr2 (pr2 (pr1 (pr2 P) x y)))
 ```
 
 ## Properties
@@ -120,4 +126,13 @@ pr2 (pr1 (is-equiv-Finite-Poset-to-Finite-Poset' l1 l2)) P = refl
 pr1 (pr2 (is-equiv-Finite-Poset-to-Finite-Poset' l1 l2)) =
   Finite-Poset'-to-Finite-Poset l1 l2
 pr2 (pr2 (is-equiv-Finite-Poset-to-Finite-Poset' l1 l2)) P = refl
+
+module _
+  {l1 l2 : Level} (P : Finite-Poset l1 l2)
+  where
+
+  finite-type-Finite-Poset : Finite-Type l1
+  pr1 finite-type-Finite-Poset = type-Poset (poset-Finite-Poset P)
+  pr2 finite-type-Finite-Poset =
+    is-finite-type-is-finite-Poset (poset-Finite-Poset P) (is-finite-poset-Finite-Poset P)
 ```
