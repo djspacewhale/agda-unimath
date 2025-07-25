@@ -1,6 +1,8 @@
 # Incidence algebras
 
 ```agda
+{-# OPTIONS --lossy-unification #-}
+
 module order-theory.incidence-algebras where
 ```
 
@@ -11,14 +13,20 @@ open import commutative-algebra.commutative-rings
 open import commutative-algebra.sums-of-finite-families-of-elements-commutative-rings
 
 open import foundation.dependent-pair-types
+open import foundation.function-extensionality
 open import foundation.inhabited-types
 open import foundation.universe-levels
 
 open import foundation-core.cartesian-product-types
+open import foundation-core.homotopies
+open import foundation-core.identity-types
 open import foundation-core.sets
 
+open import group-theory.abelian-groups
 open import group-theory.endomorphism-rings-abelian-groups
 open import group-theory.function-abelian-groups
+open import group-theory.homomorphisms-abelian-groups
+open import group-theory.semigroups
 
 open import linear-algebra.left-modules-rings
 open import linear-algebra.modules-commutative-rings
@@ -30,6 +38,8 @@ open import order-theory.locally-finite-posets
 open import order-theory.posets
 
 open import ring-theory.homomorphisms-rings
+open import ring-theory.rings
+open import ring-theory.semirings
 
 open import univalent-combinatorics.finite-types
 ```
@@ -57,6 +67,9 @@ module _
   incidence-type-CRing : UU (l1 ⊔ l2 ⊔ l3)
   incidence-type-CRing = inhabited-interval-Poset P → type-Commutative-Ring R
 
+  incidence-Ab : Ab (l1 ⊔ l2 ⊔ l3)
+  incidence-Ab = function-Ab (ab-Commutative-Ring R) (inhabited-interval-Poset P)
+
   incidence-module-CRing : Module-CRing (l1 ⊔ l2 ⊔ l3) R
   incidence-module-CRing = {!   !}
 
@@ -64,8 +77,7 @@ module _
     incidence-type-CRing → incidence-type-CRing → incidence-type-CRing
   convolution-incidence-module-CRing f g ((x , y) , inhb) =
     sum-finite-Commutative-Ring R
-    ( finite-type-interval-locally-finite-Poset P loc-fin x y)
-    conv
+    ( finite-type-interval-locally-finite-Poset P loc-fin x y) conv
     where
     conv :
       type-Finite-Type (finite-type-interval-locally-finite-Poset P loc-fin x y)
@@ -76,6 +88,4 @@ module _
       ( g ((z , y) , is-inhabited-upper-subinterval-Poset x≤z z≤y))
 ```
 
-WIP: complete this definition after _R-modules_ have been defined. Defining
-convolution of maps would be aided as well with a lemma on 'unordered' addition
-in abelian groups over finite sets.
+WIP: complete this definition after _R-modules_ have been defined.
