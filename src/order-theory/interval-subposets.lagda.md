@@ -78,6 +78,26 @@ module _
   inhabited-interval-Poset = type-subtype inhabited-interval-subtype-Poset
 ```
 
+### `[x , y]` is inhabited iff `x ≤ y`
+
+```agda
+
+module _
+  {l1 l2 : Level} {X : Poset l1 l2} (x y : type-Poset X)
+  where
+
+  is-inhabited-interval-is-le-Poset :
+    leq-Poset X x y → is-inhabited-interval X x y
+  is-inhabited-interval-is-le-Poset x≤y =
+    unit-trunc-Prop (pair x (pair (pr1 (pr2 (pr2 (pr1 X))) x) x≤y))
+
+  is-le-is-inhabited-interval-Poset :
+    is-inhabited-interval X x y → leq-Poset X x y
+  is-le-is-inhabited-interval-Poset x≤y =
+    ind-trunc-Prop (λ z → leq-prop-Poset X x y)
+    ( λ z → pr2 (pr2 (pr2 (pr1 X))) x (pr1 z) y (pr2 (pr2 z)) (pr1 (pr2 z))) x≤y
+```
+
 ### For `x ≤ z ≤ y`, the intervals `[x , z]` and `[z , y]` are both inhabited
 
 ```agda
