@@ -9,6 +9,7 @@ module order-theory.interval-subposets where
 ```agda
 open import foundation.dependent-pair-types
 open import foundation.inhabited-types
+open import foundation.propositional-truncations
 open import foundation.propositions
 open import foundation.universe-levels
 
@@ -24,7 +25,7 @@ open import order-theory.subposets
 ## Idea
 
 Given two elements `x` and `y` in a poset `X`, the **interval subposet**
-`[x, y]` is the subposet of `X` consisting of all elements `z` in `X` such that
+`[x , y]` is the subposet of `X` consisting of all elements `z` in `X` such that
 `x ≤ z` and `z ≤ y`. Note that interval subposets need not be linearly ordered.
 
 ## Definition
@@ -75,4 +76,21 @@ module _
 
   inhabited-interval-Poset : UU (l1 ⊔ l2)
   inhabited-interval-Poset = type-subtype inhabited-interval-subtype-Poset
+```
+
+### For `x ≤ z ≤ y`, the intervals `[x , z]` and `[z , y]` are both inhabited
+
+```agda
+module _
+  {l1 l2 : Level} {P : Poset l1 l2} {x y z : type-Poset P}
+  (x≤z : leq-Poset P x z) (z≤y : leq-Poset P z y)
+  where
+
+  is-inhabited-lower-subinterval-Poset : is-inhabited-interval P x z
+  is-inhabited-lower-subinterval-Poset =
+    unit-trunc-Prop (pair x (pair (pr1 (pr2 (pr2 (pr1 P))) x) x≤z))
+
+  is-inhabited-upper-subinterval-Poset : is-inhabited-interval P z y
+  is-inhabited-upper-subinterval-Poset =
+    unit-trunc-Prop (pair z (pair (pr1 (pr2 (pr2 (pr1 P))) z) z≤y))
 ```
