@@ -1,6 +1,8 @@
 # Locally finite posets
 
 ```agda
+{-# OPTIONS --lossy-unification #-}
+
 module order-theory.locally-finite-posets where
 ```
 
@@ -126,8 +128,8 @@ module _
     (is-inhabited-interval P x y × is-inhabited-interval P y x) → x ＝ y
   is-eq-both-intervals-are-inhabited-Poset x y (x≤y , y≤x) =
     antisymmetric-leq-Poset P x y
-      ( is-le-is-inhabited-interval-Poset x y x≤y)
-      ( is-le-is-inhabited-interval-Poset y x y≤x)
+      ( is-le-is-inhabited-interval-Poset P x y x≤y)
+      ( is-le-is-inhabited-interval-Poset P y x y≤x)
 
   equiv-is-eq-both-intervals-are-inhabited-Poset :
     (x y : type-Poset P) →
