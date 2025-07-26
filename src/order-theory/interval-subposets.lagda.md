@@ -81,9 +81,8 @@ module _
 ### `[x , y]` is inhabited iff `x ≤ y`
 
 ```agda
-
 module _
-  {l1 l2 : Level} {X : Poset l1 l2} (x y : type-Poset X)
+  {l1 l2 : Level} (X : Poset l1 l2) (x y : type-Poset X)
   where
 
   is-inhabited-interval-is-le-Poset :
