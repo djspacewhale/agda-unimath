@@ -31,12 +31,13 @@ open import group-theory.semigroups
 open import linear-algebra.left-modules-rings
 open import linear-algebra.modules-commutative-rings
 
-open import order-theory.finite-preorders
 open import order-theory.finite-posets
+open import order-theory.finite-preorders
 open import order-theory.interval-subposets
 open import order-theory.locally-finite-posets
 open import order-theory.posets
 
+open import ring-theory.algebras-rings
 open import ring-theory.homomorphisms-rings
 open import ring-theory.rings
 open import ring-theory.semirings
@@ -71,12 +72,22 @@ module _
   incidence-Ab =
     function-Ab (ab-Commutative-Ring R) (inhabited-interval-Poset P)
 
-  incidence-module-CRing : Module-CRing (l1 ⊔ l2 ⊔ l3) R
-  incidence-module-CRing = {!   !}
+  incidence-Module-CRing : Module-CRing (l1 ⊔ l2 ⊔ l3) R
+  incidence-Module-CRing = {!   !}
 
-  convolution-incidence-module-CRing :
+  add-incidence-type-CRing :
     incidence-type-CRing → incidence-type-CRing → incidence-type-CRing
-  convolution-incidence-module-CRing f g ((x , y) , inhb) =
+  add-incidence-type-CRing = add-Module-CRing R incidence-Module-CRing
+
+  mul-hom-incidence-Module-CRing :
+    hom-Ring (ring-Commutative-Ring R)
+    ( endomorphism-ring-ab-left-module-Ring
+    ( ring-Commutative-Ring R) incidence-Module-CRing)
+  mul-hom-incidence-Module-CRing = mul-hom-Module-CRing R incidence-Module-CRing
+
+  convolution-incidence-Module-CRing :
+    incidence-type-CRing → incidence-type-CRing → incidence-type-CRing
+  convolution-incidence-Module-CRing f g ((x , y) , _) =
     sum-finite-Commutative-Ring R
     ( finite-type-interval-locally-finite-Poset P loc-fin x y) conv
     where
@@ -87,6 +98,65 @@ module _
       mul-Commutative-Ring R
       ( f ((x , z) , is-inhabited-lower-subinterval-Poset x≤z z≤y))
       ( g ((z , y) , is-inhabited-upper-subinterval-Poset x≤z z≤y))
+
+  is-associative-convolution-incidence-Module-CRing :
+    ( x y z : incidence-type-CRing) →
+    convolution-incidence-Module-CRing x
+      ( convolution-incidence-Module-CRing y z)
+    ＝ convolution-incidence-Module-CRing
+      ( convolution-incidence-Module-CRing x y) z
+  is-associative-convolution-incidence-Module-CRing x y z = eq-htpy htpy
+    where
+    htpy :
+      convolution-incidence-Module-CRing x
+        ( convolution-incidence-Module-CRing y z) ~
+      convolution-incidence-Module-CRing
+        ( convolution-incidence-Module-CRing x y) z
+    htpy ((a , b) , _) = {!   !}
+
+  is-left-associative-action-convolution-incidence-Module-CRing :
+    ( r : type-Commutative-Ring R) (x y : incidence-type-CRing) →
+    {!   !} ＝ convolution-incidence-Module-CRing {!   !} y
+  is-left-associative-action-convolution-incidence-Module-CRing r x y =
+    eq-htpy {!   !}
+    where
+    htpy : {!   !} ~ convolution-incidence-Module-CRing {!   !} {!   !}
+    htpy ((a , b) , _) = {!   !}
+
+  is-right-associative-action-convolution-incidence-Module-CRing :
+    ( r : type-Commutative-Ring R) (x y : incidence-type-CRing) →
+    {!   !} ＝ convolution-incidence-Module-CRing x {!   !}
+  is-right-associative-action-convolution-incidence-Module-CRing r x y =
+    eq-htpy {!   !}
+    where
+    htpy : {!   !} ~ {!   !}
+    htpy ((a , b) , _) = {!   !}
+
+  is-left-distributive-convolution-incidence-Module-CRing :
+    ( x y z : incidence-type-CRing) →
+    convolution-incidence-Module-CRing {!   !} z ＝ {!   !}
+  is-left-distributive-convolution-incidence-Module-CRing x y z = {!   !}
+
+  is-right-distributive-convolution-incidence-Module-CRing :
+    ( x y z : incidence-type-CRing) →
+    convolution-incidence-Module-CRing x {!   !} ＝ {!   !}
+  is-right-distributive-convolution-incidence-Module-CRing x y z =
+    eq-htpy {!   !}
+    where
+    htpy : {!   !} ~ {!   !}
+    htpy ((a , b) , _) = {!   !}
+
+  incidence-algebra-Poset-CRing :
+    Nonunital-Left-Algebra-Ring (l1 ⊔ l2 ⊔ l3) (ring-Commutative-Ring R)
+  pr1 incidence-algebra-Poset-CRing = incidence-Module-CRing
+  pr1 (pr2 incidence-algebra-Poset-CRing) =
+    convolution-incidence-Module-CRing
+  pr1 (pr2 (pr2 incidence-algebra-Poset-CRing)) =
+    ( λ x y z → inv (is-associative-convolution-incidence-Module-CRing x y z))
+  pr1 (pr1 (pr2 (pr2 (pr2 incidence-algebra-Poset-CRing)))) = {!   !}
+  pr2 (pr1 (pr2 (pr2 (pr2 incidence-algebra-Poset-CRing)))) = {!   !}
+  pr1 (pr2 (pr2 (pr2 (pr2 incidence-algebra-Poset-CRing)))) = {!   !}
+  pr2 (pr2 (pr2 (pr2 (pr2 incidence-algebra-Poset-CRing)))) = {!   !}
 ```
 
 WIP: complete this definition after _R-modules_ have been defined.
