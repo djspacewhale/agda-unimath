@@ -126,6 +126,11 @@ module _
   add-Module-CRing : (x y : type-Module-CRing) → type-Module-CRing
   add-Module-CRing = add-Ab ab-Module-CRing
 
+  mul-hom-Module-CRing :
+    hom-Ring (ring-Commutative-Ring R)
+    ( endomorphism-ring-ab-left-module-Ring (ring-Commutative-Ring R) M)
+  mul-hom-Module-CRing = mul-hom-left-module-Ring (ring-Commutative-Ring R) M
+
   zero-Module-CRing : type-Module-CRing
   zero-Module-CRing = zero-Ab ab-Module-CRing
 
