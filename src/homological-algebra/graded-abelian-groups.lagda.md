@@ -23,7 +23,7 @@ A {{concept "graded abelian group" Agda=graded-Ab}} is a ℤ-indexed family of
 
 As graded abelian groups are an infinitary structure, issues of predicativity
 arise. What we define in this module may be considered "small graded abelian
-groups", while polymorphic/impredicative graded abelian groups are defined
+groups", while polymorphic/impredicative graded abelian groups will be defined
 elsewhere.
 
 ```agda
