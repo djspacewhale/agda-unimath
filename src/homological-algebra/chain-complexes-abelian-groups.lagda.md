@@ -28,7 +28,9 @@ open import homological-algebra.graded-abelian-groups
 
 ## Idea
 
-A {{concept "chain complex" Agda=chain-complex-Ab}} is:
+A
+{{concept "chain complex" Disambiguation="of abelian groups" Agda=chain-complex-Ab}}
+is:
 
 - a [graded abelian group](homological-algebra.graded-abelian-groups.md)
   `(n : ℤ) → C n`
