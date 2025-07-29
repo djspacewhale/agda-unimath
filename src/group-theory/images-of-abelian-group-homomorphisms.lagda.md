@@ -119,6 +119,9 @@ module _
       ( is-image-image-hom-Ab image-hom-Ab)
       ( refl-leq-Subgroup-Ab H image-hom-Ab)
 
+  is-in-im-hom-Ab : (h : type-Ab H) → UU (l1 ⊔ l2)
+  is-in-im-hom-Ab = is-in-subtype subset-image-hom-Ab
+
   leq-image-hom-Ab :
     {l : Level} (K : Subgroup-Ab l H) →
     ((g : type-Ab G) → is-in-Subgroup-Ab H K (map-hom-Ab G H f g)) →
