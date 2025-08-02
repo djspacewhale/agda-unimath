@@ -1245,7 +1245,7 @@ module _
     split-idem-f)))
   pr1 (htpy-retract-retract-of-quasiidempotent
     f (B , (g , h , hg~id) , gh~f)) (seq-A , eq-seq-A) =
-      eq-seq-A 0 ∙ {!   !}
+      {!   !}
   pr1 (pr2 (htpy-retract-retract-of-quasiidempotent
     f (B , (g , h , hg~id) , gh~f))) a =
       {!   !}
