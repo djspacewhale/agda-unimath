@@ -15,6 +15,7 @@ open import foundation.action-on-identifications-functions
 open import foundation.dependent-pair-types
 open import foundation.equivalences
 open import foundation.fixed-points-endofunctions
+open import foundation.function-extensionality
 open import foundation.fundamental-theorem-of-identity-types
 open import foundation.homotopies
 open import foundation.homotopy-algebra
@@ -45,6 +46,7 @@ open import foundation-core.retractions
 open import foundation-core.sections
 open import foundation-core.sets
 open import foundation-core.small-types
+open import foundation-core.transport-along-identifications
 open import foundation-core.torsorial-type-families
 ```
 
@@ -1217,6 +1219,92 @@ module _
     is-small-retract
       ( H (map-path-cosplit-map r x) (map-path-cosplit-map r y))
       ( ap (map-path-cosplit-map r) , is-path-cosplit-path-cosplit-map r x y)
+```
+
+### Split idempotents are a retract of quasiidempotents
+
+That is, for any type `A`, `Σ (A → A) is-split-idempotent` is a retract of
+`quasicoherently-idempotent-map A`. This is Corollary 6.4 of {{#cite Shu17}}
+where it is derived from an equivalence between quasicoherently-idempotent
+structures and retractions; however, we present a direct proof here.
+
+```agda
+module _
+  (l : Level) (A : UU l)
+  where
+
+  htpy-retract-retract-of-quasiidempotent :
+    ( f : A → A) → (split-idem-f : is-split-idempotent l f) →
+    htpy-retract (pr1 (pr2 (is-split-idempotent-quasicoherently-idempotent-map
+    ( f , is-quasicoherently-idempotent-split-idempotent-map
+      ( f , split-idem-f)))))
+    ( comp-retract (pr1 (pr2 split-idem-f))
+      ( retract-equiv (essentially-unique-splitting-type-is-split-idempotent
+    ( is-split-idempotent-is-quasicoherently-idempotent
+      ( is-quasicoherently-idempotent-is-split-idempotent split-idem-f))
+    split-idem-f)))
+  pr1 (htpy-retract-retract-of-quasiidempotent
+    f (B , (g , h , hg~id) , gh~f)) (seq-A , eq-seq-A) =
+      eq-seq-A 0 ∙ {!   !}
+  pr1 (pr2 (htpy-retract-retract-of-quasiidempotent
+    f (B , (g , h , hg~id) , gh~f))) a =
+      {!   !}
+  pr2 (pr2 (htpy-retract-retract-of-quasiidempotent
+    f (B , (g , h , hg~id) , gh~f))) (seq-A , eq-seq-A) =
+      {!   !}
+
+  coherence-equiv-is-split-idempotent-retract-of-quasiidempotent :
+    ( f : A → A) → (split-idem-f : is-split-idempotent l f) →
+    coherence-equiv-is-split-idempotent
+    ( is-split-idempotent-quasicoherently-idempotent-map
+      ( f , is-quasicoherently-idempotent-split-idempotent-map
+        ( f , split-idem-f)))
+    split-idem-f (essentially-unique-splitting-type-is-split-idempotent
+      ( is-split-idempotent-is-quasicoherently-idempotent
+        ( is-quasicoherently-idempotent-split-idempotent-map
+          ( f , split-idem-f))) split-idem-f)
+    ( htpy-retract-retract-of-quasiidempotent f split-idem-f)
+  coherence-equiv-is-split-idempotent-retract-of-quasiidempotent
+    f (B , (g , h , hg~id) , gh~f) a =
+      {!   !}
+
+  equiv-is-split-idempotent-retract-of-quasiidempotent :
+    ( f : A → A) → (split-idem-f : is-split-idempotent l f) →
+    equiv-is-split-idempotent
+    ( is-split-idempotent-quasicoherently-idempotent-map
+      ( f , (is-quasicoherently-idempotent-split-idempotent-map
+      ( f , split-idem-f))))
+    split-idem-f
+  pr1 (equiv-is-split-idempotent-retract-of-quasiidempotent f split-idem-f) =
+    essentially-unique-splitting-type-is-split-idempotent
+    ( is-split-idempotent-is-quasicoherently-idempotent
+      ( is-quasicoherently-idempotent-split-idempotent-map
+      ( f , split-idem-f)))
+    split-idem-f
+  pr1 (pr2
+    ( equiv-is-split-idempotent-retract-of-quasiidempotent f split-idem-f)) =
+    htpy-retract-retract-of-quasiidempotent f split-idem-f
+  pr2 (pr2
+    ( equiv-is-split-idempotent-retract-of-quasiidempotent f split-idem-f)) =
+    coherence-equiv-is-split-idempotent-retract-of-quasiidempotent
+      f split-idem-f
+
+  split-idempotents-are-retract-of-quasiidempotents :
+    ( Σ (A → A) (is-split-idempotent l))
+    retract-of
+    ( quasicoherently-idempotent-map A)
+  pr1 (split-idempotents-are-retract-of-quasiidempotents) (f , split-idem-f) =
+    f , is-quasicoherently-idempotent-split-idempotent-map (f , split-idem-f)
+  pr1 (pr2 (split-idempotents-are-retract-of-quasiidempotents)) (f , qcoh-f) =
+    f , is-split-idempotent-quasicoherently-idempotent-map (f , qcoh-f)
+  pr2 (pr2 split-idempotents-are-retract-of-quasiidempotents)
+    ( f , split-idem-f) =
+      eq-pair-Σ refl (eq-equiv-is-split-idempotent
+      ( tr (is-split-idempotent l) refl (pr2
+      (( pr1 (pr2 split-idempotents-are-retract-of-quasiidempotents) ∘
+      pr1 split-idempotents-are-retract-of-quasiidempotents)
+      ( f , split-idem-f)))) split-idem-f
+      ( equiv-is-split-idempotent-retract-of-quasiidempotent f split-idem-f))
 ```
 
 ## References
