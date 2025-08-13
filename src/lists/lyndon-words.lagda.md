@@ -9,7 +9,9 @@ module lists.lyndon-words where
 ```agda
 open import foundation.universe-levels
 
-open import lists.conjugacy-classes-lists
+open import foundation.dependent-pair-types
+open import foundation-core.propositions
+
 open import lists.lexicographic-orders
 open import lists.lists
 open import lists.prefixes-lists
@@ -38,6 +40,18 @@ Consider an ordered set - say, `(Fin n , <)` - and a nonnil word
 module _
   {l1 l2 : Level} (A : Poset l1 l2)
   where
+
+  prefix-is-lex-less-than-tail-list : (l : list (type-Poset A)) → Prop (l1 ⊔ l2)
+  prefix-is-lex-less-than-tail-list l =
+    Π-Prop
+    ( prefix-list l)
+    ( λ p → lex-order-list A (pr1 p) (relative-tail l p))
+
+  is-lex-less-than-suffix-list : (l : list (type-Poset A)) → Prop (l1 ⊔ l2)
+  is-lex-less-than-suffix-list l =
+    Π-Prop
+    ( Σ (suffix-list l) (λ s → is-nonnil-list (pr1 s)))
+    ( λ s → lex-order-list A l (pr1 (pr1 s)))
 ```
 
 ## External links
