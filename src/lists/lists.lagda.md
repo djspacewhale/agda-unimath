@@ -7,6 +7,7 @@ module lists.lists where
 <details><summary>Imports</summary>
 
 ```agda
+open import elementary-number-theory.strict-inequality-natural-numbers
 open import elementary-number-theory.natural-numbers
 
 open import foundation.action-on-higher-identifications-functions
@@ -305,6 +306,31 @@ lenght-tail-is-nonnil-list :
     length-list l
 lenght-tail-is-nonnil-list nil p = ex-falso (p refl)
 lenght-tail-is-nonnil-list (cons x l) p = refl
+```
+
+### Maybe extracting the `n`th element of a list
+
+When `length-list l < n`, we may cash out for a genuine element of `A`.
+
+```agda
+element-list-Maybe : {l1 : Level} {A : UU l1} (n : ℕ) (l : list A) → Maybe A
+element-list-Maybe zero-ℕ nil = exception-Maybe
+element-list-Maybe zero-ℕ (cons x l) = unit-Maybe x
+element-list-Maybe (succ-ℕ n) nil = exception-Maybe
+element-list-Maybe (succ-ℕ n) (cons x l) = element-list-Maybe n l
+
+element-list-length-le :
+  {l1 : Level} {A : UU l1} (n : ℕ) (l : list A) → le-ℕ n (length-list l) → A
+element-list-length-le {l1} {A} zero-ℕ (cons x l) n<l = x
+element-list-length-le {l1} {A} (succ-ℕ n) (cons x l) n<l =
+  element-list-length-le n l n<l
+
+element-list-Maybe-length-le :
+  {l1 : Level} {A : UU l1} (n : ℕ) (l : list A) (n<l : le-ℕ n (length-list l)) →
+  element-list-Maybe n l ＝ unit-Maybe (element-list-length-le n l n<l)
+element-list-Maybe-length-le {l1} {A} zero-ℕ (cons x l) n<l = refl
+element-list-Maybe-length-le {l1} {A} (succ-ℕ n) (cons x l) n<l =
+  element-list-Maybe-length-le n l n<l
 ```
 
 ### Head and tail operations
