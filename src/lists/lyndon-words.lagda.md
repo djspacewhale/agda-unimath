@@ -9,12 +9,12 @@ module lists.lyndon-words where
 ```agda
 open import foundation.universe-levels
 
-open import order-theory.posets
-
+open import lists.conjugacy-classes-lists
 open import lists.lexicographic-orders
 open import lists.lists
-open import lists.conjugacy-classes-lists
 open import lists.prefixes-lists
+
+open import order-theory.posets
 ```
 
 </details>
