@@ -12,7 +12,11 @@ open import elementary-number-theory.natural-numbers
 
 open import foundation.action-on-identifications-functions
 open import foundation.dependent-pair-types
+open import foundation.action-on-identifications-binary-functions
+open import foundation.empty-types
 open import foundation.function-types
+open import foundation.unit-type
+open import foundation.raising-universe-levels
 open import foundation.identity-types
 open import foundation.sets
 open import foundation.universe-levels
@@ -72,27 +76,6 @@ list-Monoid X =
     ( pair nil (pair left-unit-law-concat-list right-unit-law-concat-list))
 ```
 
-### Concatenation with `l` is injective
-
-Recall that an [injective map](foundation-core.injective-maps.md) is a map `f`
-such that `f x = f y → x = y`.
-
-```agda
-module _
-  {l : Level} {A : UU l}
-  where
-
-  Eq-concat-Eq-list :
-    (l m n : list A) → Eq-list (concat-list l m) (concat-list l n) → Eq-list m n
-  Eq-concat-Eq-list nil m n p = p
-  Eq-concat-Eq-list (cons x l) m n (_ , p) = Eq-concat-Eq-list l m n p
-
-  is-injective-concat-list : (l : list A) → is-injective (concat-list l)
-  is-injective-concat-list l {x} {y} p =
-    eq-Eq-list x y
-    ( Eq-concat-Eq-list l x y (Eq-eq-list (concat-list l x) (concat-list l y) p))
-```
-
 ### `snoc`-laws for list concatenation
 
 ```agda
@@ -121,6 +104,61 @@ length-concat-list nil y = inv (left-unit-law-add-ℕ (length-list y))
 length-concat-list (cons a x) y =
   ( ap succ-ℕ (length-concat-list x y)) ∙
   ( inv (left-successor-law-add-ℕ (length-list x) (length-list y)))
+```
+
+### Concatenation with `l` is injective
+
+Recall that an [injective map](foundation-core.injective-maps.md) is a map `f`
+such that `f x = f y → x = y`.
+
+```agda
+module _
+  {l1 : Level} {A : UU l1}
+  where
+
+  Eq-left-concat-Eq-list :
+    (l m n : list A) → Eq-list (concat-list l m) (concat-list l n) → Eq-list m n
+  Eq-left-concat-Eq-list nil m n p = p
+  Eq-left-concat-Eq-list (cons x l) m n (_ , p) = Eq-left-concat-Eq-list l m n p
+
+  is-injective-left-concat-list : (l : list A) → is-injective (concat-list l)
+  is-injective-left-concat-list l {x} {y} p =
+    eq-Eq-list x y
+    ( Eq-left-concat-Eq-list l x y
+      ( Eq-eq-list (concat-list l x) (concat-list l y) p))
+
+  Eq-right-concat-Eq-list :
+    (l m n : list A) → Eq-list (concat-list m l) (concat-list n l) → Eq-list m n
+  Eq-right-concat-Eq-list l nil nil p = map-raise star
+  Eq-right-concat-Eq-list l nil (cons x n) p = map-raise lem
+    where
+    lem : empty
+    lem =
+      neq-add-ℕ (length-list l) (length-list n)
+      ( ap length-list (inv (left-unit-law-concat-list l) ∙
+          eq-Eq-list (concat-list nil l) (concat-list (cons x n) l) p) ∙
+        length-concat-list (cons x n) l ∙
+        ap (λ n → add-ℕ n (length-list l)) refl ∙
+        commutative-add-ℕ (succ-ℕ (length-list n)) (length-list l))
+  Eq-right-concat-Eq-list l (cons x m) nil p = map-raise lem
+    where
+    lem : empty
+    lem =
+      neq-add-ℕ (length-list l) (length-list m)
+      ( ap length-list (inv (left-unit-law-concat-list l) ∙
+          inv (eq-Eq-list (concat-list (cons x m) l) (concat-list nil l) p)) ∙
+        length-concat-list (cons x m) l ∙
+        ap (λ n → add-ℕ n (length-list l)) refl ∙
+        commutative-add-ℕ (succ-ℕ (length-list m)) (length-list l))
+  Eq-right-concat-Eq-list l (cons x m) (cons x₁ n) (p , q) =
+    p , Eq-right-concat-Eq-list l m n q
+
+  is-injective-right-concat-list :
+    (l : list A) → is-injective (λ m → concat-list m l)
+  is-injective-right-concat-list l {x} {y} p =
+    eq-Eq-list x y
+    ( Eq-right-concat-Eq-list l x y
+      ( Eq-eq-list (concat-list x l) (concat-list y l) p))
 ```
 
 ### An `η`-rule for lists
