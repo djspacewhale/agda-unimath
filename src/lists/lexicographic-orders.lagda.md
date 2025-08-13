@@ -7,17 +7,20 @@ module lists.lexicographic-orders where
 <details><summary>Imports</summary>
 
 ```agda
-open import foundation.universe-levels
-open import foundation.existential-quantification
-open import foundation-core.identity-types
-open import lists.lists
-open import lists.prefixes-lists
-open import lists.concatenation-lists
-open import order-theory.posets
-open import foundation-core.propositions
 open import foundation.conjunction
 open import foundation.disjunction
+open import foundation.existential-quantification
+open import foundation.universe-levels
+
+open import foundation-core.identity-types
+open import foundation-core.propositions
 open import foundation-core.sets
+
+open import lists.concatenation-lists
+open import lists.lists
+open import lists.prefixes-lists
+
+open import order-theory.posets
 ```
 
 </details>
@@ -65,3 +68,9 @@ module _
               Id-Prop (list-Set (set-Poset A)) m (concat-list u (cons x v)) ∧
               Id-Prop (list-Set (set-Poset A)) n (concat-list u (cons y w))))))))))))
 ```
+
+## External links
+
+- [Theory](https://www.lyndex.org/theory.php) at Lyndex Project
+- [Lexicographic order](https://en.wikipedia.org/wiki/Lexicographic_order) at
+  Wikipedia
