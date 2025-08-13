@@ -35,7 +35,7 @@ set, being a prefix of a fixed `l` is a property of lists.
 
 ```agda
 module _
-  {l1 : Level} (A : UU l1) (l : list A)
+  {l1 : Level} {A : UU l1} (l : list A)
   where
 
   is-prefix-list : list A → UU l1
@@ -55,4 +55,8 @@ module _
     is-set A → (m : list A) → is-prop (is-prefix-list m)
   is-set-is-prop-is-prefix-list set-A m =
     is-prop-all-elements-equal (is-set-all-elements-equal-is-prefix-list set-A m)
+
+  is-set-is-prefix-list-Prop : is-set A → list A → Prop l1
+  is-set-is-prefix-list-Prop set-A m =
+    ( is-prefix-list m) , is-set-is-prop-is-prefix-list set-A m
 ```
