@@ -7,19 +7,18 @@ module lists.prefixes-lists where
 <details><summary>Imports</summary>
 
 ```agda
+open import foundation.dependent-pair-types
 open import foundation.empty-types
 open import foundation.universe-levels
-open import foundation.dependent-pair-types
 
 open import foundation-core.equality-dependent-pair-types
-open import foundation-core.sets
-open import foundation-core.injective-maps
 open import foundation-core.identity-types
+open import foundation-core.injective-maps
 open import foundation-core.propositions
-open import foundation-core.empty-types
+open import foundation-core.sets
 
-open import lists.lists
 open import lists.concatenation-lists
+open import lists.lists
 ```
 
 </details>
