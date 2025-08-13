@@ -65,16 +65,16 @@ module _
 
 ### Relative tails of prefixes of lists
 
-The **relative tail** of a prefix `p` of a word `l` is the unique word `q` such
-that `l = pq`.
+A **relative tail** of a prefix `p` of a word `l` is a word `q` such that
+`l = pq`.
 
 ```agda
 module _
-  {l1 : Level} {A : Set l1}
+  {l1 : Level} {A : UU l1}
   where
 
   relative-tail :
-    (l : list (type-Set A)) (p : prefix-list l) → list (type-Set A)
+    (l : list A) (p : prefix-list l) → list A
   relative-tail l (p , q , _) = q
 ```
 
