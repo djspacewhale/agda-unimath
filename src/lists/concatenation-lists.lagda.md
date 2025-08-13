@@ -17,6 +17,9 @@ open import foundation.identity-types
 open import foundation.sets
 open import foundation.universe-levels
 
+open import foundation-core.cartesian-product-types
+open import foundation-core.injective-maps
+
 open import group-theory.monoids
 
 open import lists.lists
@@ -67,6 +70,27 @@ list-Monoid X =
   pair
     ( pair (list-Set X) (pair concat-list associative-concat-list))
     ( pair nil (pair left-unit-law-concat-list right-unit-law-concat-list))
+```
+
+### Concatenation with `l` is injective
+
+Recall that an [injective map](foundation-core.injective-maps.md) is a map `f`
+such that `f x = f y → x = y`.
+
+```agda
+module _
+  {l : Level} {A : UU l}
+  where
+
+  Eq-concat-Eq-list :
+    (l m n : list A) → Eq-list (concat-list l m) (concat-list l n) → Eq-list m n
+  Eq-concat-Eq-list nil m n p = p
+  Eq-concat-Eq-list (cons x l) m n (_ , p) = Eq-concat-Eq-list l m n p
+
+  is-injective-concat-list : (l : list A) → is-injective (concat-list l)
+  is-injective-concat-list l {x} {y} p =
+    eq-Eq-list x y
+    ( Eq-concat-Eq-list l x y (Eq-eq-list (concat-list l x) (concat-list l y) p))
 ```
 
 ### `snoc`-laws for list concatenation
