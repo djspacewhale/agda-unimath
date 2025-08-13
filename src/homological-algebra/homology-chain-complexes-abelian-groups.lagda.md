@@ -14,6 +14,9 @@ open import elementary-number-theory.integers
 open import foundation.dependent-pair-types
 open import foundation.universe-levels
 
+open import foundation.action-on-identifications-functions
+open import foundation-core.identity-types
+open import foundation-core.transport-along-identifications
 open import foundation-core.propositions
 
 open import group-theory.abelian-groups
@@ -47,6 +50,16 @@ module _
   where
 
   homology-Chain-Complex-Ab : (C : Chain-Complex-Ab l) → Ab l
-  homology-Chain-Complex-Ab (C , D , is-chain) =
-    quotient-Ab (ab-kernel-hom-Ab (C n) (C (pred-ℤ n)) (D n)) {!   !}
+  homology-Chain-Complex-Ab (C , d , is-chain) =
+    quotient-Ab
+    ( ab-kernel-hom-Ab (C n) (C (pred-ℤ n)) (d n))
+    (( λ (i , p) → subset-image-hom-Ab (C (succ-ℤ n)) (C n) Dn i) ,
+      {!   !})
+      where
+      Dn : hom-Ab (C (succ-ℤ n)) (C n)
+      Dn =
+        tr
+        ( λ x → hom-Ab (C (succ-ℤ n)) (C x))
+        ( is-retraction-pred-ℤ n)
+        ( d (succ-ℤ n))
 ```
