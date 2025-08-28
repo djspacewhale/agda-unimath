@@ -280,7 +280,14 @@ pr2 (pr1 (Lattice-lattice-Algebra L)) join-lattice (x ∷ y ∷ empty-tuple) =
   join-Lattice L x y
 pr2 (pr1 (Lattice-lattice-Algebra L)) meet-lattice (x ∷ y ∷ empty-tuple) =
   meet-Lattice L x y
-pr2 (Lattice-lattice-Algebra L) = {!   !}
+pr2 (Lattice-lattice-Algebra L) comm-join assign = {!   !}
+pr2 (Lattice-lattice-Algebra L) comm-meet assign = {!   !}
+pr2 (Lattice-lattice-Algebra L) assoc-join assign = {!   !}
+pr2 (Lattice-lattice-Algebra L) assoc-meet assign = {!   !}
+pr2 (Lattice-lattice-Algebra L) idem-join assign = {!   !}
+pr2 (Lattice-lattice-Algebra L) idem-meet assign = {!   !}
+pr2 (Lattice-lattice-Algebra L) absorb-join assign = {!   !}
+pr2 (Lattice-lattice-Algebra L) absorb-meet assign = {!   !}
 ```
 
 ### The equivalence between order-theoretic lattices and universal-algebraic lattices
