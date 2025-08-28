@@ -13,12 +13,15 @@ open import foundation.dependent-pair-types
 open import foundation-core.identity-types
 open import lists.tuples
 open import order-theory.lattices
+open import foundation-core.propositions
 open import universal-algebra.algebraic-theories
 open import universal-algebra.signatures
+open import foundation.binary-relations
 open import foundation.action-on-identifications-functions
 open import foundation-core.sets
 open import foundation-core.equivalences
 open import universal-algebra.terms-over-signatures
+open import universal-algebra.models-of-signatures
 open import universal-algebra.algebras-of-theories
 ```
 
@@ -105,6 +108,22 @@ pr2 lattice-Theory absorb-meet =
 
 lattice-Algebra : (l : Level) → UU (lsuc l)
 lattice-Algebra l = Algebra lattice-signature lattice-Theory l
+
+type-lattice-Algebra : {l : Level} → lattice-Algebra l → UU l
+type-lattice-Algebra L = type-Algebra lattice-signature lattice-Theory L
+
+set-lattice-Algebra : {l : Level} → lattice-Algebra l → Set l
+set-lattice-Algebra L = set-Algebra lattice-signature lattice-Theory L
+
+model-lattice-Algebra :
+  {l : Level} → lattice-Algebra l → Model-Signature lattice-signature l
+model-lattice-Algebra L = model-Algebra lattice-signature lattice-Theory L
+
+structure-lattice-Algebra :
+  {l : Level} (L : lattice-Algebra l) →
+  is-model-signature lattice-signature (set-lattice-Algebra L)
+structure-lattice-Algebra L =
+  is-model-set-Algebra lattice-signature lattice-Theory L
 ```
 
 ## Properties
@@ -112,17 +131,33 @@ lattice-Algebra l = Algebra lattice-signature lattice-Theory l
 ### Universal-algebraic lattices are order-theoretic lattices
 
 Take `x ≤ y = (x ＝ (x ∧ y))`; the RHS is a proposition, as models are sets.
-This order is reflexive by idempotence of the meet operation (`x ＝ x ∧ x`),
-transitive by `foo`, and antisymmetric by `bar`.
+This order is reflexive by idempotence of the meet operation (`x ＝ x ∧ x`), and
+transitive and antisymmetric by some equational reasoning.
 
 ```agda
-lattice-Algebra-Lattice : {l : Level} → lattice-Algebra l → Lattice l l
-pr1 (pr1 (pr1 (lattice-Algebra-Lattice (((L , _) , _) , _)))) = L
-pr1 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice ((L , L-str) , _))))) x y =
+leq-prop-lattice-Algebra-Lattice :
+  {l : Level} (L : lattice-Algebra l) → Relation-Prop l (type-lattice-Algebra L)
+leq-prop-lattice-Algebra-Lattice ((L , L-str) , _) x y =
   Id-Prop L x (L-str meet-lattice (x ∷ y ∷ empty-tuple))
-pr1 (pr2 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice (L , L-alg)))))) x =
-  L-alg idem-meet (λ _ → x)
-pr2 (pr2 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice ((L , L-str) , L-alg)))))) x y z p q =
+
+leq-lattice-Algebra-Lattice :
+  {l : Level} (L : lattice-Algebra l) → (x y : type-lattice-Algebra L) → UU l
+leq-lattice-Algebra-Lattice L x y =
+  type-Prop (leq-prop-lattice-Algebra-Lattice L x y)
+
+is-reflexive-lattice-Algebra-Lattice :
+  {l : Level} (L : lattice-Algebra l) →
+  (x : type-lattice-Algebra L) →
+  leq-lattice-Algebra-Lattice L x x
+is-reflexive-lattice-Algebra-Lattice (L , L-alg) x = L-alg idem-meet (λ _ → x)
+
+is-transitive-lattice-Algebra-Lattice :
+  {l : Level} (L : lattice-Algebra l) →
+  (x y z : type-lattice-Algebra L) →
+  leq-lattice-Algebra-Lattice L y z →
+  leq-lattice-Algebra-Lattice L x y →
+  leq-lattice-Algebra-Lattice L x z
+is-transitive-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y z p q =
   equational-reasoning
     x
     ＝ L-str meet-lattice (x ∷ y ∷ empty-tuple)
@@ -139,7 +174,14 @@ pr2 (pr2 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice ((L , L-str) , L-alg)))))) x y 
             (succ-ℕ (succ-ℕ n)) → z)
     ＝ L-str meet-lattice (x ∷ z ∷ empty-tuple)
       by ap (λ w → L-str meet-lattice (w ∷ z ∷ empty-tuple)) (inv q)
-pr2 (pr1 (lattice-Algebra-Lattice ((L , L-str) , L-alg))) x y p q =
+
+is-antisymmetric-lattice-Algebra-Lattice :
+  {l : Level} (L : lattice-Algebra l) →
+  (x y : type-lattice-Algebra L) →
+  (x ＝ structure-lattice-Algebra L meet-lattice (x ∷ y ∷ empty-tuple)) →
+  (y ＝ structure-lattice-Algebra L meet-lattice (y ∷ x ∷ empty-tuple)) →
+  x ＝ y
+is-antisymmetric-lattice-Algebra-Lattice ((L , L-str), L-alg) x y p q =
   equational-reasoning
   x
   ＝ L-str meet-lattice (x ∷ y ∷ empty-tuple)
@@ -151,6 +193,17 @@ pr2 (pr1 (lattice-Algebra-Lattice ((L , L-str) , L-alg))) x y p q =
           (succ-ℕ n) → y)
   ＝ y
     by inv q
+
+lattice-Algebra-Lattice : {l : Level} → lattice-Algebra l → Lattice l l
+pr1 (pr1 (pr1 (lattice-Algebra-Lattice (((L , _) , _) , _)))) = L
+pr1 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice L)))) =
+  leq-prop-lattice-Algebra-Lattice L
+pr1 (pr2 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice L))))) =
+  is-reflexive-lattice-Algebra-Lattice L
+pr2 (pr2 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice L))))) =
+  is-transitive-lattice-Algebra-Lattice L
+pr2 (pr1 (lattice-Algebra-Lattice L)) =
+  is-antisymmetric-lattice-Algebra-Lattice L
 pr1 (pr1 (pr2 (lattice-Algebra-Lattice ((L , L-str) , _))) x y) =
   L-str meet-lattice (x ∷ y ∷ empty-tuple)
 pr2 (pr1 (pr2 (lattice-Algebra-Lattice L)) x y) z = {!   !}
