@@ -353,31 +353,9 @@ pr2 (Lattice-lattice-Algebra L) assoc-join assign =
 pr2 (Lattice-lattice-Algebra L) assoc-meet assign =
   {!   !}
 pr2 (Lattice-lattice-Algebra L) idem-join assign =
-  antisymmetric-leq-Lattice
-    ( L)
-    ( eval-term lattice-signature
-      ( is-model-model-Lattice-lattice-Algebra L)
-      ( assign)
-      ( var-Term 0))
-    ( eval-term lattice-signature
-      ( is-model-model-Lattice-lattice-Algebra L)
-      ( assign)
-      ( op-Term join-lattice (var-Term 0 ∷ var-Term 0 ∷ empty-tuple)))
-    ( {!   !})
-    ( {!   !})
+  {!   !}
 pr2 (Lattice-lattice-Algebra L) idem-meet assign =
-  antisymmetric-leq-Lattice
-    ( L)
-    ( eval-term lattice-signature
-      ( is-model-model-Lattice-lattice-Algebra L)
-      ( assign)
-      ( var-Term 0))
-    ( eval-term lattice-signature
-      ( is-model-model-Lattice-lattice-Algebra L)
-      ( assign)
-      ( op-Term meet-lattice (var-Term 0 ∷ var-Term 0 ∷ empty-tuple)))
-    ( {!   !})
-    ( {!   !})
+  {!   !}
 pr2 (Lattice-lattice-Algebra L) absorb-join assign =
   {!   !}
 pr2 (Lattice-lattice-Algebra L) absorb-meet assign =
