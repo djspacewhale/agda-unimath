@@ -17,6 +17,9 @@ open import foundation-core.propositions
 open import universal-algebra.algebraic-theories
 open import universal-algebra.signatures
 open import foundation.binary-relations
+open import order-theory.lower-bounds-posets
+open import order-theory.upper-bounds-posets
+open import foundation.logical-equivalences
 open import foundation.action-on-identifications-functions
 open import foundation-core.sets
 open import foundation-core.equivalences
@@ -181,7 +184,7 @@ is-antisymmetric-lattice-Algebra-Lattice :
   (x ＝ structure-lattice-Algebra L meet-lattice (x ∷ y ∷ empty-tuple)) →
   (y ＝ structure-lattice-Algebra L meet-lattice (y ∷ x ∷ empty-tuple)) →
   x ＝ y
-is-antisymmetric-lattice-Algebra-Lattice ((L , L-str), L-alg) x y p q =
+is-antisymmetric-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y p q =
   equational-reasoning
   x
   ＝ L-str meet-lattice (x ∷ y ∷ empty-tuple)
@@ -226,14 +229,7 @@ pr2 (pr1 (Lattice-lattice-Algebra L)) join-lattice (x ∷ y ∷ empty-tuple) =
   join-Lattice L x y
 pr2 (pr1 (Lattice-lattice-Algebra L)) meet-lattice (x ∷ y ∷ empty-tuple) =
   meet-Lattice L x y
-pr2 (Lattice-lattice-Algebra (((L , L-rel , L-pre) , L-pos) , _ , L-join)) comm-join assign = {!   !}
-pr2 (Lattice-lattice-Algebra (((L , L-rel , L-pre) , L-pos) , L-meet , _)) comm-meet assign = {!   !}
-pr2 (Lattice-lattice-Algebra (((L , L-rel , L-pre) , L-pos) , _ , L-join)) assoc-join assign = {!   !}
-pr2 (Lattice-lattice-Algebra (((L , L-rel , L-pre) , L-pos) , L-meet , _)) assoc-meet assign = {!   !}
-pr2 (Lattice-lattice-Algebra (((L , L-rel , L-pre) , L-pos) , _ , L-join)) idem-join assign = {!   !}
-pr2 (Lattice-lattice-Algebra (((L , L-rel , L-pre) , L-pos) , L-meet , _)) idem-meet assign = {!   !}
-pr2 (Lattice-lattice-Algebra (((L , L-rel , L-pre) , L-pos) , L-meet , L-join)) absorb-join assign = {!   !}
-pr2 (Lattice-lattice-Algebra (((L , L-rel , L-pre) , L-pos) , L-meet , L-join)) absorb-meet assign = {!   !}
+pr2 (Lattice-lattice-Algebra L) = {!   !}
 ```
 
 ### The equivalence between order-theoretic lattices and universal-algebraic lattices
@@ -304,7 +300,8 @@ module lattice-resizing-propositional-resizing where
     type-Lattice L
   pr1 (pr2 (pr1 (pr1 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L)))) x y =
     pr2 (pr1 (resize l1 l2)) (pr1 (pr2 (resize l1 l2) (leq-lattice-Prop L x y)))
-  pr2 (pr2 (pr1 (pr1 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L)))) = {!   !}
+  pr2 (pr2 (pr1 (pr1 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L)))) =
+    {!   !}
   pr2 (pr1 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L)) = {!   !}
   pr2 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L) = {!   !}
   pr2 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) = {!   !}
