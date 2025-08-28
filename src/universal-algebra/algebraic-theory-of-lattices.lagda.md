@@ -4,28 +4,33 @@
 module universal-algebra.algebraic-theory-of-lattices where
 ```
 
-<details><summary><Imports></summary>
+<details><summary>Imports</summary>
 
 ```agda
 open import elementary-number-theory.natural-numbers
-open import foundation.universe-levels
-open import foundation.dependent-pair-types
-open import foundation-core.identity-types
-open import lists.tuples
-open import order-theory.lattices
-open import foundation-core.propositions
-open import universal-algebra.algebraic-theories
-open import universal-algebra.signatures
+
+open import foundation.action-on-identifications-functions
 open import foundation.binary-relations
+open import foundation.dependent-pair-types
+open import foundation.logical-equivalences
+open import foundation.universe-levels
+
+open import foundation-core.equivalences
+open import foundation-core.identity-types
+open import foundation-core.propositions
+open import foundation-core.sets
+
+open import lists.tuples
+
+open import order-theory.lattices
 open import order-theory.lower-bounds-posets
 open import order-theory.upper-bounds-posets
-open import foundation.logical-equivalences
-open import foundation.action-on-identifications-functions
-open import foundation-core.sets
-open import foundation-core.equivalences
-open import universal-algebra.terms-over-signatures
-open import universal-algebra.models-of-signatures
+
+open import universal-algebra.algebraic-theories
 open import universal-algebra.algebras-of-theories
+open import universal-algebra.models-of-signatures
+open import universal-algebra.signatures
+open import universal-algebra.terms-over-signatures
 ```
 
 </details>
@@ -36,8 +41,8 @@ open import universal-algebra.algebras-of-theories
 non-algebraic objects that fall under the purview of universal algebra. In this
 setting, a {{#concept "lattice" Agda=lattice-Algebra}} is a
 [model](universal-algebra.models-of-signatures.md) of the
-[signature](universal-algebra.signatures.md) with two binary operations `\_∧\_,
-\_∨\_, [satisfying](universal-algebra.algebras-of-theories.md) the
+[signature](universal-algebra.signatures.md) with two binary operations
+`\_∧\_, \_∨\_`, [satisfying](universal-algebra.algebras-of-theories.md) the
 [axioms](universal-algebra.algebraic-theories.md):
 
 ```text
@@ -288,21 +293,3 @@ decidable). This is a lattice by rote computation.
 Then, consider its [quotient](foundation.set-quotients.md) `bool / P` where
 `(x ＝P y) = ((x ＝ y) ∨ P)`; this quotient is naturally a poset living in
 `Poset (l1 ⊔ l2) l2`, and is again a lattice.
-
-```agda
-module lattice-resizing-propositional-resizing where
-
-  open import foundation.propositional-resizing
-
-  prop-resizing-equiv-lattice-Algebra :
-    (l1 l2 : Level) → propositional-resizing → Lattice l1 l2 ≃ Lattice l1 l1
-  pr1 (pr1 (pr1 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L))) =
-    type-Lattice L
-  pr1 (pr2 (pr1 (pr1 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L)))) x y =
-    pr2 (pr1 (resize l1 l2)) (pr1 (pr2 (resize l1 l2) (leq-lattice-Prop L x y)))
-  pr2 (pr2 (pr1 (pr1 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L)))) =
-    {!   !}
-  pr2 (pr1 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L)) = {!   !}
-  pr2 (pr1 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) L) = {!   !}
-  pr2 (prop-resizing-equiv-lattice-Algebra l1 l2 resize) = {!   !}
-```
