@@ -423,4 +423,4 @@ Then, consider its [quotient](foundation.set-quotients.md) `bool / P` where
 
 ## References
 
-{{#reference BurSan}}
+{{#bibliography}} {{#reference BurSan}}
