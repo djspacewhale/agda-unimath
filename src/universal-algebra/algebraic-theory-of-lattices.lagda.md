@@ -27,6 +27,8 @@ open import order-theory.lattices
 open import order-theory.least-upper-bounds-posets
 open import order-theory.lower-bounds-posets
 open import order-theory.posets
+open import order-theory.meet-semilattices
+open import order-theory.join-semilattices
 open import order-theory.preorders
 open import order-theory.upper-bounds-posets
 
@@ -146,6 +148,10 @@ Take `x ≤ y = (x ＝ (x ∧ y))`; the RHS is a proposition, as models are sets
 This order is reflexive by idempotence of the meet operation (`x ＝ x ∧ x`), and
 transitive and antisymmetric by some equational reasoning.
 
+To show this poset has
+[greatest lower bounds](order-theory.greatest-lower-bounds-posets.md) and
+[least upper bounds](order-theory.least-upper-bounds-posets.md)...
+
 ```agda
 leq-prop-lattice-Algebra-Lattice :
   {l : Level} (L : lattice-Algebra l) → Relation-Prop l (type-lattice-Algebra L)
@@ -238,7 +244,7 @@ pr1 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice
     ＝ L-str meet-lattice (z ∷ y ∷ empty-tuple)
       by z<y
     ＝ L-str meet-lattice
-      (L-str meet-lattice (z ∷ x ∷ empty-tuple) ∷ y ∷ empty-tuple)
+      ( L-str meet-lattice (z ∷ x ∷ empty-tuple) ∷ y ∷ empty-tuple)
       by ap (λ w → L-str meet-lattice (w ∷ y ∷ empty-tuple)) z<x
     ＝ L-str meet-lattice
       ( z ∷
@@ -316,21 +322,66 @@ begin to take an important role in the formalization. In particular, the
 universal-algebraic lattice of an order-theoretic lattice is _small_, in the
 sense that an `L ∈ Lattice l1 l2` becomes an `L' ∈ lattice-Algebra l1`!
 
+Joins and meets are as expected. That they are each commutative, associative,
+and idempotent is classic order theory, and the absorption laws also follow.
+
 ```agda
-Lattice-lattice-Algebra : {l1 l2 : Level} → Lattice l1 l2 → lattice-Algebra l1
-pr1 (pr1 (Lattice-lattice-Algebra L)) = set-Lattice L
-pr2 (pr1 (Lattice-lattice-Algebra L)) join-lattice (x ∷ y ∷ empty-tuple) =
+model-Lattice-lattice-Algebra :
+  {l1 l2 : Level} → Lattice l1 l2 → Model-Signature lattice-signature l1
+pr1 (model-Lattice-lattice-Algebra L) = set-Lattice L
+pr2 (model-Lattice-lattice-Algebra L) join-lattice (x ∷ y ∷ empty-tuple) =
   join-Lattice L x y
-pr2 (pr1 (Lattice-lattice-Algebra L)) meet-lattice (x ∷ y ∷ empty-tuple) =
+pr2 (model-Lattice-lattice-Algebra L) meet-lattice (x ∷ y ∷ empty-tuple) =
   meet-Lattice L x y
-pr2 (Lattice-lattice-Algebra L) comm-join assign = {!   !}
-pr2 (Lattice-lattice-Algebra L) comm-meet assign = {!   !}
-pr2 (Lattice-lattice-Algebra L) assoc-join assign = {!   !}
-pr2 (Lattice-lattice-Algebra L) assoc-meet assign = {!   !}
-pr2 (Lattice-lattice-Algebra L) idem-join assign = {!   !}
-pr2 (Lattice-lattice-Algebra L) idem-meet assign = {!   !}
-pr2 (Lattice-lattice-Algebra L) absorb-join assign = {!   !}
-pr2 (Lattice-lattice-Algebra L) absorb-meet assign = {!   !}
+
+is-model-model-Lattice-lattice-Algebra :
+  {l1 l2 : Level} → (L : Lattice l1 l2) →
+  is-model lattice-signature (type-Lattice L)
+is-model-model-Lattice-lattice-Algebra L =
+  is-model-set-Model-Signature
+    ( lattice-signature)
+    ( model-Lattice-lattice-Algebra L)
+
+Lattice-lattice-Algebra : {l1 l2 : Level} → Lattice l1 l2 → lattice-Algebra l1
+pr1 (Lattice-lattice-Algebra L) = model-Lattice-lattice-Algebra L
+pr2 (Lattice-lattice-Algebra L) comm-join assign =
+  {!   !}
+pr2 (Lattice-lattice-Algebra L) comm-meet assign =
+  {!   !}
+pr2 (Lattice-lattice-Algebra L) assoc-join assign =
+  {!   !}
+pr2 (Lattice-lattice-Algebra L) assoc-meet assign =
+  {!   !}
+pr2 (Lattice-lattice-Algebra L) idem-join assign =
+  antisymmetric-leq-Lattice
+    ( L)
+    ( eval-term lattice-signature
+      ( is-model-model-Lattice-lattice-Algebra L)
+      ( assign)
+      ( var-Term 0))
+    ( eval-term lattice-signature
+      ( is-model-model-Lattice-lattice-Algebra L)
+      ( assign)
+      ( op-Term join-lattice (var-Term 0 ∷ var-Term 0 ∷ empty-tuple)))
+    ( {!   !})
+    ( {!   !})
+pr2 (Lattice-lattice-Algebra L) idem-meet assign =
+  antisymmetric-leq-Lattice
+    ( L)
+    ( eval-term lattice-signature
+      ( is-model-model-Lattice-lattice-Algebra L)
+      ( assign)
+      ( var-Term 0))
+    ( eval-term lattice-signature
+      ( is-model-model-Lattice-lattice-Algebra L)
+      ( assign)
+      ( op-Term meet-lattice (var-Term 0 ∷ var-Term 0 ∷ empty-tuple)))
+    ( {!   !})
+    ( {!   !})
+pr2 (Lattice-lattice-Algebra L) absorb-join assign =
+  {!   !}
+pr2 (Lattice-lattice-Algebra L) absorb-meet assign =
+  {!   !}
 ```
 
 ### The equivalence between order-theoretic lattices and universal-algebraic lattices
@@ -389,3 +440,7 @@ decidable). This is a lattice by rote computation.
 Then, consider its [quotient](foundation.set-quotients.md) `bool / P` where
 `(x ＝P y) = ((x ＝ y) ∨ P)`; this quotient is naturally a poset living in
 `Poset (l1 ⊔ l2) l2`, and is again a lattice.
+
+## References
+
+{{#reference BurSan}}
