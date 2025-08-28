@@ -7,7 +7,10 @@ module lists.lexicographic-orders where
 <details><summary>Imports</summary>
 
 ```agda
+open import foundation.binary-relations
 open import foundation.conjunction
+open import foundation.unit-type
+open import foundation.empty-types
 open import foundation.disjunction
 open import foundation.existential-quantification
 open import foundation.universe-levels
@@ -57,16 +60,18 @@ module _
   {l1 l2 : Level} (A : Poset l1 l2)
   where
 
-  lex-order-list : list (type-Poset A) → list (type-Poset A) → Prop (l1 ⊔ l2)
-  lex-order-list m n =
-    is-set-is-prefix-list-Prop m (is-set-type-Poset A) n ∨
+  lex-order-list : Relation-Prop (l1 ⊔ l2) (list (type-Poset A))
+  lex-order-list nil v = raise-unit-Prop (l1 ⊔ l2)
+  lex-order-list (cons x m) nil = raise-empty-Prop (l1 ⊔ l2)
+  lex-order-list (cons x u) (cons y v) =
+    is-set-is-prefix-list-Prop (cons x u) (is-set-type-Poset A) (cons y v) ∨
     ( ∃ (list (type-Poset A)) (λ u →
       ( ∃ (list (type-Poset A)) (λ v →
         ( ∃ (list (type-Poset A)) (λ w →
-          ( ∃ (type-Poset A) (λ x →
-            ( ∃ (type-Poset A) (λ y → le-prop-Poset A x y ∧
-              Id-Prop (list-Set (set-Poset A)) m (concat-list u (cons x v)) ∧
-              Id-Prop (list-Set (set-Poset A)) n (concat-list u (cons y w))))))))))))
+          ( ∃ (type-Poset A) (λ a →
+            ( ∃ (type-Poset A) (λ b → le-prop-Poset A a b ∧
+              Id-Prop (list-Set (set-Poset A)) (cons x u) (concat-list u (cons x v)) ∧
+              Id-Prop (list-Set (set-Poset A)) (cons y v) (concat-list u (cons y w))))))))))))
 ```
 
 ## External links

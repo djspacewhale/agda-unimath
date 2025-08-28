@@ -9,11 +9,14 @@ module lists.prefixes-lists where
 ```agda
 open import foundation.dependent-pair-types
 open import foundation.empty-types
+open import foundation.transport-along-equivalences
 open import foundation.universe-levels
 
+open import foundation-core.contractible-types
 open import foundation-core.equality-dependent-pair-types
 open import foundation-core.identity-types
 open import foundation-core.injective-maps
+open import foundation-core.equivalences
 open import foundation-core.propositions
 open import foundation-core.sets
 
@@ -39,17 +42,28 @@ module _
   where
 
   is-prefix-list : list A → UU l1
-  is-prefix-list m = Σ (list A) (λ n → l ＝ (concat-list m n))
+  is-prefix-list m = Σ (list A) (λ n → Eq-list l (concat-list m n))
 
   prefix-list : UU l1
   prefix-list = Σ (list A) is-prefix-list
 
-  is-set-all-elements-equal-is-prefix-list :
-    is-set A → (m : list A) → all-elements-equal (is-prefix-list m)
-  is-set-all-elements-equal-is-prefix-list set-A m (n , mn＝l) (p , mp＝l) =
-    eq-pair-Σ
-    ( is-injective-left-concat-list m (inv mn＝l ∙ mp＝l))
-    ( eq-is-prop (is-set-list set-A l (concat-list m p)))
+  list-prefix-list : prefix-list → list A
+  list-prefix-list = pr1
+
+  abstract
+    is-set-all-elements-equal-is-prefix-list :
+      is-set A → (m : list A) → all-elements-equal (is-prefix-list m)
+    is-set-all-elements-equal-is-prefix-list set-A m (n , mn＝l) (p , mp＝l) =
+      eq-pair-Σ
+        ( is-injective-left-concat-list
+          ( m)
+          ( inv
+            ( eq-Eq-list l (concat-list m n) mn＝l) ∙
+            ( eq-Eq-list l (concat-list m p) mp＝l)))
+        ( eq-is-prop
+          ( is-prop-equiv
+            ( inv-equiv (equiv-Eq-list l (concat-list m p)))
+            ( is-set-list set-A l (concat-list m p))))
 
   is-set-is-prop-is-prefix-list :
     is-set A → (m : list A) → is-prop (is-prefix-list m)
@@ -89,7 +103,7 @@ module _
   where
 
   is-suffix-list : list A → UU l1
-  is-suffix-list m = Σ (list A) (λ n → l ＝ (concat-list n m))
+  is-suffix-list m = Σ (list A) (λ n → Eq-list l (concat-list n m))
 
   suffix-list : UU l1
   suffix-list = Σ (list A) is-suffix-list
@@ -98,8 +112,14 @@ module _
     is-set A → (m : list A) → all-elements-equal (is-suffix-list m)
   is-set-all-elements-equal-is-suffix-list set-A m (n , nm＝l) (p , pm＝l) =
     eq-pair-Σ
-    (is-injective-right-concat-list m (inv nm＝l ∙ pm＝l))
-    ( eq-is-prop (is-set-list set-A l (concat-list p m)))
+    ( is-injective-right-concat-list
+      ( m)
+      ( inv (eq-Eq-list l (concat-list n m) nm＝l) ∙
+        eq-Eq-list l (concat-list p m) pm＝l))
+    ( eq-is-prop
+      ( is-prop-equiv
+        ( inv-equiv (equiv-Eq-list l (concat-list p m)))
+        ( is-set-list set-A l (concat-list p m))))
 
   is-set-is-prop-is-suffix-list :
     is-set A → (m : list A) → is-prop (is-suffix-list m)
@@ -109,6 +129,9 @@ module _
   is-set-is-suffix-list-Prop : is-set A → list A → Prop l1
   is-set-is-suffix-list-Prop set-A m =
     ( is-suffix-list m) , is-set-is-prop-is-suffix-list set-A m
+
+  list-suffix-list : suffix-list → list A
+  list-suffix-list = pr1
 ```
 
 ## External links
