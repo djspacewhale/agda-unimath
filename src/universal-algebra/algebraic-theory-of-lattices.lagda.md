@@ -230,9 +230,12 @@ has-greatest-binary-lower-bound-lattice-Algebra-Lattice :
   has-greatest-binary-lower-bound-Poset (poset-lattice-Algebra-Lattice L) x y
 pr1 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , _) x y) =
   L-str meet-lattice (x ∷ y ∷ empty-tuple)
-pr1 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) (z<x , z<y) = {!   !}
-pr1 (pr2 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) = {!   !}
-pr2 (pr2 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) = {!   !}
+pr1 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) (z<x , z<y) =
+  {!   !}
+pr1 (pr2 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) =
+  {!   !}
+pr2 (pr2 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) =
+  {!   !}
 
 has-least-binary-upper-bound-lattice-Algebra-Lattice :
   {l : Level} (L : lattice-Algebra l) →
@@ -240,9 +243,12 @@ has-least-binary-upper-bound-lattice-Algebra-Lattice :
   has-least-binary-upper-bound-Poset (poset-lattice-Algebra-Lattice L) x y
 pr1 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , _) x y) =
   L-str join-lattice (x ∷ y ∷ empty-tuple)
-pr1 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) (x<z , y<z) = {!   !}
-pr1 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) = {!   !}
-pr2 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) = {!   !}
+pr1 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) (x<z , y<z) =
+  {!   !}
+pr1 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) =
+  {!   !}
+pr2 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) =
+  {!   !}
 
 lattice-Algebra-Lattice : {l : Level} → lattice-Algebra l → Lattice l l
 pr1 (lattice-Algebra-Lattice L) = poset-lattice-Algebra-Lattice L
