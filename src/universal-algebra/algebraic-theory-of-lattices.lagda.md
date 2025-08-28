@@ -233,13 +233,40 @@ pr1 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice
     L-str meet-lattice (x ∷ y ∷ empty-tuple)
 pr1 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) (z<x , z<y) =
-    {!   !}
+    equational-reasoning
+    z
+    ＝ L-str meet-lattice (z ∷ y ∷ empty-tuple)
+      by z<y
+    ＝ L-str meet-lattice
+      (L-str meet-lattice (z ∷ x ∷ empty-tuple) ∷ y ∷ empty-tuple)
+      by ap (λ w → L-str meet-lattice (w ∷ y ∷ empty-tuple)) z<x
+    ＝ L-str meet-lattice
+      ( z ∷
+        L-str meet-lattice (x ∷ y ∷ empty-tuple) ∷
+        empty-tuple)
+      by inv (L-alg assoc-meet
+        ( λ where
+            0 → z
+            1 → x
+            (succ-ℕ (succ-ℕ n)) → y))
 pr1 (pr2 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) p) =
-    {!   !}
+    equational-reasoning
+    z
+    ＝ L-str meet-lattice
+      ( z ∷ L-str meet-lattice (x ∷ y ∷ empty-tuple) ∷ empty-tuple)
+      by p
+    ＝ L-str meet-lattice (z ∷ x ∷ empty-tuple)
+      by {!   !}
 pr2 (pr2 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) p) =
-    {!   !}
+    equational-reasoning
+    z
+    ＝ L-str meet-lattice
+      ( z ∷ L-str meet-lattice (x ∷ y ∷ empty-tuple) ∷ empty-tuple)
+      by p
+    ＝ L-str meet-lattice (z ∷ y ∷ empty-tuple)
+      by {!   !}
 
 has-least-binary-upper-bound-lattice-Algebra-Lattice :
   {l : Level} (L : lattice-Algebra l) →
@@ -250,13 +277,29 @@ pr1 (has-least-binary-upper-bound-lattice-Algebra-Lattice
     L-str join-lattice (x ∷ y ∷ empty-tuple)
 pr1 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) (x<z , y<z) =
-    {!   !}
+    equational-reasoning
+    L-str join-lattice (x ∷ y ∷ empty-tuple)
+    ＝ {!   !}
+      by {!   !}
+    ＝ L-str meet-lattice
+      ( L-str join-lattice (x ∷ y ∷ empty-tuple) ∷ z ∷ empty-tuple)
+      by {!   !}
 pr1 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) p) =
-    {!   !}
+    equational-reasoning
+    x
+    ＝ {!   !}
+      by {!   !}
+    ＝ L-str meet-lattice (x ∷ z ∷ empty-tuple)
+      by {!   !}
 pr2 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) p) =
-    {!   !}
+    equational-reasoning
+    y
+    ＝ {!   !}
+      by {!   !}
+    ＝ L-str meet-lattice (y ∷ z ∷ empty-tuple)
+      by {!   !}
 
 lattice-Algebra-Lattice : {l : Level} → lattice-Algebra l → Lattice l l
 pr1 (lattice-Algebra-Lattice L) = poset-lattice-Algebra-Lattice L
