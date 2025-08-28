@@ -91,18 +91,18 @@ pr2 lattice-Theory assoc-join =
         op-Term join-lattice (var-Term 1 ∷ var-Term 2 ∷ empty-tuple) ∷
         empty-tuple)) ,
     ( op-Term join-lattice
-      (( op-Term join-lattice (var-Term 0 ∷ var-Term 1 ∷ empty-tuple)) ∷
-        var-Term 2 ∷
-        empty-tuple)))
+      ( ( op-Term join-lattice (var-Term 0 ∷ var-Term 1 ∷ empty-tuple)) ∷
+          var-Term 2 ∷
+          empty-tuple)))
 pr2 lattice-Theory assoc-meet =
   ( ( op-Term meet-lattice
       ( var-Term 0 ∷
         op-Term meet-lattice (var-Term 1 ∷ var-Term 2 ∷ empty-tuple) ∷
         empty-tuple)) ,
     ( op-Term meet-lattice
-      (( op-Term meet-lattice (var-Term 0 ∷ var-Term 1 ∷ empty-tuple)) ∷
-      var-Term 2 ∷
-      empty-tuple)))
+      ( ( op-Term meet-lattice (var-Term 0 ∷ var-Term 1 ∷ empty-tuple)) ∷
+          var-Term 2 ∷
+          empty-tuple)))
 pr2 lattice-Theory idem-join =
   ( var-Term 0 , op-Term join-lattice (var-Term 0 ∷ var-Term 0 ∷ empty-tuple))
 pr2 lattice-Theory idem-meet =
@@ -185,11 +185,12 @@ is-transitive-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y z p q =
       by ap (λ w → L-str meet-lattice (x ∷ w ∷ empty-tuple)) p
     ＝ L-str meet-lattice
       (( L-str meet-lattice (x ∷ y ∷ empty-tuple)) ∷ z ∷ empty-tuple)
-      by L-alg assoc-meet
+      by L-alg
+        ( assoc-meet)
         ( λ where
             0 → x
             1 → y
-            (succ-ℕ (succ-ℕ n)) → z)
+            ( succ-ℕ (succ-ℕ n)) → z)
     ＝ L-str meet-lattice (x ∷ z ∷ empty-tuple)
       by ap (λ w → L-str meet-lattice (w ∷ z ∷ empty-tuple)) (inv q)
 
@@ -205,10 +206,11 @@ is-antisymmetric-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y p q =
   ＝ L-str meet-lattice (x ∷ y ∷ empty-tuple)
     by p
   ＝ L-str meet-lattice (y ∷ x ∷ empty-tuple)
-    by L-alg comm-meet
+    by L-alg
+      ( comm-meet)
       ( λ where
           0 → x
-          (succ-ℕ n) → y)
+          ( succ-ℕ n) → y)
   ＝ y
     by inv q
 
@@ -250,11 +252,13 @@ pr1 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice
       ( z ∷
         L-str meet-lattice (x ∷ y ∷ empty-tuple) ∷
         empty-tuple)
-      by inv (L-alg assoc-meet
-        ( λ where
-            0 → z
-            1 → x
-            (succ-ℕ (succ-ℕ n)) → y))
+      by inv
+        ( L-alg
+          ( assoc-meet)
+          ( λ where
+              0 → z
+              1 → x
+              ( succ-ℕ (succ-ℕ n)) → y))
 pr1 (pr2 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) p) =
     equational-reasoning
@@ -285,8 +289,9 @@ pr1 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) (x<z , y<z) =
     equational-reasoning
     L-str join-lattice (x ∷ y ∷ empty-tuple)
-    ＝ {!   !}
-      by {!   !}
+    ＝ L-str join-lattice
+      ( L-str meet-lattice (x ∷ z ∷ empty-tuple) ∷ y ∷ empty-tuple)
+      by ap (λ w → L-str join-lattice (w ∷ y ∷ empty-tuple)) x<z
     ＝ L-str meet-lattice
       ( L-str join-lattice (x ∷ y ∷ empty-tuple) ∷ z ∷ empty-tuple)
       by {!   !}
@@ -294,16 +299,12 @@ pr1 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) p) =
     equational-reasoning
     x
-    ＝ {!   !}
-      by {!   !}
     ＝ L-str meet-lattice (x ∷ z ∷ empty-tuple)
       by {!   !}
 pr2 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice
   ((L , L-str) , L-alg) x y) z) p) =
     equational-reasoning
     y
-    ＝ {!   !}
-      by {!   !}
     ＝ L-str meet-lattice (y ∷ z ∷ empty-tuple)
       by {!   !}
 
@@ -323,7 +324,8 @@ universal-algebraic lattice of an order-theoretic lattice is _small_, in the
 sense that an `L ∈ Lattice l1 l2` becomes an `L' ∈ lattice-Algebra l1`!
 
 Joins and meets are as expected. That they are each commutative, associative,
-and idempotent is classic order theory, and the absorption laws also follow.
+and idempotent is classic order theory, but the absorption laws are more
+interesting.
 
 ```agda
 model-Lattice-lattice-Algebra :
@@ -368,9 +370,9 @@ pr2 (Lattice-lattice-Algebra L) absorb-meet assign =
 is-equiv-lattice-Algebra-Lattice :
   {l : Level} → is-equiv (lattice-Algebra-Lattice {l})
 pr1 (pr1 is-equiv-lattice-Algebra-Lattice) = Lattice-lattice-Algebra
-pr2 (pr1 is-equiv-lattice-Algebra-Lattice) = {!   !}
+pr2 (pr1 is-equiv-lattice-Algebra-Lattice) L = {!   !}
 pr1 (pr2 is-equiv-lattice-Algebra-Lattice) = Lattice-lattice-Algebra
-pr2 (pr2 is-equiv-lattice-Algebra-Lattice) = {!   !}
+pr2 (pr2 is-equiv-lattice-Algebra-Lattice) L = {!   !}
 
 equiv-lattice-Algebra-Lattice : (l : Level) → lattice-Algebra l ≃ Lattice l l
 pr1 (equiv-lattice-Algebra-Lattice l) = lattice-Algebra-Lattice
