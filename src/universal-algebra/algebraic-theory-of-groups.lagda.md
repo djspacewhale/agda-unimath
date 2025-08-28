@@ -1,4 +1,4 @@
-# Algebraic theory of groups
+# The algebraic theory of groups
 
 ```agda
 module universal-algebra.algebraic-theory-of-groups where
@@ -95,7 +95,7 @@ group-Algebra l = Algebra group-signature group-Theory l
 ```agda
 group-Algebra-Group :
   {l : Level} →
-  Algebra group-signature group-Theory l →
+  group-Algebra l →
   Group l
 pr1 (pr1 (group-Algebra-Group ((A-Set , models-A) , satisfies-A))) = A-Set
 pr1 (pr2 (pr1 (group-Algebra-Group ((A-Set , models-A) , satisfies-A)))) x y =
@@ -119,7 +119,7 @@ pr2 (pr2 (pr2 (pr2 (group-Algebra-Group (_ , satisfies-A))))) x =
 Group-group-Algebra :
   {l : Level} →
   Group l →
-  Algebra group-signature group-Theory l
+  group-Algebra l
 Group-group-Algebra G =
   pair
     ( pair
@@ -143,7 +143,7 @@ Group-group-Algebra G =
 abstract
   equiv-group-Algebra-Group :
     {l : Level} →
-    Algebra group-signature group-Theory l ≃
+    group-Algebra l ≃
     Group l
   pr1 equiv-group-Algebra-Group = group-Algebra-Group
   pr1 (pr1 (pr2 equiv-group-Algebra-Group)) = Group-group-Algebra
