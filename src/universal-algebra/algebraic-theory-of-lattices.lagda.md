@@ -23,7 +23,11 @@ open import foundation-core.sets
 open import lists.tuples
 
 open import order-theory.lattices
+open import order-theory.least-upper-bounds-posets
+open import order-theory.greatest-lower-bounds-posets
 open import order-theory.lower-bounds-posets
+open import order-theory.preorders
+open import order-theory.posets
 open import order-theory.upper-bounds-posets
 
 open import universal-algebra.algebraic-theories
@@ -202,22 +206,50 @@ is-antisymmetric-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y p q =
   ＝ y
     by inv q
 
-lattice-Algebra-Lattice : {l : Level} → lattice-Algebra l → Lattice l l
-pr1 (pr1 (pr1 (lattice-Algebra-Lattice (((L , _) , _) , _)))) = L
-pr1 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice L)))) =
+preorder-lattice-Algebra-Lattice :
+  {l : Level} (L : lattice-Algebra l) →
+  Preorder l l
+pr1 (preorder-lattice-Algebra-Lattice L) = type-lattice-Algebra L
+pr1 (pr2 (preorder-lattice-Algebra-Lattice L)) =
   leq-prop-lattice-Algebra-Lattice L
-pr1 (pr2 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice L))))) =
+pr1 (pr2 (pr2 (preorder-lattice-Algebra-Lattice L))) =
   is-reflexive-lattice-Algebra-Lattice L
-pr2 (pr2 (pr2 (pr1 (pr1 (lattice-Algebra-Lattice L))))) =
+pr2 (pr2 (pr2 (preorder-lattice-Algebra-Lattice L))) =
   is-transitive-lattice-Algebra-Lattice L
-pr2 (pr1 (lattice-Algebra-Lattice L)) =
+
+poset-lattice-Algebra-Lattice :
+  {l : Level} (L : lattice-Algebra l) →
+  Poset l l
+pr1 (poset-lattice-Algebra-Lattice L) = preorder-lattice-Algebra-Lattice L
+pr2 (poset-lattice-Algebra-Lattice L) =
   is-antisymmetric-lattice-Algebra-Lattice L
-pr1 (pr1 (pr2 (lattice-Algebra-Lattice ((L , L-str) , _))) x y) =
+
+has-greatest-binary-lower-bound-lattice-Algebra-Lattice :
+  {l : Level} (L : lattice-Algebra l) →
+  (x y : type-lattice-Algebra L) →
+  has-greatest-binary-lower-bound-Poset (poset-lattice-Algebra-Lattice L) x y
+pr1 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , _) x y) =
   L-str meet-lattice (x ∷ y ∷ empty-tuple)
-pr2 (pr1 (pr2 (lattice-Algebra-Lattice L)) x y) z = {!   !}
-pr1 (pr2 (pr2 (lattice-Algebra-Lattice ((L , L-str) , _))) x y) =
+pr1 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) (z<x , z<y) = {!   !}
+pr1 (pr2 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) = {!   !}
+pr2 (pr2 (pr2 (has-greatest-binary-lower-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) = {!   !}
+
+has-least-binary-upper-bound-lattice-Algebra-Lattice :
+  {l : Level} (L : lattice-Algebra l) →
+  (x y : type-lattice-Algebra L) →
+  has-least-binary-upper-bound-Poset (poset-lattice-Algebra-Lattice L) x y
+pr1 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , _) x y) =
   L-str join-lattice (x ∷ y ∷ empty-tuple)
-pr2 (pr2 (pr2 (lattice-Algebra-Lattice L)) x y) z = {!   !}
+pr1 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) (x<z , y<z) = {!   !}
+pr1 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) = {!   !}
+pr2 (pr2 (pr2 (has-least-binary-upper-bound-lattice-Algebra-Lattice ((L , L-str) , L-alg) x y) z) p) = {!   !}
+
+lattice-Algebra-Lattice : {l : Level} → lattice-Algebra l → Lattice l l
+pr1 (lattice-Algebra-Lattice L) = poset-lattice-Algebra-Lattice L
+pr1 (pr2 (lattice-Algebra-Lattice L)) =
+  has-greatest-binary-lower-bound-lattice-Algebra-Lattice L
+pr2 (pr2 (lattice-Algebra-Lattice L)) =
+  has-least-binary-upper-bound-lattice-Algebra-Lattice L
 ```
 
 ### Order-theoretic lattices are universal-algebraic lattices
