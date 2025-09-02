@@ -81,6 +81,12 @@ module _
   equiv-eq-classifying-type-symmetric-Concrete-Group X Y =
     map-equiv (extensionality-classifying-type-symmetric-Concrete-Group X Y)
 
+  eq-equiv-classifying-type-symmetric-Concrete-Group :
+    (X Y : classifying-type-symmetric-Concrete-Group A) →
+    (equiv-classifying-type-symmetric-Concrete-Group X Y) → (X ＝ Y)
+  eq-equiv-classifying-type-symmetric-Concrete-Group X Y =
+    map-inv-equiv (extensionality-classifying-type-symmetric-Concrete-Group X Y)
+
   refl-equiv-eq-classifying-type-symmetric-Concrete-Group :
     (X : classifying-type-symmetric-Concrete-Group A) →
     equiv-eq-classifying-type-symmetric-Concrete-Group X X refl ＝ id-equiv

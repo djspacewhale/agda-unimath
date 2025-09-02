@@ -104,6 +104,10 @@ pr2 (finite-type-2-Element-Type X) = is-finite-type-2-Element-Type X
 standard-2-Element-Type : (l : Level) → 2-Element-Type l
 standard-2-Element-Type l = raise-Fin-Type-With-Cardinality-ℕ l 2
 
+fin-2-Element-Type : 2-Element-Type lzero
+pr1 fin-2-Element-Type = Fin 2
+pr2 fin-2-Element-Type = unit-trunc-Prop id-equiv
+
 type-standard-2-Element-Type : (l : Level) → UU l
 type-standard-2-Element-Type l = type-2-Element-Type (standard-2-Element-Type l)
 
