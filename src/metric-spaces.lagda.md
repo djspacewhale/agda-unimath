@@ -74,6 +74,10 @@ open import metric-spaces.functions-metric-spaces public
 open import metric-spaces.functions-pseudometric-spaces public
 open import metric-spaces.functor-category-set-functions-isometry-metric-spaces public
 open import metric-spaces.functor-category-short-isometry-metric-spaces public
+open import metric-spaces.images-isometries-metric-spaces public
+open import metric-spaces.images-metric-spaces public
+open import metric-spaces.images-short-functions-metric-spaces public
+open import metric-spaces.images-uniformly-continuous-functions-metric-spaces public
 open import metric-spaces.indexed-sums-metric-spaces public
 open import metric-spaces.interior-subsets-metric-spaces public
 open import metric-spaces.isometries-metric-spaces public
@@ -95,6 +99,8 @@ open import metric-spaces.metric-space-of-lipschitz-functions-metric-spaces publ
 open import metric-spaces.metric-space-of-rational-numbers public
 open import metric-spaces.metric-space-of-short-functions-metric-spaces public
 open import metric-spaces.metric-spaces public
+open import metric-spaces.metrics public
+open import metric-spaces.metrics-of-metric-spaces public
 open import metric-spaces.monotonic-rational-neighborhood-relations public
 open import metric-spaces.nets-located-metric-spaces public
 open import metric-spaces.nets-metric-spaces public
