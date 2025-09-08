@@ -1,16 +1,32 @@
 # Models of signatures
 
 ```agda
+{-# OPTIONS --lossy-unification #-}
+
 module universal-algebra.models-of-signatures where
 ```
 
 <details><summary>Imports</summary>
 
 ```agda
+open import foundation.action-on-identifications-functions
 open import foundation.dependent-pair-types
+open import foundation.function-extensionality
 open import foundation.sets
+open import foundation.structure-identity-principle
 open import foundation.universe-levels
 
+open import foundation-core.cartesian-product-types
+open import foundation-core.dependent-identifications
+open import foundation-core.equality-dependent-pair-types
+open import foundation-core.equivalences
+open import foundation-core.function-types
+open import foundation-core.homotopies
+open import foundation-core.identity-types
+open import foundation-core.propositions
+open import foundation-core.torsorial-type-families
+
+open import lists.functoriality-tuples
 open import lists.tuples
 
 open import universal-algebra.signatures
