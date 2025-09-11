@@ -298,13 +298,13 @@ is-nonzero-length-is-nonnil-list :
   is-nonzero-ℕ (length-list l)
 is-nonzero-length-is-nonnil-list nil p q = p refl
 
-lenght-tail-is-nonnil-list :
+length-tail-is-nonnil-list :
   {l1 : Level} {A : UU l1}
   (l : list A) → (p : is-nonnil-list l) →
   succ-ℕ (length-list (tail-is-nonnil-list l p)) ＝
     length-list l
-lenght-tail-is-nonnil-list nil p = ex-falso (p refl)
-lenght-tail-is-nonnil-list (cons x l) p = refl
+length-tail-is-nonnil-list nil p = ex-falso (p refl)
+length-tail-is-nonnil-list (cons x l) p = refl
 ```
 
 ### Head and tail operations
